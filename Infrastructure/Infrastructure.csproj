@@ -334,6 +334,7 @@
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
     <Reference Include="Z.ExtensionMethods, Version=2.0.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.ExtensionMethods.2.0.10\lib\net45\Z.ExtensionMethods.dll</HintPath>
       <Private>True</Private>
@@ -378,6 +379,7 @@
     <Compile Include="Utilities\CleanUpUtility.cs" />
     <Compile Include="Utilities\ContainerUtility.cs" />
     <Compile Include="Utilities\ContractUtility.cs" />
+    <Compile Include="Utilities\SerializationUtility.cs" />
     <Compile Include="Utilities\TransactionUtility.cs" />
     <Compile Include="WCFExtensibility\BehaviourExtensionElement.cs" />
     <Compile Include="WCFExtensibility\UnityIntegration\UnityBehaviourExtensionElement.cs" />

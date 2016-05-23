@@ -237,6 +237,8 @@
     <Compile Include="Binding\ParameterBinding\AllRequestParameterBinding.cs" />
     <Compile Include="Binding\ValueProviders\HeaderValueProvider.cs" />
     <Compile Include="Binding\ValueProviders\HeaderValueProviderFactory.cs" />
+    <Compile Include="ControllerDispatchment\URIAndHeaderBasedHttpControllerActivator.cs" />
+    <Compile Include="ControllerDispatchment\URIAndHeaderBasedHttpControllerSelector.cs" />
     <Compile Include="Encoding\EncodedContent.cs" />
     <Compile Include="Encoding\EncodingSchema.cs" />
     <Compile Include="Filters\AuthorizeByTimeSlot.cs" />
@@ -270,6 +272,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="XMLAndXSD\ControllerVersionAndName\ControllerVersionsAndNames.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -281,6 +286,9 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <None Include="XMLAndXSD\ControllerVersionAndName\ControllerVersionsAndNames.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ApplicationServices\ApplicationServices.csproj">
