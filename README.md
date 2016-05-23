@@ -1,4 +1,4 @@
-# DDD Based Enterprise Application Framework
+# Domain Driven Design Based Enterprise Application Framework
 
 An Enterprise Application Framework based on different Patterns, Principles and Practices of Domain Driven Design.Although not all tactical and strategic Patterns, Principles and Practices of DDD are in place but the most important ones(the ones that are used almost in any Enterprise app) are in place.Will try to connect most of the dots in future with time.This being a Framework, any application specific stuff is not there and will never be there in the Core code.
 
