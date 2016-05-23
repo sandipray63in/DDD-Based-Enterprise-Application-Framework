@@ -1,0 +1,150 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{85348B35-3149-4959-BA76-71C52E7157C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{35FD83DA-A508-43EA-97E8-9329BEAF7100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainContextsAndMaps", "DomainContextsAndMaps\DomainContextsAndMaps.csproj", "{9D5812AB-0F1A-42DF-94D4-4DE7E7F48E65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.Repository", "Testing.Repository\Testing.Repository.csproj", "{B347125C-A62B-4E54-8E1A-366595CDCD79}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B6D34209-0555-40FF-B120-C0253C6BFD52} = {B6D34209-0555-40FF-B120-C0253C6BFD52}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestService", "TestService\TestService.csproj", "{B6D34209-0555-40FF-B120-C0253C6BFD52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEFDomainAndContext", "TestEFDomainAndContext\TestEFDomainAndContext.csproj", "{11844668-96D7-4199-850A-1C99FA5FE3EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentRepository", "FluentRepository\FluentRepository.csproj", "{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationServices", "ApplicationServices\ApplicationServices.csproj", "{2F49DA34-3980-437B-A579-9E73BD43677D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulWebAPI", "RestfulWebAPI\RestfulWebAPI.csproj", "{52709B01-E25E-4C4F-B479-E5FCF916361D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSPAUI", "TestSPAUI\TestSPAUI.csproj", "{969C9420-07BA-49D8-ABED-B9BA74C9D723}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85348B35-3149-4959-BA76-71C52E7157C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85348B35-3149-4959-BA76-71C52E7157C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85348B35-3149-4959-BA76-71C52E7157C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85348B35-3149-4959-BA76-71C52E7157C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85348B35-3149-4959-BA76-71C52E7157C5}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{85348B35-3149-4959-BA76-71C52E7157C5}.Test|Any CPU.Build.0 = Test|Any CPU
+		{35FD83DA-A508-43EA-97E8-9329BEAF7100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35FD83DA-A508-43EA-97E8-9329BEAF7100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35FD83DA-A508-43EA-97E8-9329BEAF7100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35FD83DA-A508-43EA-97E8-9329BEAF7100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35FD83DA-A508-43EA-97E8-9329BEAF7100}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{35FD83DA-A508-43EA-97E8-9329BEAF7100}.Test|Any CPU.Build.0 = Test|Any CPU
+		{9D5812AB-0F1A-42DF-94D4-4DE7E7F48E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D5812AB-0F1A-42DF-94D4-4DE7E7F48E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D5812AB-0F1A-42DF-94D4-4DE7E7F48E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D5812AB-0F1A-42DF-94D4-4DE7E7F48E65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D5812AB-0F1A-42DF-94D4-4DE7E7F48E65}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{9D5812AB-0F1A-42DF-94D4-4DE7E7F48E65}.Test|Any CPU.Build.0 = Test|Any CPU
+		{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}.Test|Any CPU.Build.0 = Test|Any CPU
+		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Test|Any CPU.Build.0 = Test|Any CPU
+		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Debug|Any CPU.ActiveCfg = Test|Any CPU
+		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Debug|Any CPU.Build.0 = Test|Any CPU
+		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Test|Any CPU.Build.0 = Test|Any CPU
+		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Debug|Any CPU.ActiveCfg = Test|Any CPU
+		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Debug|Any CPU.Build.0 = Test|Any CPU
+		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Test|Any CPU.Build.0 = Test|Any CPU
+		{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}.Test|Any CPU.Build.0 = Test|Any CPU
+		{2F49DA34-3980-437B-A579-9E73BD43677D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F49DA34-3980-437B-A579-9E73BD43677D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F49DA34-3980-437B-A579-9E73BD43677D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F49DA34-3980-437B-A579-9E73BD43677D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F49DA34-3980-437B-A579-9E73BD43677D}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{2F49DA34-3980-437B-A579-9E73BD43677D}.Test|Any CPU.Build.0 = Release|Any CPU
+		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Test|Any CPU.Build.0 = Release|Any CPU
+		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Test|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 12
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs40
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Domain\\Domain.csproj
+		SccProjectName1 = Domain
+		SccLocalPath1 = Domain
+		SccProjectUniqueName2 = Infrastructure\\Infrastructure.csproj
+		SccProjectName2 = Infrastructure
+		SccLocalPath2 = Infrastructure
+		SccProjectUniqueName3 = Repository\\Repository.csproj
+		SccProjectName3 = Repository
+		SccLocalPath3 = Repository
+		SccProjectUniqueName4 = TestService\\TestService.csproj
+		SccProjectName4 = TestService
+		SccLocalPath4 = TestService
+		SccProjectUniqueName5 = FluentRepository\\FluentRepository.csproj
+		SccProjectName5 = FluentRepository
+		SccLocalPath5 = FluentRepository
+		SccProjectUniqueName6 = RestfulWebAPI\\RestfulWebAPI.csproj
+		SccProjectName6 = RestfulWebAPI
+		SccLocalPath6 = RestfulWebAPI
+		SccProjectUniqueName7 = TestSPAUI\\TestSPAUI.csproj
+		SccProjectName7 = TestSPAUI
+		SccLocalPath7 = TestSPAUI
+		SccProjectUniqueName8 = DomainContextsAndMaps\\DomainContextsAndMaps.csproj
+		SccProjectName8 = DomainContextsAndMaps
+		SccLocalPath8 = DomainContextsAndMaps
+		SccProjectUniqueName9 = Testing.Repository\\Testing.Repository.csproj
+		SccProjectName9 = Testing.Repository
+		SccLocalPath9 = Testing.Repository
+		SccProjectUniqueName10 = TestEFDomainAndContext\\TestEFDomainAndContext.csproj
+		SccProjectName10 = TestEFDomainAndContext
+		SccLocalPath10 = TestEFDomainAndContext
+		SccProjectUniqueName11 = ApplicationServices\\ApplicationServices.csproj
+		SccProjectName11 = ApplicationServices
+		SccLocalPath11 = ApplicationServices
+	EndGlobalSection
+EndGlobal

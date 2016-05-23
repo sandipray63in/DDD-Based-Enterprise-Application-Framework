@@ -1,0 +1,5 @@
+C:\Users\sray6\Desktop\Repo\Domain\bin\Debug\Domain.dll
+C:\Users\sray6\Desktop\Repo\Domain\bin\Debug\Domain.pdb
+C:\Users\sray6\Desktop\Repo\Domain\obj\Debug\Domain.rewritten
+C:\Users\sray6\Desktop\Repo\Domain\obj\Debug\Domain.dll
+C:\Users\sray6\Desktop\Repo\Domain\obj\Debug\Domain.pdb

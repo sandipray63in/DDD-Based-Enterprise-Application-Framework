@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
+using ApplicationServices.Base.CommandApplicationServices;
+using Domain.Base;
+using Infrastructure.Utilities;
+using Repository.Base;
+using Repository.UnitOfWork;
+
+namespace ApplicationServices.Base.ElasticSearchableApplicationServices.Commands
+{
+    public class ElasticSearchableCommandApplicationServiceAsync<TEntity> : CommandApplicationServiceAsync<TEntity>, IElasticSearchableCommandApplicationServiceAsync<TEntity> where TEntity : ICommandAggregateRoot, IElasticSearchable
+    {
+        protected readonly ICommandElasticSearchableRepository<TEntity> _elasticSearchableCommandRepository;
+        protected readonly BaseUnitOfWork _unitOfWork;
+
+        public ElasticSearchableCommandApplicationServiceAsync(ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
+        {
+            ContractUtility.Requires<ArgumentNullException>(elasticSearchableCommandRepository != null, "elasticSearchableCommandRepository instance cannot be null");
+            _elasticSearchableCommandRepository = elasticSearchableCommandRepository;
+        }
+
+        public ElasticSearchableCommandApplicationServiceAsync(BaseUnitOfWork unitOfWork, ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
+        {
+            ContractUtility.Requires<ArgumentNullException>(unitOfWork != null, "unitOfWork instance cannot be null");
+            ContractUtility.Requires<ArgumentNullException>(elasticSearchableCommandRepository != null, "elasticSearchableCommandRepository instance cannot be null");
+            _elasticSearchableCommandRepository = elasticSearchableCommandRepository;
+        }
+
+        public override async Task<bool> InsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.InsertAsync(item, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.InsertAsync(item, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.UpdateAsync(item, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.UpdateAsync(item, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> DeleteAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.DeleteAsync(item, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.DeleteAsync(item, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.InsertAsync(items, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.InsertAsync(items, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.UpdateAsync(items, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.UpdateAsync(items, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.DeleteAsync(items, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.DeleteAsync(items, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.BulkInsertAsync(items, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.BulkInsertAsync(items, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.BulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.BulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+
+        public override async Task<bool> BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        {
+            return await InvokeAfterWrappingWithinExceptionHandling(async () =>
+                {
+                    //TODO - Incorporate UnitOfWork logic
+                    await _repository.BulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation);
+                    await _elasticSearchableCommandRepository.BulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation);
+                }
+            );
+        }
+    }
+}
