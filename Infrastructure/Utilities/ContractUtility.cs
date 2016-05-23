@@ -14,10 +14,12 @@ namespace Infrastructure.Utilities
     /// that simple as this class.
     /// 
     /// P.S. -> Apart from above metioned stuffs, this class wil be also helpful for scenarios 
-    /// wherein you don't have Visual Studio Enterprise 2015 Edition(which is required if you want
+    /// wherein you don't have Visual Studio 2015 Enterprise Edition(which is required if you want
     /// to run the application manually or using unit test cases, in order to make it work for 
     /// Contract.Requires which comes under System.Diagnostics.Contracts namespace available within
-    /// the Contracts.DLL).
+    /// the Contracts.DLL).But ideally, you should use Contract.Requires wherever possibl, if you 
+    /// are build some Enterprise app for production environment using Visual Studio 2015 
+    /// Enterprise Edition
     /// 
     /// </summary>
     public static class ContractUtility

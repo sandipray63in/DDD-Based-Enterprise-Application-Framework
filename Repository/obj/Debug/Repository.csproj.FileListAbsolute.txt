@@ -1,4 +1,3 @@
-C:\Users\sray6\Desktop\Repo\Repository\obj\Debug\Repository.csprojResolveAssemblyReference.cache
 C:\Users\sray6\Desktop\Repo\Repository\bin\Debug\Repository.dll.config
 C:\Users\sray6\Desktop\Repo\Repository\bin\Debug\Repository.dll
 C:\Users\sray6\Desktop\Repo\Repository\bin\Debug\Repository.pdb
@@ -41,6 +40,7 @@ C:\Users\sray6\Desktop\Repo\Repository\bin\Debug\System.Collections.Immutable.xm
 C:\Users\sray6\Desktop\Repo\Repository\bin\Debug\Microsoft.Practices.EnterpriseLibrary.SemanticLogging.xml
 C:\Users\sray6\Desktop\Repo\Repository\bin\Debug\Microsoft.Practices.EnterpriseLibrary.SemanticLogging.TextFile.xml
 C:\Users\sray6\Desktop\Repo\Repository\bin\Debug\Microsoft.Practices.Unity.Interception.xml
+C:\Users\sray6\Desktop\Repo\Repository\obj\Debug\Repository.csprojResolveAssemblyReference.cache
 C:\Users\sray6\Desktop\Repo\Repository\obj\Debug\Repository.rewritten
 C:\Users\sray6\Desktop\Repo\Repository\obj\Debug\Repository.dll
 C:\Users\sray6\Desktop\Repo\Repository\obj\Debug\Repository.pdb

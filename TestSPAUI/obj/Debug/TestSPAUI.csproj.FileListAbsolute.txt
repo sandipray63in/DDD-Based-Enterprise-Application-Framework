@@ -85,5 +85,6 @@ C:\Users\sray6\Desktop\Repo\TestSPAUI\bin\System.Web.Razor.xml
 C:\Users\sray6\Desktop\Repo\TestSPAUI\bin\System.Web.WebPages.xml
 C:\Users\sray6\Desktop\Repo\TestSPAUI\bin\System.Web.WebPages.Deployment.xml
 C:\Users\sray6\Desktop\Repo\TestSPAUI\bin\System.Web.WebPages.Razor.xml
+C:\Users\sray6\Desktop\Repo\TestSPAUI\obj\Debug\TestSPAUI.csprojResolveAssemblyReference.cache
 C:\Users\sray6\Desktop\Repo\TestSPAUI\obj\Debug\TestSPAUI.dll
 C:\Users\sray6\Desktop\Repo\TestSPAUI\obj\Debug\TestSPAUI.pdb

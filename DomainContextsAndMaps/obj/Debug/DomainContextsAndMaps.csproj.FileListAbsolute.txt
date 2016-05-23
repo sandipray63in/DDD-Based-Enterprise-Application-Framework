@@ -1,4 +1,3 @@
-C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\obj\Debug\DomainContextsAndMaps.csprojResolveAssemblyReference.cache
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\bin\Debug\DomainContextsAndMaps.dll.config
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\bin\Debug\DomainContextsAndMaps.dll
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\bin\Debug\DomainContextsAndMaps.pdb
@@ -39,6 +38,7 @@ C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\bin\Debug\Microsoft.Practices.
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\obj\Debug\DomainContextsAndMaps.csprojResolveAssemblyReference.cache
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\obj\Debug\DomainContextsAndMaps.rewritten
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\obj\Debug\DomainContextsAndMaps.dll
 C:\Users\sray6\Desktop\Repo\DomainContextsAndMaps\obj\Debug\DomainContextsAndMaps.pdb

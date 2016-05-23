@@ -1,4 +1,3 @@
-C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\obj\Test\TestEFDomainAndContext.csprojResolveAssemblyReference.cache
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\bin\Test\TestEFDomainAndContext.dll.config
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\bin\Test\TestEFDomainAndContext.dll
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\bin\Test\TestEFDomainAndContext.pdb
@@ -41,6 +40,7 @@ C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\bin\Test\Microsoft.Practices.
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\bin\Test\Microsoft.Practices.Unity.Configuration.xml
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\bin\Test\Microsoft.Practices.ServiceLocation.pdb
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\bin\Test\Microsoft.Practices.ServiceLocation.xml
+C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\obj\Test\TestEFDomainAndContext.csprojResolveAssemblyReference.cache
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\obj\Test\TestEFDomainAndContext.rewritten
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\obj\Test\TestEFDomainAndContext.dll
 C:\Users\sray6\Desktop\Repo\TestEFDomainAndContext\obj\Test\TestEFDomainAndContext.pdb
