@@ -6,7 +6,7 @@ using Domain.Base;
 
 namespace ApplicationServices.Base.QueryableApplicationServices
 {
-    public interface IQueryableApplicationService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public interface IQueryableApplicationService<TEntity> : IDisposable where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         IQueryable<TEntity> Get();
         IList<TEntity> GetAll();

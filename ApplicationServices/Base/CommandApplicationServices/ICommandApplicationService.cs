@@ -4,7 +4,7 @@ using Domain.Base;
 
 namespace ApplicationServices.Base.CommandApplicationServices
 {
-    public interface ICommandApplicationService<TEntity> where TEntity : ICommandAggregateRoot
+    public interface ICommandApplicationService<TEntity> : IDisposable where TEntity : ICommandAggregateRoot
     {
         bool Insert(TEntity item, Action operationToExecuteBeforeNextOperation = null);
         bool Update(TEntity item, Action operationToExecuteBeforeNextOperation = null);

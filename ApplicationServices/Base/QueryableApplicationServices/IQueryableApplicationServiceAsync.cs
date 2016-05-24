@@ -8,7 +8,7 @@ using Domain.Base;
 
 namespace ApplicationServices.Base.QueryableApplicationServices
 {
-    public interface IQueryableApplicationServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public interface IQueryableApplicationServiceAsync<TEntity> : IDisposable where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         Task<IQueryable<TEntity>> GetAsync(CancellationToken token = default(CancellationToken));
         Task<IList<TEntity>> GetAllAsync(CancellationToken token = default(CancellationToken));

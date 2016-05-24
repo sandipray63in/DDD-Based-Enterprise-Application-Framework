@@ -6,12 +6,13 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base;
+using Infrastructure;
 using Infrastructure.Utilities;
 using Repository.Base;
 
 namespace ApplicationServices.Base.QueryableApplicationServices
 {
-    public class QueryableApplicationServiceAsync<TEntity> : IQueryableApplicationServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public class QueryableApplicationServiceAsync<TEntity> : DisposableClass, IQueryableApplicationServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         protected readonly IQueryableRepository<TEntity> _repository;
 
@@ -54,5 +55,15 @@ namespace ApplicationServices.Base.QueryableApplicationServices
         {
             return await _repository.Where(whereExpression).OrderBy(orderExpression).ToListAsync(token);
         }
+
+        #region Free Disposable Members
+
+        protected override void FreeManagedResources()
+        {
+            base.FreeManagedResources();
+            _repository.Dispose();
+        }
+
+        #endregion
     }
 }

@@ -6,7 +6,7 @@ using Domain.Base;
 
 namespace ApplicationServices.Base.CommandApplicationServices
 {
-    public interface ICommandApplicationServiceAsync<TEntity> where TEntity : ICommandAggregateRoot
+    public interface ICommandApplicationServiceAsync<TEntity> : IDisposable where TEntity : ICommandAggregateRoot
     {
         Task<bool> InsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         Task<bool> UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);

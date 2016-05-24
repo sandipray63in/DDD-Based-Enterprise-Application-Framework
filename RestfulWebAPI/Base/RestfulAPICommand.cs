@@ -25,7 +25,7 @@ namespace RestfulWebAPI.Base
     /// as per the content that needs to be sent or the exception thrown.May need to change Domain Services accordingly.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class RestfulAPICommand<TEntity> : ApiController where TEntity : ICommandAggregateRoot
+    public class RestfulAPICommand<TEntity> : BaseDisposableAPIController where TEntity : ICommandAggregateRoot
     {
         protected readonly ICommandApplicationServiceAsync<TEntity> _commandDomainServiceAsync;
 
@@ -97,5 +97,15 @@ namespace RestfulWebAPI.Base
             var isSuccess = await _commandDomainServiceAsync.DeleteAsync(items, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
+
+        #region Free Disposable Members
+
+        protected override void FreeManagedResources()
+        {
+            base.FreeManagedResources();
+            _commandDomainServiceAsync.Dispose();
+        }
+
+        #endregion
     }
 }

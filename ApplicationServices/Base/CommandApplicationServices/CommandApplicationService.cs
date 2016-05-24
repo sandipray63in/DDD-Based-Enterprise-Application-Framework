@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using Domain.Base;
 using Repository.Base;
+using Infrastructure;
 using Infrastructure.SemanticLogging.CrossCuttingEventSources;
-using Infrastructure.Utilities; 
+using Infrastructure.Utilities;
 
 namespace ApplicationServices.Base.CommandApplicationServices
 {
-    public class CommandApplicationService<TEntity> : ICommandApplicationService<TEntity> where TEntity : ICommandAggregateRoot
+    public class CommandApplicationService<TEntity> : DisposableClass, ICommandApplicationService<TEntity> where TEntity : ICommandAggregateRoot
     {
         protected readonly ICommandRepository<TEntity> _repository;
 
@@ -75,5 +76,15 @@ namespace ApplicationServices.Base.CommandApplicationServices
                 return false;
             }
         }
+
+        #region Free Disposable Members
+
+        protected override void FreeManagedResources()
+        {
+            base.FreeManagedResources();
+            _repository.Dispose();
+        }
+
+        #endregion
     }
 }

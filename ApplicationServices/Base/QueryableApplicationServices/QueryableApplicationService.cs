@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Domain.Base;
+using Infrastructure;
 using Infrastructure.Utilities;
 using Repository.Base;
 
 namespace ApplicationServices.Base.QueryableApplicationServices
 {
-    public class QueryableApplicationService<TEntity> : IQueryableApplicationService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public class QueryableApplicationService<TEntity> : DisposableClass, IQueryableApplicationService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         protected readonly IQueryableRepository<TEntity> _repository;
 
@@ -57,5 +58,15 @@ namespace ApplicationServices.Base.QueryableApplicationServices
         {
             return _repository.Include(subSelector);
         }
+
+        #region Free Disposable Members
+
+        protected override void FreeManagedResources()
+        {
+            base.FreeManagedResources();
+            _repository.Dispose();
+        }
+
+        #endregion
     }
 }

@@ -230,6 +230,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Base\BaseDisposableAPIController.cs" />
     <Compile Include="Base\RestfulAPICommand.cs" />
     <Compile Include="Base\RestfulAPIQuery.cs" />
     <Compile Include="Base\RestfulElasticSearchAPIQuery.cs" />

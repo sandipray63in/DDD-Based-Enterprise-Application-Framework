@@ -14,7 +14,7 @@ namespace ApplicationServices.Base.ConsumerModelServices
     /// the Domain objects.
     /// </summary>
     /// <typeparam name="TConsumerModel"></typeparam>
-    public interface IConsumerModelService<TConsumerModel> where TConsumerModel : ICommandConsumerModel
+    public interface IConsumerModelService<TConsumerModel> : IDisposable where TConsumerModel : ICommandConsumerModel
     {
         void Insert(TConsumerModel item, Action operationToExecuteBeforeNextOperation = null);
         void Update(TConsumerModel item, Action operationToExecuteBeforeNextOperation = null);

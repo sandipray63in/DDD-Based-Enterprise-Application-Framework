@@ -27,7 +27,7 @@ namespace RestfulWebAPI.Base
     /// as per the content that needs to be sent or the exception thrown.May need to change Domain Services accordingly.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class RestfulAPIQuery<TEntity> : ApiController where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public class RestfulAPIQuery<TEntity> : BaseDisposableAPIController where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         protected readonly IQueryableApplicationServiceAsync<TEntity> _queryableDomainServiceAsync;
 
@@ -57,5 +57,15 @@ namespace RestfulWebAPI.Base
         {
             return await _queryableDomainServiceAsync.GetByIDAsync(id, token);
         }
+
+        #region Free Disposable Members
+
+        protected override void FreeManagedResources()
+        {
+            base.FreeManagedResources();
+            _queryableDomainServiceAsync.Dispose();
+        }
+
+        #endregion
     }
 }

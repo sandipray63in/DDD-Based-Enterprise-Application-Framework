@@ -5,7 +5,7 @@ using Domain.Base;
 
 namespace ApplicationServices.Base.ConsumerModelServices
 {
-    public interface IQueryableConsumerModelService<TConsumerModel> where TConsumerModel : IQueryableConsumerModel
+    public interface IQueryableConsumerModelService<TConsumerModel> : IDisposable where TConsumerModel : IQueryableConsumerModel
     {
         IList<TConsumerModel> GetAll();
         TConsumerModel GetByID(int id);
