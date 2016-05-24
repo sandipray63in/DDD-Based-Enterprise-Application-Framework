@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{85348B35-3149-4959-BA76-71C52E7157C5}"
 EndProject
@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationServices", "Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulWebAPI", "RestfulWebAPI\RestfulWebAPI.csproj", "{52709B01-E25E-4C4F-B479-E5FCF916361D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSPAUI", "TestSPAUI\TestSPAUI.csproj", "{969C9420-07BA-49D8-ABED-B9BA74C9D723}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Client.SPA.UI", "Test.Client.SPA.UI\Test.Client.SPA.UI.csproj", "{10427C7B-E27A-4048-B6C9-928E08FB78B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,56 +95,17 @@ Global
 		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{52709B01-E25E-4C4F-B479-E5FCF916361D}.Test|Any CPU.Build.0 = Release|Any CPU
-		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Release|Any CPU.Build.0 = Release|Any CPU
-		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Test|Any CPU.ActiveCfg = Release|Any CPU
-		{969C9420-07BA-49D8-ABED-B9BA74C9D723}.Test|Any CPU.Build.0 = Release|Any CPU
+		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Test|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs40
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Domain\\Domain.csproj
-		SccProjectName1 = Domain
-		SccLocalPath1 = Domain
-		SccProjectUniqueName2 = Infrastructure\\Infrastructure.csproj
-		SccProjectName2 = Infrastructure
-		SccLocalPath2 = Infrastructure
-		SccProjectUniqueName3 = Repository\\Repository.csproj
-		SccProjectName3 = Repository
-		SccLocalPath3 = Repository
-		SccProjectUniqueName4 = TestService\\TestService.csproj
-		SccProjectName4 = TestService
-		SccLocalPath4 = TestService
-		SccProjectUniqueName5 = FluentRepository\\FluentRepository.csproj
-		SccProjectName5 = FluentRepository
-		SccLocalPath5 = FluentRepository
-		SccProjectUniqueName6 = RestfulWebAPI\\RestfulWebAPI.csproj
-		SccProjectName6 = RestfulWebAPI
-		SccLocalPath6 = RestfulWebAPI
-		SccProjectUniqueName7 = TestSPAUI\\TestSPAUI.csproj
-		SccProjectName7 = TestSPAUI
-		SccLocalPath7 = TestSPAUI
-		SccProjectUniqueName8 = DomainContextsAndMaps\\DomainContextsAndMaps.csproj
-		SccProjectName8 = DomainContextsAndMaps
-		SccLocalPath8 = DomainContextsAndMaps
-		SccProjectUniqueName9 = Testing.Repository\\Testing.Repository.csproj
-		SccProjectName9 = Testing.Repository
-		SccLocalPath9 = Testing.Repository
-		SccProjectUniqueName10 = TestEFDomainAndContext\\TestEFDomainAndContext.csproj
-		SccProjectName10 = TestEFDomainAndContext
-		SccLocalPath10 = TestEFDomainAndContext
-		SccProjectUniqueName11 = ApplicationServices\\ApplicationServices.csproj
-		SccProjectName11 = ApplicationServices
-		SccLocalPath11 = ApplicationServices
 	EndGlobalSection
 EndGlobal

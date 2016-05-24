@@ -20,7 +20,7 @@ namespace RestfulWebAPI.Base
     /// and then retrieve it from cache and then use it using some Global Custom Filter. Infact any Filter in general for which we apply some decorative 
     /// attribute should follow this approach.
     /// 
-    /// TODO - To write a Handler/Module which will invoke RestfulAPI<TEntity> as per TEntity.May need a Lookup based
+    /// TODO - To write a custom HTTPControllerSelector and HttpControllerActivator which will invoke RestfulAPI<TEntity> as per TEntity.May need a Lookup based
     /// approach.
     /// 
     /// TODO - Need to come up with a way to send the appropriate response(not only Ok or Badrequest) back to the client
