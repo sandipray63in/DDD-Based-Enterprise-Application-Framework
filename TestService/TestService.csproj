@@ -150,21 +150,12 @@
       <HintPath>..\packages\NMemory.1.0.1\lib\net45\NMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="Z.ExtensionMethods, Version=2.0.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.ExtensionMethods.2.0.10\lib\net45\Z.ExtensionMethods.dll</HintPath>
       <Private>True</Private>
@@ -205,10 +196,6 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{35fd83da-a508-43ea-97e8-9329beaf7100}</Project>
       <Name>Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DomainContextsAndMaps\DomainContextsAndMaps.csproj">
-      <Project>{9d5812ab-0f1a-42df-94d4-4de7e7f48e65}</Project>
-      <Name>DomainContextsAndMaps</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2d9d3c62-ba14-4598-bcb6-64c64c98e7f4}</Project>
