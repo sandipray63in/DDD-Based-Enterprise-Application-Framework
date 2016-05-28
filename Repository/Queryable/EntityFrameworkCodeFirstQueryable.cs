@@ -13,6 +13,10 @@ namespace Repository.Queryable
     /// <summary>
     /// Please keep a note that DBContext is not thread safe and so be cautious while using EF DB Context in multi threaded scenarios
     /// as indicated here - http://mehdi.me/ambient-dbcontext-in-ef6/
+    /// 
+    /// For Entity Framework Performance Opyimizations, refer 
+    /// https://msdn.microsoft.com/en-in/data/hh949853.aspx and
+    /// http://programmers.stackexchange.com/questions/117357/is-entity-framework-suitable-for-high-traffic-websites
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public class EntityFrameworkCodeFirstQueryable<TEntity> : DisposableClass, IQuery<TEntity> where TEntity : class, IQueryableAggregateRoot
