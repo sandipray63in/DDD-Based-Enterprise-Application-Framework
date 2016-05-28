@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Domain.Base;
 
-namespace ApplicationServices.Base.QueryableApplicationServices
+namespace DomainServices.Base.QueryableDomainServices
 {
-    public interface IQueryableApplicationService<TEntity> : IDisposable where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public interface IQueryableDomainService<TEntity> : IDisposable where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         IQueryable<TEntity> Get();
         IList<TEntity> GetAll();

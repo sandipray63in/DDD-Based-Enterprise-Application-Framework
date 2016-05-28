@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using ApplicationServices.Base.CommandApplicationServices;
+using DomainServices.Base.CommandDomainServices;
 using Domain.Base;
 using Infrastructure.Utilities;
 using Repository.Base;
 using Repository.UnitOfWork;
 
-namespace ApplicationServices.Base.ElasticSearchableApplicationServices.Commands
+namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
 {
-    public class ElasticSearchableCommandApplicationService<TEntity> : CommandApplicationService<TEntity>, IElasticSearchableCommandApplicationService<TEntity> where TEntity : ICommandAggregateRoot, IElasticSearchable
+    public class ElasticSearchableCommandDomainService<TEntity> : CommandDomainService<TEntity>, IElasticSearchableCommandDomainService<TEntity> where TEntity : ICommandAggregateRoot, IElasticSearchable
     {
         protected readonly ICommandElasticSearchableRepository<TEntity> _elasticSearchableCommandRepository;
         protected readonly BaseUnitOfWork _unitOfWork;
 
-        public ElasticSearchableCommandApplicationService(ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
+        public ElasticSearchableCommandDomainService(ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
         {
             ContractUtility.Requires<ArgumentNullException>(elasticSearchableCommandRepository != null, "elasticSearchableCommandRepository instance cannot be null");
             _elasticSearchableCommandRepository = elasticSearchableCommandRepository;
         }
 
-        public ElasticSearchableCommandApplicationService(BaseUnitOfWork unitOfWork, ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
+        public ElasticSearchableCommandDomainService(BaseUnitOfWork unitOfWork, ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
         {
             ContractUtility.Requires<ArgumentNullException>(unitOfWork != null, "unitOfWork instance cannot be null");
             ContractUtility.Requires<ArgumentNullException>(elasticSearchableCommandRepository != null, "elasticSearchableCommandRepository instance cannot be null");

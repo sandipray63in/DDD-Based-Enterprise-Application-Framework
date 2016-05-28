@@ -6,13 +6,13 @@ using Infrastructure;
 using Infrastructure.SemanticLogging.CrossCuttingEventSources;
 using Infrastructure.Utilities;
 
-namespace ApplicationServices.Base.CommandApplicationServices
+namespace DomainServices.Base.CommandDomainServices
 {
-    public class CommandApplicationService<TEntity> : DisposableClass, ICommandApplicationService<TEntity> where TEntity : ICommandAggregateRoot
+    public class CommandDomainService<TEntity> : DisposableClass, ICommandDomainService<TEntity> where TEntity : ICommandAggregateRoot
     {
         protected readonly ICommandRepository<TEntity> _repository;
 
-        public CommandApplicationService(ICommandRepository<TEntity> repository)
+        public CommandDomainService(ICommandRepository<TEntity> repository)
         {
             ContractUtility.Requires<ArgumentNullException>(repository != null, "repository instance cannot be null");
             _repository = repository;

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ApplicationServices.Base.QueryableApplicationServices;
+using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
 using Repository;
 using Repository.Base;
 
-namespace ApplicationServices.Base.ElasticSearchableDomainServices.Queries
+namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public class ElasticSearchableQueryableDomainServiceAsync<TEntity> : QueryableApplicationServiceAsync<TEntity>, IElasticSearchableQueryableDomainServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot,IElasticSearchable
+    public class ElasticSearchableQueryableDomainServiceAsync<TEntity> : QueryableDomainServiceAsync<TEntity>, IElasticSearchableQueryableDomainServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot,IElasticSearchable
     {
         public ElasticSearchableQueryableDomainServiceAsync(IQueryableElasticSearchRepository<TEntity> repository) : base(repository)
         {

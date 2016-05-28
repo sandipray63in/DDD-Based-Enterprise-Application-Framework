@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ApplicationServices.Base.QueryableApplicationServices;
+using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
 using Repository;
 using Repository.Base;
 
-namespace ApplicationServices.Base.ElasticSearchableDomainServices.Queries
+namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public class ElasticSearchableQueryableDomainService<TEntity> : QueryableApplicationService<TEntity>,IElasticSearchableQueryableDomainService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
+    public class ElasticSearchableQueryableDomainService<TEntity> : QueryableDomainService<TEntity>,IElasticSearchableQueryableDomainService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
     {
         public ElasticSearchableQueryableDomainService(IQueryableElasticSearchRepository<TEntity> repository) : base(repository)
         {

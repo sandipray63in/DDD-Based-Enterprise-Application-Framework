@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Domain.Base;
 
-namespace ApplicationServices.Base.ConsumerModelServices
+namespace DomainServices.Base.ConsumerModelServices
 {
     /// <summary>
     /// Implement this class to pass on the Consumer Model and transform it accordingly into 

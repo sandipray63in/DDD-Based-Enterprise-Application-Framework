@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base;
 
-namespace ApplicationServices.Base.CommandApplicationServices
+namespace DomainServices.Base.CommandDomainServices
 {
-    public interface ICommandApplicationServiceAsync<TEntity> : IDisposable where TEntity : ICommandAggregateRoot
+    public interface ICommandDomainServiceAsync<TEntity> : IDisposable where TEntity : ICommandAggregateRoot
     {
         Task<bool> InsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         Task<bool> UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);

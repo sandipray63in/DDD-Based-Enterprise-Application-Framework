@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ApplicationServices.Base.ElasticSearchableDomainServices.Queries;
+using DomainServices.Base.ElasticSearchableDomainServices.Queries;
 using Domain.Base;
 using Repository;
 

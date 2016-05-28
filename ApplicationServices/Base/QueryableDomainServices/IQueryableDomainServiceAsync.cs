@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Domain.Base;
 
-namespace ApplicationServices.Base.QueryableApplicationServices
+namespace DomainServices.Base.QueryableDomainServices
 {
-    public interface IQueryableApplicationServiceAsync<TEntity> : IDisposable where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public interface IQueryableDomainServiceAsync<TEntity> : IDisposable where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         Task<IQueryable<TEntity>> GetAsync(CancellationToken token = default(CancellationToken));
         Task<IList<TEntity>> GetAllAsync(CancellationToken token = default(CancellationToken));

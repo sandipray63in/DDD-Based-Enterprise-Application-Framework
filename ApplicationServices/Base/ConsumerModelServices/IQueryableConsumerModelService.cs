@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Domain.Base;
 
-namespace ApplicationServices.Base.ConsumerModelServices
+namespace DomainServices.Base.ConsumerModelServices
 {
     public interface IQueryableConsumerModelService<TConsumerModel> : IDisposable where TConsumerModel : IQueryableConsumerModel
     {

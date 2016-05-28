@@ -278,9 +278,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApplicationServices\ApplicationServices.csproj">
+    <ProjectReference Include="..\ApplicationServices\DomainServices.csproj">
       <Project>{2f49da34-3980-437b-a579-9e73bd43677d}</Project>
-      <Name>ApplicationServices</Name>
+      <Name>DomainServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{35fd83da-a508-43ea-97e8-9329beaf7100}</Project>

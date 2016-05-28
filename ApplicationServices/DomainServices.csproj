@@ -7,8 +7,8 @@
     <ProjectGuid>{2F49DA34-3980-437B-A579-9E73BD43677D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ApplicationServices</RootNamespace>
-    <AssemblyName>ApplicationServices</AssemblyName>
+    <RootNamespace>DomainServices</RootNamespace>
+    <AssemblyName>DomainServices</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -47,24 +47,24 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\CommandApplicationServices\CommandApplicationService.cs" />
-    <Compile Include="Base\CommandApplicationServices\CommandApplicationServiceAsync.cs" />
-    <Compile Include="Base\CommandApplicationServices\ICommandApplicationServiceAsync.cs" />
+    <Compile Include="Base\CommandDomainServices\CommandDomainService.cs" />
+    <Compile Include="Base\CommandDomainServices\CommandDomainServiceAsync.cs" />
+    <Compile Include="Base\CommandDomainServices\ICommandDomainServiceAsync.cs" />
     <Compile Include="Base\ConsumerModelServices\ICommandConsumerModelService.cs" />
-    <Compile Include="Base\CommandApplicationServices\ICommandApplicationService.cs" />
+    <Compile Include="Base\CommandDomainServices\ICommandDomainService.cs" />
     <Compile Include="Base\ConsumerModelServices\IQueryableConsumerModelService.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Commands\ElasticSearchableCommandApplicationService.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Commands\ElasticSearchableCommandApplicationServiceAsync.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Commands\IElasticSearchableCommandApplicationService.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Commands\IElasticSearchableCommandApplicationServiceAsync.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Queries\ElasticSearchableQueryableDomainService.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Queries\ElasticSearchableQueryableDomainServiceAsync.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Queries\IElasticSearchableQueryableDomainService.cs" />
-    <Compile Include="Base\ElasticSearchableApplicationServices\Queries\IElasticSearchableQueryableDomainServiceAsync.cs" />
-    <Compile Include="Base\QueryableApplicationServices\IQueryableApplicationService.cs" />
-    <Compile Include="Base\QueryableApplicationServices\IQueryableApplicationServiceAsync.cs" />
-    <Compile Include="Base\QueryableApplicationServices\QueryableApplicationService.cs" />
-    <Compile Include="Base\QueryableApplicationServices\QueryableApplicationServiceAsync.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Commands\ElasticSearchableCommandDomainService.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Commands\ElasticSearchableCommandDomainServiceAsync.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Commands\IElasticSearchableCommandDomainService.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Commands\IElasticSearchableCommandDomainServiceAsync.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Queries\ElasticSearchableQueryableDomainService.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Queries\ElasticSearchableQueryableDomainServiceAsync.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Queries\IElasticSearchableQueryableDomainService.cs" />
+    <Compile Include="Base\ElasticSearchableDomainServices\Queries\IElasticSearchableQueryableDomainServiceAsync.cs" />
+    <Compile Include="Base\QueryableDomainServices\IQueryableDomainService.cs" />
+    <Compile Include="Base\QueryableDomainServices\IQueryableDomainServiceAsync.cs" />
+    <Compile Include="Base\QueryableDomainServices\QueryableDomainService.cs" />
+    <Compile Include="Base\QueryableDomainServices\QueryableDomainServiceAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +85,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

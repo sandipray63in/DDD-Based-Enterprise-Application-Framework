@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ApplicationServices.Base.QueryableApplicationServices;
+using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
 using Repository;
 
-namespace ApplicationServices.Base.ElasticSearchableDomainServices.Queries
+namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public interface IElasticSearchableQueryableDomainServiceAsync<TEntity> : IQueryableApplicationServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
+    public interface IElasticSearchableQueryableDomainServiceAsync<TEntity> : IQueryableDomainServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
     {
         Task<IList<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
 

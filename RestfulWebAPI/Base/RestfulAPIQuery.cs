@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.OData;
-using ApplicationServices.Base.QueryableApplicationServices;
+using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
 using Infrastructure.Utilities;
 
@@ -29,9 +29,9 @@ namespace RestfulWebAPI.Base
     /// <typeparam name="TEntity"></typeparam>
     public class RestfulAPIQuery<TEntity> : BaseDisposableAPIController where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
-        protected readonly IQueryableApplicationServiceAsync<TEntity> _queryableDomainServiceAsync;
+        protected readonly IQueryableDomainServiceAsync<TEntity> _queryableDomainServiceAsync;
 
-        public RestfulAPIQuery(IQueryableApplicationServiceAsync<TEntity> queryableDomainServiceAsync)
+        public RestfulAPIQuery(IQueryableDomainServiceAsync<TEntity> queryableDomainServiceAsync)
         {
             ContractUtility.Requires<ArgumentNullException>(queryableDomainServiceAsync != null, "queryableDomainServiceAsync instance cannot be null");
             _queryableDomainServiceAsync = queryableDomainServiceAsync;

@@ -7,13 +7,13 @@ using Infrastructure;
 using Infrastructure.Utilities;
 using Repository.Base;
 
-namespace ApplicationServices.Base.QueryableApplicationServices
+namespace DomainServices.Base.QueryableDomainServices
 {
-    public class QueryableApplicationService<TEntity> : DisposableClass, IQueryableApplicationService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public class QueryableDomainService<TEntity> : DisposableClass, IQueryableDomainService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
     {
         protected readonly IQueryableRepository<TEntity> _repository;
 
-        public QueryableApplicationService(IQueryableRepository<TEntity> repository)
+        public QueryableDomainService(IQueryableRepository<TEntity> repository)
         {
             ContractUtility.Requires<ArgumentNullException>(repository != null, "repository instance cannot be null");
             _repository = repository;

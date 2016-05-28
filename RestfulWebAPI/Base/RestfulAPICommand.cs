@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using ApplicationServices.Base.CommandApplicationServices;
+using DomainServices.Base.CommandDomainServices;
 using Domain.Base;
 using Infrastructure.Utilities;
 
@@ -27,9 +27,9 @@ namespace RestfulWebAPI.Base
     /// <typeparam name="TEntity"></typeparam>
     public class RestfulAPICommand<TEntity> : BaseDisposableAPIController where TEntity : ICommandAggregateRoot
     {
-        protected readonly ICommandApplicationServiceAsync<TEntity> _commandDomainServiceAsync;
+        protected readonly ICommandDomainServiceAsync<TEntity> _commandDomainServiceAsync;
 
-        public RestfulAPICommand(ICommandApplicationServiceAsync<TEntity> commandDomainServiceAsync)
+        public RestfulAPICommand(ICommandDomainServiceAsync<TEntity> commandDomainServiceAsync)
         {
             ContractUtility.Requires<ArgumentNullException>(commandDomainServiceAsync != null, "commandDomainService instance cannot be null");
             _commandDomainServiceAsync = commandDomainServiceAsync;

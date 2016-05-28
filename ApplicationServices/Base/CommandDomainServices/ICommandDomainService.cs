@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Domain.Base;
 
-namespace ApplicationServices.Base.CommandApplicationServices
+namespace DomainServices.Base.CommandDomainServices
 {
-    public interface ICommandApplicationService<TEntity> : IDisposable where TEntity : ICommandAggregateRoot
+    public interface ICommandDomainService<TEntity> : IDisposable where TEntity : ICommandAggregateRoot
     {
         bool Insert(TEntity item, Action operationToExecuteBeforeNextOperation = null);
         bool Update(TEntity item, Action operationToExecuteBeforeNextOperation = null);
