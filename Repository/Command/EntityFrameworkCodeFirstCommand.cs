@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Z.BulkOperations;
-using Domain.Base;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 using Infrastructure;
 using Infrastructure.Utilities;
+using Domain.Base.Entities.WithAuditInfo;
 
 namespace Repository.Command
 {
@@ -17,7 +19,9 @@ namespace Repository.Command
     /// as indicated here - http://mehdi.me/ambient-dbcontext-in-ef6/
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class EntityFrameworkCodeFirstCommand<TEntity> : DisposableClass, ICommand<TEntity> where TEntity : class, ICommandAggregateRoot
+    public class EntityFrameworkCodeFirstCommand<TId,TEntity> : DisposableClass, ICommand<TEntity>
+        where TId : struct
+        where TEntity : BaseEntity<TId>, ICommandAggregateRoot
     {
         private readonly DbContext _dbContext;
         private readonly DbSet<TEntity> _dbSet;
@@ -314,24 +318,26 @@ namespace Repository.Command
         private void ApplyAuditInfoRules()
         {
             var changedAudits = _dbContext.ChangeTracker.Entries()
-                                 .Where(e => e.Entity is BaseIdentityAndAuditableCommandAggregateRoot
-                                 && ((e.State == EntityState.Added) 
+                                 .Where(e => e.Entity is BaseEntityWithAuditInfoAsCommandAggregateRoot<TId>
+                                 && ((e.State == EntityState.Added)
                                  || (e.State == EntityState.Modified)));
 
             changedAudits.ForEach(entry =>
             {
-                var entity = entry.Entity as BaseIdentityAndAuditableCommandAggregateRoot;
-
-                if (entry.State == EntityState.Added)
+                var entity = entry.Entity as BaseEntityWithAuditInfoAsCommandAggregateRoot<TId>;
+                if (entity.AuditInfo.IsNotNull())
                 {
-                    if (!entity.PreserveCreatedOn)
+                    if (entry.State == EntityState.Added)
                     {
-                        entity.CreatedOn = DateTime.Now;
+                        if (!entity.AuditInfo.PreserveCreatedOn)
+                        {
+                            entity.AuditInfo.CreatedOn = DateTime.Now;
+                        }
                     }
-                }
-                else
-                {
-                    entity.LastUpdateOn = DateTime.Now;
+                    else
+                    {
+                        entity.AuditInfo.LastUpdateOn = DateTime.Now;
+                    }
                 }
             });
         }

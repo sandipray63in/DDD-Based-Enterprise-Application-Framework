@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base;
+using Domain.Base.Aggregates;
 
 namespace Repository.Base
 {
-    public interface IQueryableElasticSearchRepository<TEntity> : IQueryableRepository<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
+    public interface IQueryableElasticSearchRepository<TEntity> : IQueryableRepository<TEntity> 
+        where TEntity : IQueryableAggregateRoot,IElasticSearchable
     {
         IList<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null);
 

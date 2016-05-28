@@ -2,7 +2,7 @@
 using System.Data.Common;
 using System.ServiceModel;
 using Microsoft.Practices.Unity;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository;
 using Repository.Base;
 using Repository.Command;
@@ -96,7 +96,7 @@ namespace TestService
         private void RegisterCommandRepository(IUnityContainer container, DbConnection dbConnection) 
         {
             container.RegisterType<EFTestContext>(EFFORT_CONNECTION_BASED_EF_TEST_CONEXT,new InjectionConstructor(dbConnection));
-            container.RegisterType<ICommand<TEntity>, EntityFrameworkCodeFirstCommand<TEntity>>(EFFORT_CONNECTION_BASED_EF_TEST_CONEXT);
+            //container.RegisterType<ICommand<TEntity>, EntityFrameworkCodeFirstCommand<TEntity>>(EFFORT_CONNECTION_BASED_EF_TEST_CONEXT);
             var context = container.Resolve<EFTestContext>(EFFORT_CONNECTION_BASED_EF_TEST_CONEXT);
             var command = container.Resolve<ICommand<TEntity>>(EFFORT_CONNECTION_BASED_EF_TEST_CONEXT, new ParameterOverride("dbContext", context));
             container.RegisterType<ICommandRepository<TEntity>, CommandRepository<TEntity>>(EFFORT_CONNECTION_BASED_EF_TEST_CONEXT, new InjectionConstructor(command));

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository.Base;
 using Repository.Queryable;
 using Repository.UnitOfWork;
 
 namespace Repository
 {
-    public class QueryableElasticSearchRepository<TEntity> : QueryableRepository<TEntity>,IQueryableElasticSearchRepository<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
+    public class QueryableElasticSearchRepository<TEntity> : QueryableRepository<TEntity>,IQueryableElasticSearchRepository<TEntity> 
+        where TEntity : IQueryableAggregateRoot, IElasticSearchable
     {
         #region Constructors
 

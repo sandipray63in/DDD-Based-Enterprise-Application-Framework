@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure;
 using Infrastructure.Utilities;
 using Repository.Base;
@@ -13,7 +13,8 @@ using Repository.UnitOfWork;
 namespace Repository
 {
     public class QueryableRepository<TEntity>
-        : DisposableClass, IQueryableRepository<TEntity> where TEntity : IQueryableAggregateRoot
+        : DisposableClass, IQueryableRepository<TEntity> 
+        where TEntity : IQueryableAggregateRoot
     {
         #region Private Fields
 

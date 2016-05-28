@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Domain.Base;
+using Domain.Base.Aggregates;
 
 namespace Repository.Base
 {

@@ -1,5 +1,5 @@
 ﻿
-namespace Domain.Base
+namespace Domain.Base.Aggregates
 {
     /// <summary>
     /// Defines an entity type that can be an aggregate root

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using FluentRepository.Abstractions;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;

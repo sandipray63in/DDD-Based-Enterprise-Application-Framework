@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.OData;
 using DomainServices.Base.QueryableDomainServices;
-using Domain.Base;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 using Infrastructure.Utilities;
 
 namespace RestfulWebAPI.Base
@@ -27,11 +28,13 @@ namespace RestfulWebAPI.Base
     /// as per the content that needs to be sent or the exception thrown.May need to change Domain Services accordingly.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class RestfulAPIQuery<TEntity> : BaseDisposableAPIController where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public class RestfulAPIQuery<TId,TEntity> : BaseDisposableAPIController
+        where TId : struct
+        where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
     {
-        protected readonly IQueryableDomainServiceAsync<TEntity> _queryableDomainServiceAsync;
+        protected readonly IQueryableDomainServiceAsync<TId,TEntity> _queryableDomainServiceAsync;
 
-        public RestfulAPIQuery(IQueryableDomainServiceAsync<TEntity> queryableDomainServiceAsync)
+        public RestfulAPIQuery(IQueryableDomainServiceAsync<TId,TEntity> queryableDomainServiceAsync)
         {
             ContractUtility.Requires<ArgumentNullException>(queryableDomainServiceAsync != null, "queryableDomainServiceAsync instance cannot be null");
             _queryableDomainServiceAsync = queryableDomainServiceAsync;
@@ -53,7 +56,7 @@ namespace RestfulWebAPI.Base
             return await _queryableDomainServiceAsync.GetAllAsync(token);
         }
 
-        public virtual async Task<TEntity> GetByID(int id, CancellationToken token = default(CancellationToken))
+        public virtual async Task<TEntity> GetByID(TId id, CancellationToken token = default(CancellationToken))
         {
             return await _queryableDomainServiceAsync.GetByIDAsync(id, token);
         }

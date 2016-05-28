@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure;
 using Infrastructure.Utilities;
 

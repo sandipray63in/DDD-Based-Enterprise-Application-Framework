@@ -292,31 +292,46 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="Z.ExtensionMethods, Version=2.0.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.ExtensionMethods.2.0.10\lib\net45\Z.ExtensionMethods.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\BaseAggregateRoot.cs" />
-    <Compile Include="Base\BaseCommandConsumerModel.cs" />
-    <Compile Include="Base\BaseIdentityAndAuditableCommandAggregateRoot.cs" />
-    <Compile Include="Base\BaseIdentityAndAuditableAndSoftDeleteableCommandAggregateRoot.cs" />
-    <Compile Include="Base\BaseIdentityAndAuditableEntity.cs" />
-    <Compile Include="Base\BaseIdentityAndAuditableQueryableAggregateRoot.cs" />
-    <Compile Include="Base\BaseAuditableEntity.cs" />
+    <Compile Include="Base\Entities\BaseEntity.cs" />
+    <Compile Include="Base\Entities\Mongo\BaseMongoEntityAsCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\Mongo\BaseMongoEntityAsQueryableAggregateRoot.cs" />
+    <Compile Include="Base\Entities\Mongo\BaseMongoEntityAsSoftDeleteableCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\Mongo\BaseMongoEntity.cs" />
+    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfo.cs" />
+    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfoAsCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfoAsQueryableAggregateRoot.cs" />
+    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfoAsSoftDeleteableCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfoAsCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfoAsQueryableAggregateRoot.cs" />
+    <Compile Include="Base\Entities\BaseEntityAsQueryableAggregateRoot.cs" />
+    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfoAsSoftDeleteableCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\BaseEntityAsSoftDeleteableCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\BaseEntityAsCommandAggregateRoot.cs" />
+    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfo.cs" />
     <Compile Include="Base\IVersionable.cs" />
-    <Compile Include="Base\Mongo\BaseMongoIdentityAndAuditableEntity.cs" />
-    <Compile Include="Base\ICommandAggregateRoot.cs" />
+    <Compile Include="Base\Aggregates\ICommandAggregateRoot.cs" />
     <Compile Include="Base\ICacheable.cs" />
-    <Compile Include="Base\ICommandConsumerModel.cs" />
+    <Compile Include="Base\ConsumerModels%28DTOs%29\ICommandConsumerModel.cs" />
     <Compile Include="Base\IElasticSearchable.cs" />
-    <Compile Include="Base\IQueryableConsumerModel.cs" />
-    <Compile Include="Base\IQueryableAggregateRoot.cs" />
-    <Compile Include="Base\ISoftDeleteableAggregateRoot.cs" />
-    <Compile Include="Base\Mongo\BaseMongoIdentityAndAuditableAndSoftDeleteableCommandAggregateRoot.cs" />
-    <Compile Include="Base\Mongo\BaseMongoIdentityAndAuditableCommandAggregateRoot .cs" />
-    <Compile Include="Base\Mongo\BaseMongoIdentityAndAuditableQueryableAggregateRoot.cs" />
+    <Compile Include="Base\ConsumerModels%28DTOs%29\IQueryableConsumerModel.cs" />
+    <Compile Include="Base\Aggregates\IQueryableAggregateRoot.cs" />
+    <Compile Include="Base\Aggregates\ISoftDeleteableCommandAggregateRoot.cs" />
+    <Compile Include="Base\ValueObjects\AuditInfo.cs" />
+    <Compile Include="Base\ValueObjects\BaseValueObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

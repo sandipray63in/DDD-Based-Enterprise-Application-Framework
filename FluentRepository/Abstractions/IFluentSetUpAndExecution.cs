@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository.Base;
 
 namespace FluentRepository.Abstractions

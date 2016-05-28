@@ -1,5 +1,5 @@
 ﻿using System.ServiceModel;
-using Domain.Base;
+using Domain.Base.Aggregates;
 
 namespace TestService
 {

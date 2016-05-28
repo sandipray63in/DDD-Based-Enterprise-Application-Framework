@@ -1,14 +1,11 @@
 ﻿using System.Data.Entity.ModelConfiguration.Configuration;
-using Domain.Base;
+using Domain.Base.Entities.WithAuditInfo;
 
-namespace EFDomainMaps.Base.EFBase
+namespace DomainContextsAndMaps.Base.EFBase
 {
-    /// <summary>
-    /// To use this class, inherit it in child classes and override SetEntitySpecificProperties but within that first call
-    /// base.SetEntitySpecificProperties() and then code the specific implementations for the child classes.
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public abstract class BaseIdentityAndAuditableAndSoftDeleteableAggregateRootMap<TEntity> : BaseIdentityAndAuditableAggregateRootMap<TEntity> where TEntity : BaseIdentityAndAuditableAndSoftDeleteableCommandAggregateRoot
+    public abstract class BaseEntityAsSoftDeleteableRootMap<TId,TEntity> : BaseEntityRootMap<TId,TEntity>
+        where TId : struct
+        where TEntity : BaseEntityWithAuditInfoAsSoftDeleteableCommandAggregateRoot<TId>
     {
         protected virtual string IsDeletedColumnName { get; } = "col_is_deleted";
         protected virtual string DeletedOnColumnName { get; } = "col_deleted_on";

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain.Base;
+using Domain.Base.Aggregates;
 
 namespace DomainServices.Base.CommandDomainServices
 {

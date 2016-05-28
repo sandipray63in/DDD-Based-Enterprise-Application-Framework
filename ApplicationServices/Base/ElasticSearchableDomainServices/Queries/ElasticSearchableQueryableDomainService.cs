@@ -4,12 +4,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 using Repository;
 using Repository.Base;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public class ElasticSearchableQueryableDomainService<TEntity> : QueryableDomainService<TEntity>,IElasticSearchableQueryableDomainService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
+    public class ElasticSearchableQueryableDomainService<TId, TEntity> : QueryableDomainService<TId, TEntity>, IElasticSearchableQueryableDomainService<TId, TEntity>
+        where TId : struct
+        where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
     {
         public ElasticSearchableQueryableDomainService(IQueryableElasticSearchRepository<TEntity> repository) : base(repository)
         {

@@ -5,14 +5,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Base;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 using Infrastructure;
 using Infrastructure.Utilities;
 using Repository.Base;
 
 namespace DomainServices.Base.QueryableDomainServices
 {
-    public class QueryableDomainServiceAsync<TEntity> : DisposableClass, IQueryableDomainServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public class QueryableDomainServiceAsync<TId,TEntity> : DisposableClass, IQueryableDomainServiceAsync<TId, TEntity>
+        where TId:struct
+        where TEntity : BaseEntity<TId>,IQueryableAggregateRoot
     {
         protected readonly IQueryableRepository<TEntity> _repository;
 
@@ -37,9 +40,9 @@ namespace DomainServices.Base.QueryableDomainServices
             return await _repository.Select(x => x).ToListAsync(token);
         }
         
-        public virtual async Task<TEntity> GetByIDAsync(int id, CancellationToken token = default(CancellationToken))
+        public virtual async Task<TEntity> GetByIDAsync(TId id, CancellationToken token = default(CancellationToken))
         {
-            return await _repository.FirstOrDefaultAsync(x => x.Id == id, token);
+            return await _repository.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
         }
 
         public virtual async Task<IList<TEntity>> GetByFilterExpressionAsync(Expression<Func<TEntity, bool>> whereExpression, CancellationToken token = default(CancellationToken))

@@ -1,11 +1,13 @@
 ﻿using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository.Base;
 using Repository.Command;
 using Repository.UnitOfWork;
 
 namespace Repository
 {
-    public class CommandElasticSearchableRepository<TEntity> : CommandRepository<TEntity>, ICommandElasticSearchableRepository<TEntity> where TEntity : class, ICommandAggregateRoot,IElasticSearchable
+    public class CommandElasticSearchableRepository<TEntity> : CommandRepository<TEntity>, ICommandElasticSearchableRepository<TEntity> 
+        where TEntity : class,ICommandAggregateRoot,IElasticSearchable
     {
         /// <summary>
         /// Should be used when unit of work instance is not required 

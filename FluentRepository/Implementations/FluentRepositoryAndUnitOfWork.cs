@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Transactions;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using FluentRepository.Abstractions;
 using Infrastructure.Utilities;
 using Infrastructure.Extensions;

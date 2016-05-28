@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using FluentRepository.Abstractions;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;

@@ -8,13 +8,15 @@ using ElasticsearchCRUD.Model.SearchModel.Sorting;
 using ElasticsearchCRUD.Model.SearchModel;
 using ElasticsearchCRUD.Model.SearchModel.Queries;
 using Domain.Base;
+using Domain.Base.Aggregates;
 using DomainContextsAndMaps;
 using Infrastructure;
 using Infrastructure.Utilities;
 
 namespace Repository.Queryable
 {
-    public class ElasticSearchQuery<TEntity> : DisposableClass, IElasticSearchQuery<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
+    public class ElasticSearchQuery<TEntity> : DisposableClass, IElasticSearchQuery<TEntity> 
+        where TEntity : IQueryableAggregateRoot,IElasticSearchable
     {
 
         private readonly ElasticsearchContext _elasticsearchContext;

@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
 using System.ServiceModel;
 using Effort.Provider;
-using Domain.Base;
+using Domain.Base.Aggregates;
 
 namespace TestService
 {

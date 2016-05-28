@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Transactions;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository.Base;
 using Repository.UnitOfWork;
 

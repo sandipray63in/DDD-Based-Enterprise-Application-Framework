@@ -5,13 +5,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using ElasticsearchCRUD;
 using Domain.Base;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 using DomainContextsAndMaps;
 using Infrastructure;
 using Infrastructure.Utilities;
 
 namespace Repository.Command
 {
-    public class ElasticSearchCommand<TEntity> : DisposableClass, ICommand<TEntity> where TEntity : BaseIdentityAndAuditableCommandAggregateRoot
+    public class ElasticSearchCommand<TId,TEntity> : DisposableClass, ICommand<TEntity>
+        where TId : struct
+        where TEntity : BaseEntity<TId>, ICommandAggregateRoot, IElasticSearchable
     {
         private readonly ElasticsearchContext _elasticsearchContext;
 

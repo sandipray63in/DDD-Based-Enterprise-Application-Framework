@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using DomainServices.Base.CommandDomainServices;
 using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure.Utilities;
 using Repository.Base;
 using Repository.UnitOfWork;

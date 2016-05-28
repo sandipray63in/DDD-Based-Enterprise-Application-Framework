@@ -1,4 +1,5 @@
 ﻿using Domain.Base;
+using Domain.Base.Aggregates;
 
 namespace Repository.Base
 {

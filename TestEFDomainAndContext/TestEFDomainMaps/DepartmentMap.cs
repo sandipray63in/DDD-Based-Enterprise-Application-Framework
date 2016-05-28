@@ -1,9 +1,10 @@
-﻿using EFDomainMaps.Base.EFBase;
+﻿using System.Data;
+using DomainContextsAndMaps.Base.EFBase;
 using TestEFDomainAndContext.TestDomains;
 
 namespace TestEFDomainAndContext.TestEFDomainMaps
 {
-    public class DepartmentMap : BaseIdentityAndAuditableAggregateRootMap<Department>
+    public class DepartmentMap : BaseEntityWithAuditInfoRootMap<int,Department>
     {
         #region Actual Columns Constants
 
@@ -13,13 +14,15 @@ namespace TestEFDomainAndContext.TestEFDomainMaps
         #endregion
 
         protected override string IDColumnName { get; } = "col_dept_id";
+        protected override SqlDbType IDColumnType { get; } = SqlDbType.Int;
 
-        protected override void SetEntitySpecificProperties()
+        protected override void SetSpecificPropertiesForEntity()
         {
             Property(p => p.DepartmentName).HasColumnName(DEPARTMENT_NAME_COLUMN_NAME);
             Property(p => p.Loaction).HasColumnName(LOCATION_COLUMN_NAME);
         }
 
         protected override string TableName { get; } = "tbl_Dept";
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository.Base;
 
 namespace FluentRepository.Abstractions

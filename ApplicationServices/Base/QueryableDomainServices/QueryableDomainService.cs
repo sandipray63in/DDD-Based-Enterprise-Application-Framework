@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure;
 using Infrastructure.Utilities;
 using Repository.Base;
+using Domain.Base.Entities;
 
 namespace DomainServices.Base.QueryableDomainServices
 {
-    public class QueryableDomainService<TEntity> : DisposableClass, IQueryableDomainService<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot
+    public class QueryableDomainService<TId,TEntity> : DisposableClass, IQueryableDomainService<TId,TEntity>
+        where TId : struct
+        where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
     {
         protected readonly IQueryableRepository<TEntity> _repository;
 
@@ -29,9 +32,9 @@ namespace DomainServices.Base.QueryableDomainServices
             return _repository.Select(x => x).ToList();
         }
 
-        public virtual TEntity GetByID(int id)
+        public virtual TEntity GetByID(TId id)
         {
-            return _repository.FirstOrDefault(x => x.Id == id);
+            return _repository.FirstOrDefault(x => x.Id.Equals(id));
         }
 
         public virtual IList<TEntity> GetByFilterExpression(Expression<Func<TEntity, bool>> whereExpression)

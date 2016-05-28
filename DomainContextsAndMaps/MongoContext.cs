@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 using MongoDB.Driver;
-using Domain.Base.Mongo;
+using Domain.Base.Entities.Mongo;
 
 namespace MongoDBDomainMaps
 {
@@ -30,8 +30,9 @@ namespace MongoDBDomainMaps
 
         #region Mongo Collection   
 
-        public IMongoCollection<TEntity> GetMongoCollection<TEntity>() 
-         where TEntity : BaseMongoIdentityAndAuditableEntity
+        public IMongoCollection<TEntity> GetMongoCollection<TId,TEntity>()
+         where TId : struct
+         where TEntity : BaseMongoEntity<TId>
         {
             return _database.GetCollection<TEntity>(typeof(TEntity).Name);
         }

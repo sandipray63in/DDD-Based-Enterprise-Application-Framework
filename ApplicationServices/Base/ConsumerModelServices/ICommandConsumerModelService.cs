@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain.Base;
+using Domain.Base.ConsumerModels;
 
 namespace DomainServices.Base.ConsumerModelServices
 {

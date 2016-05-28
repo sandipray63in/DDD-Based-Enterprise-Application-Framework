@@ -1,5 +1,5 @@
 ﻿using System;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository.Base;
 using Infrastructure.Utilities;
 using Infrastructure.WCFExtensibility.UnityIntegration;

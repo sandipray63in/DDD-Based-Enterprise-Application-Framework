@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Base;
+using Domain.Base.Aggregates;
 
 namespace DomainServices.Base.CommandDomainServices
 {

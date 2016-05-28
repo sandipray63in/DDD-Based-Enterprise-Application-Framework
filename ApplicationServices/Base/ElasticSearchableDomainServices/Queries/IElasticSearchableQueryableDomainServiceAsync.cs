@@ -5,10 +5,14 @@ using System.Threading.Tasks;
 using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
 using Repository;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public interface IElasticSearchableQueryableDomainServiceAsync<TEntity> : IQueryableDomainServiceAsync<TEntity> where TEntity : BaseIdentityAndAuditableQueryableAggregateRoot, IElasticSearchable
+    public interface IElasticSearchableQueryableDomainServiceAsync<TId,TEntity> : IQueryableDomainServiceAsync<TId,TEntity>
+        where TId : struct
+        where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
     {
         Task<IList<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
 

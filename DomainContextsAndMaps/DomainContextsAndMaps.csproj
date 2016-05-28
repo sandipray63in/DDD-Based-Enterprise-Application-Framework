@@ -323,14 +323,17 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="Z.ExtensionMethods, Version=2.0.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.ExtensionMethods.2.0.10\lib\net45\Z.ExtensionMethods.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\EFBase\BaseIdentityAndAuditableEntityMap.cs" />
-    <Compile Include="Base\EFBase\BaseIdentityAndAuditableAndSoftDeleteableAggregateRootMap.cs" />
+    <Compile Include="Base\EFBase\BaseEntityAsSoftDeleteableRootMap.cs" />
+    <Compile Include="Base\EFBase\BaseEntityRootMap.cs" />
+    <Compile Include="Base\EFBase\BaseEntityWithAuditInfoRootMap.cs" />
+    <Compile Include="Base\EFBase\BaseEntityWithAuditInfoAsSoftDeleteableRootMap.cs" />
     <Compile Include="ElasticSearchContext.cs" />
     <Compile Include="MongoContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

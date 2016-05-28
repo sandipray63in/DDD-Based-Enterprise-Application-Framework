@@ -5,20 +5,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDBDomainMaps;
-using Domain.Base.Mongo;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities.Mongo;
 using Infrastructure;
 using Infrastructure.Utilities;
 
 namespace Repository.Command
 {
-    public class MongoCommand<TEntity> : DisposableClass, ICommand<TEntity> where TEntity : BaseMongoIdentityAndAuditableCommandAggregateRoot
+    public class MongoCommand<TId,TEntity> : DisposableClass, ICommand<TEntity>
+        where TId : struct
+        where TEntity : BaseMongoEntity<TId>, ICommandAggregateRoot
     {
         private IMongoCollection<TEntity> _mongoCollection;
 
         public MongoCommand(MongoContext mongoContext)
         {
             ContractUtility.Requires<ArgumentNullException>(mongoContext != null, "mongoContext instance cannot be null");
-            _mongoCollection = mongoContext.GetMongoCollection<TEntity>();
+            _mongoCollection = mongoContext.GetMongoCollection<TId,TEntity>();
         }
 
         public void Insert(TEntity item)

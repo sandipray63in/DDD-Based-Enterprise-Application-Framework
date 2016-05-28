@@ -1,13 +1,18 @@
 ﻿using System;
-using Domain.Base;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities.WithAuditInfo;
 
 namespace TestEFDomainAndContext.TestDomains
 {
     /// <summary>
     /// If needed, Data Annotations can be applied for Business Validations/Rules
     /// </summary>
-    public class Employee : BaseIdentityAndAuditableCommandAggregateRoot, IQueryableAggregateRoot
+    public class Employee : BaseEntityWithAuditInfoAsCommandAggregateRoot<int>, IQueryableAggregateRoot
     {
+        public Employee(int id) : base(id)
+        {
+        }
+
         public string EmployeeName { get; set; }
 
         public string Job { get; set; }

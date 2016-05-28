@@ -1,5 +1,6 @@
-﻿
-namespace Domain.Base
+﻿using Domain.Base.Aggregates;
+
+namespace Domain.Base.ConsumerModels
 {
     public interface ICommandConsumerModel : ICommandAggregateRoot
     {

@@ -6,20 +6,23 @@ using System.Linq.Expressions;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using MongoDBDomainMaps;
-using Domain.Base.Mongo;
+using Domain.Base.Aggregates;
+using Domain.Base.Entities.Mongo;
 using Infrastructure;
 using Infrastructure.Utilities;
 
 namespace Repository.Queryable
 {
-    public class MongoQuery<TEntity> : DisposableClass, IQuery<TEntity> where TEntity : BaseMongoIdentityAndAuditableQueryableAggregateRoot
+    public class MongoQuery<TId,TEntity> : DisposableClass, IQuery<TEntity>
+        where TId : struct
+         where TEntity : BaseMongoEntity<TId>, IQueryableAggregateRoot
     {
         private IMongoQueryable<TEntity> _queryableMongoCollection;
 
         public MongoQuery(MongoContext mongoContext)
         {
             ContractUtility.Requires<ArgumentNullException>(mongoContext != null, "mongoContext instance cannot be null");
-            _queryableMongoCollection = mongoContext.GetMongoCollection<TEntity>().AsQueryable();
+            _queryableMongoCollection = mongoContext.GetMongoCollection<TId,TEntity>().AsQueryable();
         }
 
         /// Mongo being schemaless, doesn't require the methods below like Include and GetWithRawSql

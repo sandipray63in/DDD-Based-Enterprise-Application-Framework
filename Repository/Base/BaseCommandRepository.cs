@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure.Utilities;
 using Repository.Command;
 
 namespace Repository.Base
 {
-    public abstract class BaseCommandRepository<TEntity>
-        : BaseUnitOfWorkRepository<TEntity>, ICommandRepository<TEntity> where TEntity : ICommandAggregateRoot
+    public abstract class BaseCommandRepository<TEntity> : BaseUnitOfWorkRepository<TEntity>, ICommandRepository<TEntity> 
+        where TEntity : ICommandAggregateRoot
     {
         #region Private Fields
 
@@ -46,7 +46,7 @@ namespace Repository.Base
 
         internal override void ActualDelete(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
-            if (item is ISoftDeleteableAggregateRoot)
+            if (item is ISoftDeleteableCommandAggregateRoot)
             {
                 ActualUpdate(item);
             }
@@ -71,8 +71,8 @@ namespace Repository.Base
 
         internal override void ActualDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
-            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableAggregateRoot).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableAggregateRoot)).ToList();
+            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableCommandAggregateRoot).ToList();
+            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableCommandAggregateRoot)).ToList();
             if (softDeleteableItems.IsNotEmpty())
             {
                 ActualUpdate(softDeleteableItems);
@@ -98,8 +98,8 @@ namespace Repository.Base
 
         internal override void ActualBulkDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
-            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableAggregateRoot).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableAggregateRoot)).ToList();
+            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableCommandAggregateRoot).ToList();
+            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableCommandAggregateRoot)).ToList();
             if (softDeleteableItems.IsNotEmpty())
             {
                 ActualBulkUpdate(softDeleteableItems);
@@ -125,7 +125,7 @@ namespace Repository.Base
 
         internal override async Task ActualDeleteAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
-            if (item is ISoftDeleteableAggregateRoot)
+            if (item is ISoftDeleteableCommandAggregateRoot)
             {
                 await ActualUpdateAsync(item, token);
             }
@@ -150,8 +150,8 @@ namespace Repository.Base
 
         internal override async Task ActualDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
-            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableAggregateRoot).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableAggregateRoot)).ToList();
+            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableCommandAggregateRoot).ToList();
+            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableCommandAggregateRoot)).ToList();
             if (softDeleteableItems.IsNotEmpty())
             {
                 await ActualUpdateAsync(softDeleteableItems, token);
@@ -177,8 +177,8 @@ namespace Repository.Base
 
         internal override async Task ActualBulkDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
-            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableAggregateRoot).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableAggregateRoot)).ToList();
+            var softDeleteableItems = itemList.Where(x => x is ISoftDeleteableCommandAggregateRoot).ToList();
+            var nonSoftDeleteableItems = itemList.Where(x => !(x is ISoftDeleteableCommandAggregateRoot)).ToList();
             if (softDeleteableItems.IsNotEmpty())
             {
                 await ActualBulkUpdateAsync(softDeleteableItems, token);

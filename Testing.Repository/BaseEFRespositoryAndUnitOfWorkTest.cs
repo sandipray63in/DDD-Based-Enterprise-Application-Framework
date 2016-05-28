@@ -2,7 +2,7 @@
 using System.Transactions;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure.DI;
 using Repository;
 using Repository.Base;
@@ -12,6 +12,7 @@ using Repository.UnitOfWork;
 using UnitOfWork = Repository.UnitOfWork;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
+using Domain.Base.Entities;
 
 namespace Respository.Testing
 {
@@ -77,9 +78,9 @@ namespace Respository.Testing
         //The solution to handle multiple overloaded constructors using unity is available at
         // http://stackoverflow.com/questions/4059991/microsoft-unity-how-to-specify-a-certain-parameter-in-constructor
 
-        private void RegisterCommandRepository<TEntity>(bool isUnitOfWorkRequired = false) where TEntity : class, ICommandAggregateRoot
+        private void RegisterCommandRepository<TEntity>(bool isUnitOfWorkRequired = false) where TEntity : BaseEntity<int>, ICommandAggregateRoot
         {
-            _container.RegisterType<ICommand<TEntity>, EntityFrameworkCodeFirstCommand<TEntity>>();
+            _container.RegisterType<ICommand<TEntity>, EntityFrameworkCodeFirstCommand<int,TEntity>>();
             var context = _container.Resolve<EFTestContext>();
             var command = _container.Resolve<ICommand<TEntity>>(new ParameterOverride("dbContext", context));
             var respositoryName = isUnitOfWorkRequired ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;
@@ -156,23 +157,21 @@ namespace Respository.Testing
 
         protected Department GetDepartmentFake(int id = 1)
         {
-            var department = new Department();
-            department.Id = id;
+            var department = new Department(id);
             department.DepartmentName = "Election";
             department.Loaction = "Centre";
-            department.CreatedBy = "Sandip";
-            department.LastUpdatedBy = "Sandip";
+            department.AuditInfo.CreatedBy = "Sandip";
+            department.AuditInfo.LastUpdatedBy = "Sandip";
             return department;
         }
 
         protected Employee GetEmployeeFake(int id = 1)
         {
-            var employee = new Employee();
-            employee.Id = id;
+            var employee = new Employee(id);
             employee.EmployeeName = "Sandip";
             employee.Job = "Software Development";
-            employee.CreatedBy = "Sandip";
-            employee.LastUpdatedBy = "Sandip";
+            employee.AuditInfo.CreatedBy = "Sandip";
+            employee.AuditInfo.LastUpdatedBy = "Sandip";
             return employee;
         }
 

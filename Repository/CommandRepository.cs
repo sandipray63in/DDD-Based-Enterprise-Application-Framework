@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Repository.Base;
 using Repository.Command;
 using Repository.UnitOfWork;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure.Utilities;
 
 namespace Repository

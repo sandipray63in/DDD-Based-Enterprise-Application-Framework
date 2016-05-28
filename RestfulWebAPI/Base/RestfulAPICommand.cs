@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DomainServices.Base.CommandDomainServices;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Infrastructure.Utilities;
 
 namespace RestfulWebAPI.Base

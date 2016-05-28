@@ -1,5 +1,5 @@
 ﻿using System;
-using Domain.Base;
+using Domain.Base.Aggregates;
 using Repository.Command;
 
 namespace FluentRepository.Abstractions
