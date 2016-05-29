@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEFDomainAndContext", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentRepository", "FluentRepository\FluentRepository.csproj", "{63CA24E3-CAB5-4FC9-9231-39F9FE6597C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices", "ApplicationServices\DomainServices.csproj", "{2F49DA34-3980-437B-A579-9E73BD43677D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices", "DomainServices\DomainServices.csproj", "{2F49DA34-3980-437B-A579-9E73BD43677D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulWebAPI", "RestfulWebAPI\RestfulWebAPI.csproj", "{52709B01-E25E-4C4F-B479-E5FCF916361D}"
 EndProject
