@@ -3,10 +3,10 @@
 namespace Domain.Base.Entities
 {
     /// <summary>
-    /// Really wanted to remove all the dulications in this Entities folder to make things cleaner.
+    /// Really wanted to remove all the duplications in this Entities folder to make things cleaner.
     /// A question has been raised in stackoverflow regarding the same viz. 
     /// http://stackoverflow.com/questions/37510656/c-sharp-generic-dynamic-inheritance.
-    /// If some good concrete solution is provided from there then I will try to update the 
+    /// If some good concrete solution is provided there then I will try to update the 
     /// same in this code.
     /// </summary>
     /// <typeparam name="TId"></typeparam>
