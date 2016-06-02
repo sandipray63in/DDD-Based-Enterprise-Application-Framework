@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Repository.Base;
@@ -93,11 +92,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterInsertList(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterInsertList(items, this);
             }
             else
             {
@@ -111,11 +106,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeUpdatedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeUpdatedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterUpdateList(canBeUpdatedItems, this);
-                }
+                _unitOfWork.RegisterUpdateList(items, this);
             }
             else
             {
@@ -129,11 +120,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeDeletedItems = items.Where(item => item.CanBeDeleted).ToList();
-                if (canBeDeletedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterDeleteList(canBeDeletedItems, this);
-                }
+                _unitOfWork.RegisterDeleteList(items, this);
             }
             else
             {
@@ -147,11 +134,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterBulkInsertList(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterBulkInsertList(items, this);
             }
             else
             {
@@ -165,11 +148,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeUpdatedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeUpdatedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterBulkUpdateList(canBeUpdatedItems, this);
-                }
+                _unitOfWork.RegisterBulkUpdateList(items, this);
             }
             else
             {
@@ -183,11 +162,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeDeletedItems = items.Where(item => item.CanBeDeleted).ToList();
-                if (canBeDeletedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterBulkDeleteList(canBeDeletedItems, this);
-                }
+                _unitOfWork.RegisterBulkDeleteList(items, this);
             }
             else
             {
@@ -240,11 +215,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterInsertListForAsync(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterInsertListForAsync(items, this);
             }
             else
             {
@@ -258,11 +229,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterUpdateListForAsync(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterUpdateListForAsync(items, this);
             }
             else
             {
@@ -276,11 +243,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterDeleteListForAsync(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterDeleteListForAsync(items, this);
             }
             else
             {
@@ -294,11 +257,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterBulkInsertListForAsync(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterBulkInsertListForAsync(items, this);
             }
             else
             {
@@ -312,11 +271,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterBulkUpdateListForAsync(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterBulkUpdateListForAsync(items, this);
             }
             else
             {
@@ -330,11 +285,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                var canBeInsertedItems = items.Where(item => item.CanBeSaved).ToList();
-                if (canBeInsertedItems.IsNotNullOrEmpty())
-                {
-                    _unitOfWork.RegisterBulkDeleteListAsync(canBeInsertedItems, this);
-                }
+                _unitOfWork.RegisterBulkDeleteListAsync(items, this);
             }
             else
             {

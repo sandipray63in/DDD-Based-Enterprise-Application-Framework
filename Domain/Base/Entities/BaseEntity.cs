@@ -2,14 +2,6 @@
 
 namespace Domain.Base.Entities
 {
-    /// <summary>
-    /// Really wanted to remove all the duplications in this Entities folder to make things cleaner.
-    /// A question has been raised in stackoverflow regarding the same viz. 
-    /// http://stackoverflow.com/questions/37510656/c-sharp-generic-dynamic-inheritance.
-    /// If some good concrete solution is provided there then I will try to update the 
-    /// same in this code.
-    /// </summary>
-    /// <typeparam name="TId"></typeparam>
     public abstract class BaseEntity<TId> : IEquatable<BaseEntity<TId>>
         where TId : struct
     {
@@ -17,10 +9,7 @@ namespace Domain.Base.Entities
 
         public BaseEntity(TId id)
         {
-            if (object.Equals(id, default(TId)))
-            {
-                throw new ArgumentException("The ID cannot be the default value.", "id");
-            }
+            DomainContractUtility.Requires<ArgumentException>(object.Equals(id, default(TId)), "The ID cannot be the default value.");
             this.Id = id;
         }
 

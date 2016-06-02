@@ -298,32 +298,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\AddOnObjects%28Functionalities%29\IAddOnObject.cs" />
+    <Compile Include="Base\AddOnObjects%28Functionalities%29\INoSqlAddOnObject.cs" />
+    <Compile Include="Base\AddOnObjects%28Functionalities%29\VersionInfo.cs" />
     <Compile Include="Base\Entities\BaseEntity.cs" />
-    <Compile Include="Base\Entities\Mongo\BaseMongoEntityAsCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\Mongo\BaseMongoEntityAsQueryableAggregateRoot.cs" />
-    <Compile Include="Base\Entities\Mongo\BaseMongoEntityAsSoftDeleteableCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\Mongo\BaseMongoEntity.cs" />
-    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfo.cs" />
-    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfoAsCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfoAsQueryableAggregateRoot.cs" />
-    <Compile Include="Base\Entities\Mongo\WithAuditInfo\BaseMongoEntityWithAuditInfoAsSoftDeleteableCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfoAsCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfoAsQueryableAggregateRoot.cs" />
-    <Compile Include="Base\Entities\BaseEntityAsQueryableAggregateRoot.cs" />
-    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfoAsSoftDeleteableCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\BaseEntityAsSoftDeleteableCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\BaseEntityAsCommandAggregateRoot.cs" />
-    <Compile Include="Base\Entities\WithAuditInfo\BaseEntityWithAuditInfo.cs" />
-    <Compile Include="Base\IVersionable.cs" />
+    <Compile Include="Base\Entities\Composites\BaseEntityComposite.cs" />
     <Compile Include="Base\Aggregates\ICommandAggregateRoot.cs" />
     <Compile Include="Base\ICacheable.cs" />
     <Compile Include="Base\ConsumerModels%28DTOs%29\ICommandConsumerModel.cs" />
     <Compile Include="Base\IElasticSearchable.cs" />
     <Compile Include="Base\ConsumerModels%28DTOs%29\IQueryableConsumerModel.cs" />
     <Compile Include="Base\Aggregates\IQueryableAggregateRoot.cs" />
-    <Compile Include="Base\Aggregates\ISoftDeleteableCommandAggregateRoot.cs" />
-    <Compile Include="Base\ValueObjects\AuditInfo.cs" />
+    <Compile Include="Base\AddOnObjects%28Functionalities%29\AuditInfo.cs" />
     <Compile Include="Base\ValueObjects\BaseValueObject.cs" />
+    <Compile Include="Base\AddOnObjects%28Functionalities%29\MongoInfo.cs" />
+    <Compile Include="Base\AddOnObjects%28Functionalities%29\SoftDeleteableInfo.cs" />
+    <Compile Include="DomainContractUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

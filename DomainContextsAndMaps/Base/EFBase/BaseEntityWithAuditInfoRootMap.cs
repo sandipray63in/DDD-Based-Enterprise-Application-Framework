@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Data.Entity.ModelConfiguration.Configuration;
-using Domain.Base.Entities.WithAuditInfo;
 using Infrastructure.Utilities;
+using Domain.Base.AddOnObjects;
+using Domain.Base.Entities.Composites;
 
 namespace DomainContextsAndMaps.Base.EFBase
 {
     public abstract class BaseEntityWithAuditInfoRootMap<TId, TEntity> : BaseEntityRootMap<TId, TEntity>
         where TId : struct
-        where TEntity : BaseEntityWithAuditInfo<TId>
+        where TEntity : BaseEntityComposite<TId,AuditInfo>
     {
         #region Actual Audit Columns Overridables
 
@@ -27,10 +28,10 @@ namespace DomainContextsAndMaps.Base.EFBase
 
             SetSpecificPropertiesForEntity();
 
-            ExtendCreatedByPropertyWithOtherConfigurations(Property(p => p.AuditInfo.CreatedBy).HasColumnName(CreatedByColumnName));
-            ExtendCreationDatePropertyWithOtherConfigurations(Property(p => p.AuditInfo.CreatedOn).HasColumnName(CreationDateColumnName));
-            ExtendLastUpdatedByPropertyWithOtherConfigurations(Property(p => p.AuditInfo.LastUpdatedBy).HasColumnName(LastUpdatedByColumnName));
-            ExtendLastUpdatedDatePropertyWithOtherConfigurations(Property(p => p.AuditInfo.LastUpdateOn).HasColumnName(LastUpdationDateColumnName));
+            ExtendCreatedByPropertyWithOtherConfigurations(Property(p => p.T1Data.CreatedBy).HasColumnName(CreatedByColumnName));
+            ExtendCreationDatePropertyWithOtherConfigurations(Property(p => p.T1Data.CreatedOn).HasColumnName(CreationDateColumnName));
+            ExtendLastUpdatedByPropertyWithOtherConfigurations(Property(p => p.T1Data.LastUpdatedBy).HasColumnName(LastUpdatedByColumnName));
+            ExtendLastUpdatedDatePropertyWithOtherConfigurations(Property(p => p.T1Data.LastUpdateOn).HasColumnName(LastUpdationDateColumnName));
         }
 
         protected abstract void SetSpecificPropertiesForEntity();

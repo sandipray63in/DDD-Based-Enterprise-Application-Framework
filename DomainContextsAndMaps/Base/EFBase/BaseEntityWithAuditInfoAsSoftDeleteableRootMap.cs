@@ -1,19 +1,20 @@
 ﻿using System.Data.Entity.ModelConfiguration.Configuration;
-using Domain.Base.Entities.WithAuditInfo;
+using Domain.Base.AddOnObjects;
+using Domain.Base.Entities.Composites;
 
 namespace DomainContextsAndMaps.Base.EFBase
 {
     public abstract class BaseEntityWithAuditInfoAsSoftDeleteableRootMap<TId,TEntity> : BaseEntityWithAuditInfoRootMap<TId, TEntity>
         where TId : struct
-        where TEntity : BaseEntityWithAuditInfoAsSoftDeleteableCommandAggregateRoot<TId>
+        where TEntity : BaseEntityComposite<TId, AuditInfo,SoftDeleteableInfo>
     {
         protected virtual string IsDeletedColumnName { get; } = "col_is_deleted";
         protected virtual string DeletedOnColumnName { get; } = "col_deleted_on";
 
         protected override void SetSpecificPropertiesForEntity()
         {
-            ExtendIsDeletedPropertyWithOtherConfigurations(Property(p => p.IsDeleted).HasColumnName(IsDeletedColumnName));
-            ExtendDeletedOnPropertyWithOtherConfigurations(Property(p => p.DeletedOn).HasColumnName(DeletedOnColumnName));
+            ExtendIsDeletedPropertyWithOtherConfigurations(Property(p => p.T2Data.IsDeleted).HasColumnName(IsDeletedColumnName));
+            ExtendDeletedOnPropertyWithOtherConfigurations(Property(p => p.T2Data.DeletedOn).HasColumnName(DeletedOnColumnName));
         }
 
         #region Overrideable Configuration Extensions

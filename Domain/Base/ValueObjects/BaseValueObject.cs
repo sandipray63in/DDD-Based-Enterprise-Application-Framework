@@ -12,8 +12,8 @@ namespace Domain.Base.ValueObjects
 
         public bool Equals(TValue other)
         {
-            return other.IsNull() ? false : GetAttributesToIncludeInEqualityCheck()
-            .SequenceEqual(other.GetAttributesToIncludeInEqualityCheck());
+            return other.IsNull() ? false : GetPropertiesToIncludeInEqualityCheck()
+            .SequenceEqual(other.GetPropertiesToIncludeInEqualityCheck());
         }
 
         public static bool operator ==(BaseValueObject<TValue> left, BaseValueObject<TValue> right)
@@ -29,13 +29,13 @@ namespace Domain.Base.ValueObjects
         public override int GetHashCode()
         {
             var hash = 17;
-            this.GetAttributesToIncludeInEqualityCheck().ToList().ForEach(obj =>
+            this.GetPropertiesToIncludeInEqualityCheck().ToList().ForEach(obj =>
             {
                 hash = hash * 31 + (obj.IsNull() ? 0 : obj.GetHashCode());
             });
             return hash;
         }
 
-        protected abstract IEnumerable<object> GetAttributesToIncludeInEqualityCheck();
+        protected abstract IEnumerable<object> GetPropertiesToIncludeInEqualityCheck();
     }
 }

@@ -5,8 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDBDomainMaps;
+using Domain.Base.AddOnObjects;
 using Domain.Base.Aggregates;
-using Domain.Base.Entities.Mongo;
+using Domain.Base.Entities.Composites;
 using Infrastructure;
 using Infrastructure.Utilities;
 
@@ -14,7 +15,7 @@ namespace Repository.Command
 {
     public class MongoCommand<TId,TEntity> : DisposableClass, ICommand<TEntity>
         where TId : struct
-        where TEntity : BaseMongoEntity<TId>, ICommandAggregateRoot
+        where TEntity : BaseEntityComposite<TId, MongoInfo>, ICommandAggregateRoot
     {
         private IMongoCollection<TEntity> _mongoCollection;
 
@@ -32,12 +33,12 @@ namespace Repository.Command
         public void Update(TEntity item)
         {
             ///TODO - Need to test this.
-            _mongoCollection.UpdateOne(x => x.MongoId == item.MongoId, null);
+            _mongoCollection.UpdateOne(x => x.T1Data.MongoId == item.T1Data.MongoId, null);
         }
 
         public void Delete(TEntity item)
         {
-            _mongoCollection.DeleteOne(x => x.MongoId == item.MongoId);
+            _mongoCollection.DeleteOne(x => x.T1Data.MongoId == item.T1Data.MongoId);
         }
 
         public void Insert(IList<TEntity> items)
@@ -48,12 +49,12 @@ namespace Repository.Command
         public void Update(IList<TEntity> items)
         {
             ///TODO - Need to test this.
-            _mongoCollection.UpdateMany(x => items.Select(y => y.MongoId).Distinct().Contains(x.MongoId), null);
+            _mongoCollection.UpdateMany(x => items.Select(y => y.T1Data.MongoId).Distinct().Contains(x.T1Data.MongoId), null);
         }
 
         public void Delete(IList<TEntity> items)
         {
-            _mongoCollection.DeleteMany(x => items.Select(y => y.MongoId).Distinct().Contains(x.MongoId));
+            _mongoCollection.DeleteMany(x => items.Select(y => y.T1Data.MongoId).Distinct().Contains(x.T1Data.MongoId));
         }
 
         public void BulkInsert(IList<TEntity> items)
@@ -79,12 +80,12 @@ namespace Repository.Command
         public async Task UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken))
         {
             ///TODO - Need to test this.
-            await _mongoCollection.UpdateOneAsync(x => x.MongoId == item.MongoId, null,cancellationToken:token);
+            await _mongoCollection.UpdateOneAsync(x => x.T1Data.MongoId == item.T1Data.MongoId, null,cancellationToken:token);
         }
 
         public async Task DeleteAsync(TEntity item, CancellationToken token = default(CancellationToken))
         {
-            await _mongoCollection.DeleteOneAsync(x => x.MongoId == item.MongoId,token);
+            await _mongoCollection.DeleteOneAsync(x => x.T1Data.MongoId == item.T1Data.MongoId,token);
         }
 
         public async Task InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
@@ -95,12 +96,12 @@ namespace Repository.Command
         public async Task UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
             ///TODO - Need to test this.
-            await _mongoCollection.UpdateManyAsync(x => items.Select(y => y.MongoId).Distinct().Contains(x.MongoId), null,cancellationToken:token);
+            await _mongoCollection.UpdateManyAsync(x => items.Select(y => y.T1Data.MongoId).Distinct().Contains(x.T1Data.MongoId), null,cancellationToken:token);
         }
 
         public async Task DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
-           await _mongoCollection.DeleteManyAsync(x => items.Select(y => y.MongoId).Distinct().Contains(x.MongoId),token);
+           await _mongoCollection.DeleteManyAsync(x => items.Select(y => y.T1Data.MongoId).Distinct().Contains(x.T1Data.MongoId),token);
         }
 
         public async Task BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))

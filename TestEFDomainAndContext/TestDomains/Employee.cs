@@ -1,13 +1,14 @@
 ﻿using System;
 using Domain.Base.Aggregates;
-using Domain.Base.Entities.WithAuditInfo;
+using Domain.Base.AddOnObjects;
+using Domain.Base.Entities.Composites;
 
 namespace TestEFDomainAndContext.TestDomains
 {
     /// <summary>
     /// If needed, Data Annotations can be applied for Business Validations/Rules
     /// </summary>
-    public class Employee : BaseEntityWithAuditInfoAsCommandAggregateRoot<int>, IQueryableAggregateRoot
+    public class Employee : BaseEntityComposite<int,AuditInfo>,ICommandAggregateRoot, IQueryableAggregateRoot
     {
         public Employee(int id) : base(id)
         {

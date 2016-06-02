@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using MongoDB.Driver;
-using Domain.Base.Entities.Mongo;
+using Domain.Base.AddOnObjects;
+using Domain.Base.Entities.Composites;
 
 namespace MongoDBDomainMaps
 {
@@ -32,7 +33,7 @@ namespace MongoDBDomainMaps
 
         public IMongoCollection<TEntity> GetMongoCollection<TId,TEntity>()
          where TId : struct
-         where TEntity : BaseMongoEntity<TId>
+         where TEntity : BaseEntityComposite<TId,MongoInfo>
         {
             return _database.GetCollection<TEntity>(typeof(TEntity).Name);
         }

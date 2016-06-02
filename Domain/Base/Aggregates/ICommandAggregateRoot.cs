@@ -2,18 +2,11 @@
 namespace Domain.Base.Aggregates
 {
     /// <summary>
-    /// Defines an entity type that can be an aggregate root
+    /// A marker/tagging interface to mark/tag a class(a domain entity) that it is a command aggregate root via  
+    /// ICommandAggregateRoot
     /// </summary>
     public interface ICommandAggregateRoot
     {
-        /// <summary>
-        /// Gets wether the current aggregate can be saved
-        /// </summary>
-        bool CanBeSaved { get; }
-
-        /// <summary>
-        /// Gets wether the current aggregate can be deleted
-        /// </summary>
-        bool CanBeDeleted { get; }
+        
     }
 }

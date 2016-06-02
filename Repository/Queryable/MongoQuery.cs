@@ -6,8 +6,9 @@ using System.Linq.Expressions;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using MongoDBDomainMaps;
+using Domain.Base.AddOnObjects;
 using Domain.Base.Aggregates;
-using Domain.Base.Entities.Mongo;
+using Domain.Base.Entities.Composites;
 using Infrastructure;
 using Infrastructure.Utilities;
 
@@ -15,7 +16,7 @@ namespace Repository.Queryable
 {
     public class MongoQuery<TId,TEntity> : DisposableClass, IQuery<TEntity>
         where TId : struct
-         where TEntity : BaseMongoEntity<TId>, IQueryableAggregateRoot
+         where TEntity : BaseEntityComposite<TId, MongoInfo>, IQueryableAggregateRoot
     {
         private IMongoQueryable<TEntity> _queryableMongoCollection;
 

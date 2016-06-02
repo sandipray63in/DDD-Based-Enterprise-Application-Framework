@@ -18,7 +18,9 @@ namespace TestEFDomainAndContext
         : base("EFTestContext")
         {
             Database.SetInitializer<EFTestContext>(new CreateDatabaseIfNotExists<EFTestContext>());
-            this.Configuration.LazyLoadingEnabled = true;
+            ///Set to false, since ideally  in a DDD environment all the data related to an 
+            ///Aggregate Root should be fetched in one shot.
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public EFTestContext(string connectionString)

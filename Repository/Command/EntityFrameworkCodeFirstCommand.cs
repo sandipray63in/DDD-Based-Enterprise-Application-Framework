@@ -6,11 +6,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Z.BulkOperations;
+using Domain.Base.AddOnObjects;
 using Domain.Base.Aggregates;
+using Domain.Base.Entities.Composites;
 using Domain.Base.Entities;
 using Infrastructure;
 using Infrastructure.Utilities;
-using Domain.Base.Entities.WithAuditInfo;
 
 namespace Repository.Command
 {
@@ -322,25 +323,25 @@ namespace Repository.Command
         private void ApplyAuditInfoRules()
         {
             var changedAudits = _dbContext.ChangeTracker.Entries()
-                                 .Where(e => e.Entity is BaseEntityWithAuditInfoAsCommandAggregateRoot<TId>
+                                 .Where(e => e.Entity is BaseEntityComposite<TId,AuditInfo>
                                  && ((e.State == EntityState.Added)
                                  || (e.State == EntityState.Modified)));
 
             changedAudits.ForEach(entry =>
             {
-                var entity = entry.Entity as BaseEntityWithAuditInfoAsCommandAggregateRoot<TId>;
-                if (entity.AuditInfo.IsNotNull())
+                var entity = entry.Entity as BaseEntityComposite<TId, AuditInfo>;
+                if (entity.T1Data.IsNotNull())
                 {
                     if (entry.State == EntityState.Added)
                     {
-                        if (!entity.AuditInfo.PreserveCreatedOn)
+                        if (!entity.T1Data.PreserveCreatedOn)
                         {
-                            entity.AuditInfo.CreatedOn = DateTime.Now;
+                            entity.T1Data.CreatedOn = DateTime.Now;
                         }
                     }
                     else
                     {
-                        entity.AuditInfo.LastUpdateOn = DateTime.Now;
+                        entity.T1Data.LastUpdateOn = DateTime.Now;
                     }
                 }
             });
