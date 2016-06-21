@@ -47,7 +47,7 @@ References(not that everything mentioned below is referred to build this framewo
 6) [Domain Driven Design Wiki](https://en.wikipedia.org/wiki/Domain-driven_design)  
 7) Some good open source DDD apps- [I](http://stackoverflow.com/questions/152120/are-there-any-open-source-projects-using-ddd-domain-driven-design) and [II](http://stackoverflow.com/questions/540130/good-domain-driven-design-samples)  
 8) [HTTP: The Definitive Guide](shop.oreilly.com/product/9781565925090.do) and [Restful Web Services](https://www.crummy.com/writing/RESTful-Web-Services/html/)  
-9) [Restful Web APIs](http://shop.oreilly.com/product/0636920028468.do) and [Rest in Practice](http://shop.oreilly.com/product/9780596805838.do)  
+9) [Restful Web APIs](http://shop.oreilly.com/product/0636920028468.do) and [Rest Web Services Cookbook](http://shop.oreilly.com/product/9780596801694.do)  
 10) [Almost Anything and Everything about ASP.NET Web API](http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api)(including [ASP.NET WEB API 2: HTTP MESSAGE LIFECYLE](http://www.asp.net/media/4071077/aspnet-web-api-poster.pdf))    
 11) [Designing Evolvable Web APIs with ASP.NET](http://chimera.labs.oreilly.com/books/1234000001708)  
 12) [24 Deadly Sins of Software Security](http://www.amazon.in/Deadly-Sins-Software-Security-Programming/dp/0071626751), [Federated Identity](https://en.wikipedia.org/wiki/Federated_identity),[Guide to Claims based Identity and Access Control](https://msdn.microsoft.com/en-us/library/ff423674.aspx) and [An Updated Look At Choosing Between OAuth2 and SAML](https://www.mutuallyhuman.com/blog/2015/07/17/an-updated-look-at-choosing-between-oauth2-and-saml/)  
