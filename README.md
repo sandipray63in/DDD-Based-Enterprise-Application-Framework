@@ -22,7 +22,7 @@ Pending Tasks ->
 
 • Incorporation of some Restful stuffs(again the core framework elements), including one of the major strategic DDD pattern -   
   "Event Driven Rest" which is one of the best Integration options based on pure HTTP and optimal for scenarios where Eventual Consistency rather than Transaction Consistency should be the way to go.     
-  N.B. -> One can refer the paper - [Your Coffe Shop Doesn't use 2 phase commit](http://www.enterpriseintegrationpatterns.com/docs/IEEE_Software_Design_2PC.pdf)(written by the Integration genius - Gregor Hohpe, author of the Integration Bible viz. [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/)) to see how apps can be implemented without using Transactional Consistency.
+  N.B. -> One can refer the paper - [Your Coffe Shop Doesn't use 2 phase commit](http://www.enterpriseintegrationpatterns.com/docs/IEEE_Software_Design_2PC.pdf)(written by the Integration genius - Gregor Hohpe, co-author of the Integration Bible viz. [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/)) to see how apps can be implemented without using Transactional Consistency.
 
 • Will use SQL Express for integration testing of Transaction Management.SQL CE and SQL Lite seems to have lot of issues in this respect (alongwith not supporting DateTimeOffset). Don't want to spend much time on SQL CE/Lite just for testing purpose.
 
