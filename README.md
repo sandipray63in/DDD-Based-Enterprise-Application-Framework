@@ -53,7 +53,7 @@ References(not that everything mentioned below is referred to build this framewo
 12) [SignalR Programming in Microsoft ASP.NET](https://blogs.msdn.microsoft.com/microsoft_press/2014/02/13/new-book-signalr-programming-in-microsoft-asp-net/) and [SignalR Blueprints](https://www.packtpub.com/web-development/signalr-blueprints)     
 13) [Single Page Web Applications](https://www.manning.com/books/single-page-web-applications)  
 14) [Telerik Academy's ShowcaseSystem(having a quite good SPA sample using Angular.js)](https://github.com/TelerikAcademy/ShowcaseSystem)  
-15) [HTML Object](https://github.com/SpoonX/html-object)
+15)[FluentHTML](https://github.com/loresoft/FluentHtml/tree/master/Source/FluentHtml/Fluent), [Fluent Bootstrap](http://fluentbootstrap.com/GettingStarted), [Fluent HTML for PHP](https://github.com/fewagency/fluent-html), [HTML Object](https://github.com/SpoonX/html-object) and [Tag Builder](https://github.com/rwhitmire/tag-builder)     
 
 Other Good Resources – Most of the references mentioned above are really good(especially for developing this Application Framework) but the resources mentioned  below can hopefully make you a better Coder/Designer/Architect/Systems Programmer –>     
 
