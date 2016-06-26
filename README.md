@@ -40,7 +40,7 @@ Pending Tasks ->
 
 References(not that everything mentioned below is referred to build this framework, but atleast some bits of each of these awesome resources mentioned below have been referred or will be referred) -   
 1) [Patterns, Principles and Practices of Domain Driven Design](http://www.wrox.com/WileyCDA/WroxTitle/Patterns-Principles-and-Practices-of-Domain-Driven-Design.productCd-1118714709.html)  
-2) [Implementing Domain Driven Design](https://vaughnvernon.co/?page_id=168) and [Domain Driven Design Using SpringTrader](https://blog.pivotal.io/pivotal/products/springone-video-domain-driven-design-using-springtrader)
+2) [Implementing Domain Driven Design](https://vaughnvernon.co/?page_id=168) and [Domain Driven Design Using SpringTrader](https://blog.pivotal.io/pivotal/products/springone-video-domain-driven-design-using-springtrader)    
 3) [CQRS Journey](https://msdn.microsoft.com/en-us/library/jj554200.aspx)  
 4) [Javascript Domain Driven Design](https://www.packtpub.com/web-development/javascript-domain-driven-design)  
 5) [Coding for Domain Driven Design](https://msdn.microsoft.com/en-us/magazine/dn342868.aspx)  
