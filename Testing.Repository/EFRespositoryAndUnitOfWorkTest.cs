@@ -6,14 +6,14 @@ using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Effort.Provider;
 using FluentAssertions;
+using Repository;
 using Repository.Base;
 using Repository.Command;
 using Repository.UnitOfWork;
-using Respository.Testing;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 
-namespace Repository.Testing
+namespace Testing.Respository
 {
     /// <summary>
     /// This library is more of Integration Testing rather than unit testing although it's not directly interacting with any 

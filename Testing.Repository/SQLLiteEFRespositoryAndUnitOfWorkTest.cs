@@ -2,15 +2,15 @@
 using System.Linq;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Respository.Testing;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 using FluentAssertions;
+using Repository;
 using Repository.Command;
 using Repository.UnitOfWork;
 using Repository.Base;
 
-namespace Repository.Testing
+namespace Testing.Respository
 {
     /// <summary>
     /// Using SQL Lite instead of SQL CE since SQL CE has issues related to TransactionScope as 

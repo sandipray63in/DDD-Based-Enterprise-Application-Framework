@@ -298,22 +298,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstractions\IFluentCommandPersistance.cs" />
-    <Compile Include="Abstractions\IFluentCommandRepository.cs" />
-    <Compile Include="Abstractions\IFluentSetUpAndExecution.cs" />
-    <Compile Include="Abstractions\IFluentQueries.cs" />
-    <Compile Include="Abstractions\IFluentQueryRepository.cs" />
-    <Compile Include="Abstractions\IFluentRepositoryAndUnitOfWork.cs" />
-    <Compile Include="Abstractions\IFluentCommands.cs" />
+    <Compile Include="FluentImplementations\FluentQueryRepository.cs" />
+    <Compile Include="FluentInterfaces\IFluentCommandAndQueryRepository.cs" />
+    <Compile Include="FluentInterfaces\IFluentCommandRepository.cs" />
+    <Compile Include="FluentInterfaces\IFluentQueryRepository.cs" />
+    <Compile Include="FluentInterfaces\IFluentSetUpAndExecution.cs" />
+    <Compile Include="FluentInterfaces\IFluentQueries.cs" />
+    <Compile Include="FluentInterfaces\IFluentCommands.cs" />
     <Compile Include="CommandsAndQueriesPersistanceAndRespositoryData.cs" />
     <Compile Include="FluentRepository.cs" />
-    <Compile Include="Implementations\FluentCommandPersistance.cs" />
-    <Compile Include="Implementations\FluentCommandRepository.cs" />
-    <Compile Include="Implementations\FluentSetUpAndExecution.cs" />
-    <Compile Include="Implementations\FluentQueries.cs" />
-    <Compile Include="Implementations\FluentQueryRepository.cs" />
-    <Compile Include="Implementations\FluentRepositoryAndUnitOfWork.cs" />
-    <Compile Include="Implementations\FluentCommands.cs" />
+    <Compile Include="FluentImplementations\FluentCommandAndQueryRepository.cs" />
+    <Compile Include="FluentImplementations\FluentCommandRepository.cs" />
+    <Compile Include="FluentImplementations\FluentSetUpAndExecution.cs" />
+    <Compile Include="FluentImplementations\FluentQueries.cs" />
+    <Compile Include="FluentImplementations\FluentCommands.cs" />
     <Compile Include="OperationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWorkData.cs" />

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Domain.Base.Aggregates;
 using Repository.Base;
 
-namespace FluentRepository.Abstractions
+namespace FluentRepository.FluentInterfaces
 {
     public interface IFluentSetUpAndExecution
     {

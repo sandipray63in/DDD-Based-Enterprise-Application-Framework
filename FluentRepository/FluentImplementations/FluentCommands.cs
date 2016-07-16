@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Domain.Base.Aggregates;
-using FluentRepository.Abstractions;
+using FluentRepository.FluentInterfaces;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
 
-namespace FluentRepository.Implementations
+namespace FluentRepository.FluentImplementations
 {
     internal class FluentCommands : FluentSetUpAndExecution,IFluentCommands
     {

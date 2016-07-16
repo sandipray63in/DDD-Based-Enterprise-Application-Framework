@@ -9,6 +9,8 @@ namespace FluentRepository
 
         internal Func<dynamic> CommandRepositoryFunc { get; set; }
 
+        internal Func<dynamic> QueryPersistanceFunc { get; set; }
+
         internal Func<dynamic> CommandPersistanceFunc { get; set; }
 
         internal Queue<OperationData> OpreationsQueue { get; set; }

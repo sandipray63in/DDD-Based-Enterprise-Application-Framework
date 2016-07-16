@@ -4,10 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Infrastructure;
 using Repository.Command;
-using Respository.Testing.ServiceReferences;
+using Testing.Respository.ServiceReferences;
 using TestEFDomainAndContext.TestDomains;
 
-namespace Respository.Testing
+namespace Testing.Respository
 {
     /// <summary>
     /// Although here it's mostly of a wrappaer class but in real scenario there can be complex business

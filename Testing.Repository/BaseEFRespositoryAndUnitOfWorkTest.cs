@@ -3,6 +3,7 @@ using System.Transactions;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 using Infrastructure.DI;
 using Repository;
 using Repository.Base;
@@ -12,9 +13,8 @@ using Repository.UnitOfWork;
 using UnitOfWork = Repository.UnitOfWork;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
-using Domain.Base.Entities;
 
-namespace Respository.Testing
+namespace Testing.Respository
 {
     [TestClass]
     public abstract class BaseEFRespositoryAndUnitOfWorkTest
@@ -158,7 +158,7 @@ namespace Respository.Testing
         protected Department GetDepartmentFake(int id = 1)
         {
             var department = new Department(id);
-            department.DepartmentName = "Election";
+            department.DepartmentName = "Election"; 
             department.Loaction = "Centre";
             department.T1Data.CreatedBy = "Sandip";
             department.T1Data.LastUpdatedBy = "Sandip";

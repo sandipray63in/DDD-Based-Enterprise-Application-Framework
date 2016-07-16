@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Base.Aggregates;
-using FluentRepository.Abstractions;
+using FluentRepository.FluentInterfaces;
 using Infrastructure.Utilities;
 using Infrastructure.Extensions;
 using Repository.Base;
 
-namespace FluentRepository.Implementations
+namespace FluentRepository.FluentImplementations
 {
     internal class FluentQueries : FluentSetUpAndExecution,IFluentQueries
     {

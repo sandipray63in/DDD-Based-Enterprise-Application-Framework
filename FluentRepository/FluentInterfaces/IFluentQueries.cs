@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Domain.Base.Aggregates;
 using Repository.Base;
 
-namespace FluentRepository.Abstractions
+namespace FluentRepository.FluentInterfaces
 {
     public interface IFluentQueries : IFluentSetUpAndExecution
     {

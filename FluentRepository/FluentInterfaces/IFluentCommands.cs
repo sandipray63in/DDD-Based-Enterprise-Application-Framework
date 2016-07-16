@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Domain.Base.Aggregates;
 
-namespace FluentRepository.Abstractions
+namespace FluentRepository.FluentInterfaces
 {
     public interface IFluentCommands : IFluentSetUpAndExecution
     {

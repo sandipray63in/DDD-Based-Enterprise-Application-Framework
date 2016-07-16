@@ -2,36 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Base.Aggregates;
-using FluentRepository.Abstractions;
+using FluentRepository.FluentInterfaces;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
 using Repository.Command;
 
-namespace FluentRepository.Implementations
+namespace FluentRepository.FluentImplementations
 {
-    internal class FluentCommandRepository : IFluentCommandRepository
+    internal class FluentCommandRepository : FluentCommands, IFluentCommandRepository
     {
-        private UnitOfWorkData _unitOfWorkData;
         private Func<dynamic> _commandRepositoryFunc;
-        private IList<CommandsAndQueriesPersistanceAndRespositoryData> _commandsAndQueriesPersistanceAndRespositoryDataList;
 
-        internal FluentCommandRepository(UnitOfWorkData unitOfWorkData, Func<dynamic> commandRepositoryFunc)
+        internal FluentCommandRepository(UnitOfWorkData unitOfWorkData, Func<dynamic> commandRepositoryFunc, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsAndQueriesPersistanceAndRespositoryDataList) : base(unitOfWorkData, commandsAndQueriesPersistanceAndRespositoryDataList)
         {
-            ContractUtility.Requires<ArgumentNullException>(unitOfWorkData.IsNotNull(), "unitOfWorkData instance cannot be null");
             ContractUtility.Requires<ArgumentNullException>(commandRepositoryFunc.IsNotNull(), "commandRepositoryFunc instance cannot be null");
-            _unitOfWorkData = unitOfWorkData;
-            _commandRepositoryFunc = commandRepositoryFunc;
-            _commandsAndQueriesPersistanceAndRespositoryDataList = new List<CommandsAndQueriesPersistanceAndRespositoryData>();
-            SetUpCommandsAndQueriesPersistanceAndRespositoryDataList();
-        }
-
-        internal FluentCommandRepository(UnitOfWorkData unitOfWorkData, Func<dynamic> commandRepositoryFunc, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsAndQueriesPersistanceAndRespositoryDataList)
-        {
-            ContractUtility.Requires<ArgumentNullException>(unitOfWorkData.IsNotNull(), "unitOfWorkFunc instance cannot be null");
-            ContractUtility.Requires<ArgumentNullException>(commandRepositoryFunc.IsNotNull(), "commandRepositoryFunc instance cannot be null");
-            ContractUtility.Requires<ArgumentNullException>(commandsAndQueriesPersistanceAndRespositoryDataList.IsNotNull(), "commandsPersistanceAndRespositoryDataList instance cannot be null");
-            ContractUtility.Requires<ArgumentNullException>(commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty(), "commandsPersistanceAndRespositoryDataList cannot be empty");
-            _unitOfWorkData = unitOfWorkData;
             _commandRepositoryFunc = commandRepositoryFunc;
             _commandsAndQueriesPersistanceAndRespositoryDataList = commandsAndQueriesPersistanceAndRespositoryDataList;
             if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotNull())
@@ -47,7 +31,7 @@ namespace FluentRepository.Implementations
             SetUpCommandsAndQueriesPersistanceAndRespositoryDataList();
         }
 
-        public IFluentCommandPersistance SetUpCommandPersistance<TEntity>(Func<ICommand<TEntity>> commandFunc)
+        public IFluentCommands SetUpCommandPersistance<TEntity>(Func<ICommand<TEntity>> commandFunc)
             where TEntity : class, ICommandAggregateRoot
         {
             var lastCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
@@ -55,11 +39,6 @@ namespace FluentRepository.Implementations
             ContractUtility.Requires<ArgumentException>(expectedTEntityType == typeof(TEntity), string.Format("TEntity must be of type {0} since the" +  
                 "last repository that has been Set Up was of type {1}", expectedTEntityType.ToString(),lastCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc.GetUnderlyingType().ToString()));
             lastCommandsAndQueriesPersistanceAndRespositoryData.CommandPersistanceFunc = commandFunc.ConvertFunc<ICommand<TEntity>, dynamic>();
-            return ContainerUtility.CheckRegistrationAndGetInstance<IFluentCommandPersistance, FluentCommandPersistance>(_unitOfWorkData, _commandsAndQueriesPersistanceAndRespositoryDataList);
-        }
-
-        public IFluentCommands WithCommands()
-        {
             return ContainerUtility.CheckRegistrationAndGetInstance<IFluentCommands, FluentCommands>(_unitOfWorkData, _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
