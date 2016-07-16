@@ -135,10 +135,6 @@
       <Project>{9d5812ab-0f1a-42df-94d4-4de7e7f48e65}</Project>
       <Name>DomainContextsAndMaps</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FluentRepository\FluentRepository.csproj">
-      <Project>{63ca24e3-cab5-4fc9-9231-39f9fe6597c8}</Project>
-      <Name>FluentRepository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2d9d3c62-ba14-4598-bcb6-64c64c98e7f4}</Project>
       <Name>Infrastructure</Name>
