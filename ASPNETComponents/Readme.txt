@@ -14,8 +14,8 @@ wherever required.And that container in this case is this Project Library which 
 not limit to ASP.NET Web APIs only but rather can extend to any ASP.NET module (be it Web API 
 or MVC or Web Forms).
 
-Some people prefer to use Global Filters compared to Delegating Handlers but don't think that's 
-a good choice since Delegating Handlers comes into action before Global Filters within the 
-ASP.NET web API pipeline and if some data needs to be filtered and then the request needs to 
-be rejected based on some criteria then the sooner you do that the better it is, from 
-performance(response time) perspective.
+Also its better to opt for Delegating Handlers compared to Global Filters since Delegating 
+Handlers comes into action before Global Filters within the ASP.NET Web API pipeline and if 
+some data needs to be filtered and then the request needs to be rejected based on some 
+criteria then the sooner you do that the better it is, from performance(response time) 
+perspective.
