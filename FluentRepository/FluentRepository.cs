@@ -3,10 +3,10 @@ using System.Transactions;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentImplementations;
 using FluentRepository.FluentInterfaces;
-using Infrastructure.Extensions;
-using Infrastructure.Utilities;
 using Repository.Base;
 using Repository.UnitOfWork;
+using Infrastructure.Extensions;
+using Infrastructure.Utilities;
 
 namespace FluentRepository
 {

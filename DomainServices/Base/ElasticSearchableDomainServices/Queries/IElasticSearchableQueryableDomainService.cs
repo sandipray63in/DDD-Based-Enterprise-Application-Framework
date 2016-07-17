@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
-using Repository;
 using Domain.Base.Aggregates;
 using Domain.Base.Entities;
+using DomainServices.Base.QueryableDomainServices;
+using Repository;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using DomainServices.Base.CommandDomainServices;
 using Domain.Base.Aggregates;
+using DomainServices.Base.CommandDomainServices;
 using Infrastructure.Utilities;
 
 namespace RestfulWebAPI.Base

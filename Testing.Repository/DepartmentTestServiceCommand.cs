@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
-using Infrastructure;
 using Repository.Command;
+using Infrastructure;
 using Testing.Respository.ServiceReferences;
 using TestEFDomainAndContext.TestDomains;
 
@@ -20,7 +20,7 @@ namespace Testing.Respository
     /// This is actually Adapter Pattern implementation.If needed groups of Adapters can be implemented
     /// (may be using Channel Factory) and each group can act as a generic Repository..
     /// </summary>
-    internal class DepartmentTestServiceCommand : DisposableClass, ICommand<Department>
+    public class DepartmentTestServiceCommand : DisposableClass, ICommand<Department>
     {
         private DbConnection _connection;
         private TestServiceOf_DepartmentClient _departmentTestService;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Domain.Base.Aggregates;
+using Domain.Base.Entities;
 using Infrastructure;
 using Infrastructure.Utilities;
 using Repository.Base;
-using Domain.Base.Entities;
 
 namespace DomainServices.Base.QueryableDomainServices
 {

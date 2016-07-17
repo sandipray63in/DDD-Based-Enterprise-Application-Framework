@@ -1,5 +1,4 @@
-﻿using System.Data;
-using DomainContextsAndMaps.Base.EFBase;
+﻿using DomainContextsAndMaps.Base.EFBase;
 using TestEFDomainAndContext.TestDomains;
 
 namespace TestEFDomainAndContext.TestEFDomainMaps
@@ -14,7 +13,6 @@ namespace TestEFDomainAndContext.TestEFDomainMaps
         #endregion
 
         protected override string IDColumnName { get; } = "col_dept_id";
-        protected override SqlDbType IDColumnType { get; } = SqlDbType.Int;
 
         protected override void SetSpecificPropertiesForEntity()
         {

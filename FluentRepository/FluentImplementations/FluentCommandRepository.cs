@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
+using Repository.Command;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
-using Repository.Command;
 
 namespace FluentRepository.FluentImplementations
 {

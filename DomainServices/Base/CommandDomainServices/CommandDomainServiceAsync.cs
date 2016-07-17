@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base.Aggregates;
-using Repository.Base;
 using Infrastructure;
 using Infrastructure.SemanticLogging.CrossCuttingEventSources;
 using Infrastructure.Utilities;
+using Repository.Base;
 
 namespace DomainServices.Base.CommandDomainServices
 {

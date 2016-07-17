@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base.Aggregates;
 using Domain.Base.AddOnObjects;
-using Infrastructure.Utilities;
 using Repository.Command;
+using Infrastructure.Utilities;
 
 namespace Repository.Base
 {

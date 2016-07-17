@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
-using Infrastructure.Utilities;
 using Repository.Base;
 using Infrastructure.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.Utilities;
 
 namespace Repository.UnitOfWork
 {

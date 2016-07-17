@@ -1,9 +1,9 @@
 ﻿using System;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
-using Repository.Base;
 using Infrastructure.Utilities;
 using Infrastructure.Extensions;
+using Repository.Base;
 
 namespace FluentRepository.FluentImplementations
 {

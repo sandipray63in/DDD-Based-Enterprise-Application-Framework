@@ -10,6 +10,12 @@ namespace TestEFDomainAndContext.TestDomains
     /// </summary>
     public class Employee : BaseEntityComposite<int,AuditInfo>,ICommandAggregateRoot, IQueryableAggregateRoot
     {
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public Employee() { }
+
         public Employee(int id) : base(id)
         {
         }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain.Base.Aggregates;
-using Repository.Base;
 using Infrastructure;
 using Infrastructure.SemanticLogging.CrossCuttingEventSources;
 using Infrastructure.Utilities;
+using Repository.Base;
 
 namespace DomainServices.Base.CommandDomainServices
 {

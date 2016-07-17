@@ -46,7 +46,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Effort, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6a46696d54971e6d, processorArchitecture=MSIL">
@@ -115,12 +115,11 @@
   <ItemGroup>
     <Compile Include="BaseEFRespositoryAndUnitOfWorkTest.cs" />
     <Compile Include="DepartmentTestServiceBasedOnSQLCECommand.cs" />
+    <Compile Include="EFRespositoryAndUnitOfWorkTest.cs" />
     <Compile Include="Service References\TestServiceBasedOnSQLCEProxy.cs" />
     <Compile Include="Service References\TestServiceProxy.cs" />
     <Compile Include="DepartmentTestServiceCommand.cs" />
-    <Compile Include="EFRespositoryAndUnitOfWorkTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLLiteEFRespositoryAndUnitOfWorkTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

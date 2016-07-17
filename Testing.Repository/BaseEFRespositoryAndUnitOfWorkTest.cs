@@ -4,13 +4,13 @@ using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.Base.Aggregates;
 using Domain.Base.Entities;
-using Infrastructure.DI;
 using Repository;
 using Repository.Base;
 using Repository.Command;
 using Repository.Queryable;
 using Repository.UnitOfWork;
 using UnitOfWork = Repository.UnitOfWork;
+using Infrastructure.DI;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 
@@ -19,7 +19,7 @@ namespace Testing.Respository
     [TestClass]
     public abstract class BaseEFRespositoryAndUnitOfWorkTest
     {
-        #region Private Constants(for Unity Name Resolution)
+        #region Protected Constants(for Unity Name Resolution)
 
         protected const string REPOSITORY_WITHOUT_UNIT_OF_WORK = "RepositoryWithoutUnitOfWork";
         protected const string REPOSITORY_WITH_UNIT_OF_WORK = "RepositoryWithUnitOfWork";
@@ -28,7 +28,7 @@ namespace Testing.Respository
 
         #endregion
 
-        #region Private Fields
+        #region Protected Fields
 
         protected IUnityContainer _container;
 

@@ -9,6 +9,12 @@ namespace TestEFDomainAndContext.TestDomains
     /// </summary>
     public class Department : BaseEntityComposite<int, AuditInfo>, ICommandAggregateRoot, IQueryableAggregateRoot
     {
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public Department(){ }
+
         public Department(int id) : base(id)
         {
 

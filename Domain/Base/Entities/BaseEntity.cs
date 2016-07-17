@@ -7,9 +7,15 @@ namespace Domain.Base.Entities
     {
         public TId Id { get; private set; }
 
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public BaseEntity(){}
+
         public BaseEntity(TId id)
         {
-            DomainContractUtility.Requires<ArgumentException>(object.Equals(id, default(TId)), "The ID cannot be the default value.");
+            DomainContractUtility.Requires<ArgumentException>(!object.Equals(id, default(TId)), "The ID cannot be the default value.");
             this.Id = id;
         }
 

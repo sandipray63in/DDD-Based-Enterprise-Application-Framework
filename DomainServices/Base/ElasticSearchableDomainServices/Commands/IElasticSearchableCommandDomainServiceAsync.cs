@@ -1,6 +1,6 @@
-﻿using DomainServices.Base.CommandDomainServices;
-using Domain.Base;
+﻿using Domain.Base;
 using Domain.Base.Aggregates;
+using DomainServices.Base.CommandDomainServices;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
 {

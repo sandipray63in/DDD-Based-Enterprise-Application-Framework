@@ -9,25 +9,33 @@ namespace FluentRepository.FluentInterfaces
     public interface IFluentSetUpAndExecution
     {
         /// <summary>
-        /// Set Up new Command Repository
+        /// Set Up Command Repository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="commandRepositoryFunc"></param>
         /// <returns></returns>
-        IFluentCommandRepository SetUpNewCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
+        IFluentCommandRepository SetUpCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
             where TEntity : class, ICommandAggregateRoot;
 
         /// <summary>
-        /// Set Up new Query Repository
+        /// Set Up Query Repository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="queryRepositoryFunc"></param>
         /// <returns></returns>
-        IFluentQueryRepository SetUpNewQueryRepository<TEntity>(Func<IQueryableRepository<TEntity>> queryRepositoryFunc)
+        IFluentQueryRepository SetUpQueryRepository<TEntity>(Func<IQueryableRepository<TEntity>> queryRepositoryFunc)
             where TEntity : class, IQueryableAggregateRoot;
 
-        void Execute();
+        /// <param name="shouldAutomaticallyDisposeAllDisposables">This is set to false 
+        /// since, ideally, all the disposables should be disposed from the entry point 
+        /// of the application which can be ASP.NET Web API or ASP.NET MVC or ASP.NET Web 
+        /// Forms or WCF Service or Workflow Service etc</param>
+        void Execute(Boolean shouldAutomaticallyDisposeAllDisposables = false);
 
-        Task ExecuteAsync(CancellationToken token = default(CancellationToken));
+        /// <param name="shouldAutomaticallyDisposeAllDisposables">This is set to false 
+        /// since, ideally, all the disposables should be disposed from the entry point 
+        /// of the application which can be ASP.NET Web API or ASP.NET MVC or ASP.NET Web 
+        /// Forms or WCF Service or Workflow Service etc</param>
+        Task ExecuteAsync(CancellationToken token = default(CancellationToken), Boolean shouldAutomaticallyDisposeAllDisposables = false);
     }
 }

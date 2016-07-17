@@ -1,5 +1,4 @@
-﻿using Domain.Base.Aggregates;
-
+﻿
 namespace Domain.Base
 {
     /// <summary>

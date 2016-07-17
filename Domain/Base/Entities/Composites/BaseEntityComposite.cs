@@ -10,14 +10,18 @@ namespace Domain.Base.Entities.Composites
         where TId : struct
         where T1 : IAddOnObject, new()
     {
-        private readonly T1 _dataT1;
+        public T1 T1Data { get; private set; }
+
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public BaseEntityComposite() { }
 
         public BaseEntityComposite(TId id) : base(id)
         {
-            _dataT1 = new T1(); 
+            T1Data = new T1(); 
         }
-
-        public T1 T1Data { get; private set; }
     }
 
     public abstract class BaseEntityComposite<TId, T1, T2> : BaseEntityComposite<TId, T1>
@@ -25,7 +29,13 @@ namespace Domain.Base.Entities.Composites
         where T1 : IAddOnObject, new()
         where T2 : IAddOnObject, new()
     {
-        private readonly T2 _dataT2;
+        public T2 T2Data { get; private set; }
+
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public BaseEntityComposite() { }
 
         public BaseEntityComposite(TId id) : base(id)
         {
@@ -38,10 +48,8 @@ namespace Domain.Base.Entities.Composites
                                                               &&
                                                               typeof(T2) != typeof(AuditInfo) , "If T1 is not of NoSql type then "+
                                                               "it should be of type AuditInfo");
-            _dataT2 = new T2();
+            T2Data = new T2();
         }
-
-        public T2 T2Data { get; private set; }
     }
 
     public abstract class BaseEntityComposite<TId, T1, T2,T3> : BaseEntityComposite<TId, T1,T2>
@@ -50,7 +58,13 @@ namespace Domain.Base.Entities.Composites
         where T2 : IAddOnObject, new()
         where T3 : IAddOnObject, new()
     {
-        private readonly T3 _dataT3;
+        public T3 T3Data { get; private set; }
+
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public BaseEntityComposite() { }
 
         public BaseEntityComposite(TId id) : base(id)
         {
@@ -65,10 +79,8 @@ namespace Domain.Base.Entities.Composites
                                                               &&
                                                               typeof(T2) != typeof(AuditInfo), "If T1 is not of NoSql type then " +
                                                               "it should be of type AuditInfo");
-            _dataT3 = new T3();
+            T3Data = new T3();
         }
-
-        public T3 T3Data { get; private set; }
     }
 
     public abstract class BaseEntityComposite<TId, T1, T2, T3,T4> : BaseEntityComposite<TId, T1, T2,T3>
@@ -78,7 +90,13 @@ namespace Domain.Base.Entities.Composites
         where T3 : IAddOnObject, new()
         where T4 : IAddOnObject, new()
     {
-        private readonly T4 _dataT4;
+        public T4 T4Data { get; private set; }
+
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public BaseEntityComposite() { }
 
         public BaseEntityComposite(TId id) : base(id)
         {
@@ -93,10 +111,9 @@ namespace Domain.Base.Entities.Composites
                                                               &&
                                                               typeof(T2) != typeof(AuditInfo), "If T1 is not of NoSql type then " +
                                                               "it should be of type AuditInfo");
-            _dataT4 = new T4();
+            T4Data = new T4();
         }
 
-        public T4 T4Data { get; private set; }
     }
 
     public abstract class BaseEntityComposite<TId, T1, T2, T3, T4,T5> : BaseEntityComposite<TId, T1, T2, T3,T4>
@@ -107,7 +124,13 @@ namespace Domain.Base.Entities.Composites
         where T4 : IAddOnObject, new()
         where T5 : IAddOnObject, new()
     {
-        private readonly T5 _dataT5;
+        public T5 T5Data { get; private set; }
+
+        /// <summary>
+        /// Entity Framework needs a default constructor while fetching data 
+        /// from external data source
+        /// </summary>
+        public BaseEntityComposite(){}
 
         public BaseEntityComposite(TId id) : base(id)
         {
@@ -123,9 +146,7 @@ namespace Domain.Base.Entities.Composites
                                                               &&
                                                               typeof(T2) != typeof(AuditInfo), "If T1 is not of NoSql type then " +
                                                               "it should be of type AuditInfo");
-            _dataT5 = new T5();
+            T5Data = new T5();
         }
-
-        public T5 T5Data { get; private set; }
     }
 }

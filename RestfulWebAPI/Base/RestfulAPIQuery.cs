@@ -5,9 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.OData;
-using DomainServices.Base.QueryableDomainServices;
 using Domain.Base.Aggregates;
 using Domain.Base.Entities;
+using DomainServices.Base.QueryableDomainServices;
 using Infrastructure.Utilities;
 
 namespace RestfulWebAPI.Base

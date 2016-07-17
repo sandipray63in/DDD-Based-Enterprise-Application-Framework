@@ -5,11 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
+using Repository.Base;
+using Repository.UnitOfWork;
 using Infrastructure.DI;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
-using Repository.UnitOfWork;
-using Repository.Base;
 
 namespace FluentRepository.FluentImplementations
 {
@@ -19,13 +19,13 @@ namespace FluentRepository.FluentImplementations
         protected UnitOfWorkData _unitOfWorkData;
         protected IList<CommandsAndQueriesPersistanceAndRespositoryData> _commandsAndQueriesPersistanceAndRespositoryDataList;
 
-        protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsPersistanceAndRespositoryDataList)
+        internal protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsPersistanceAndRespositoryDataList)
         {
             _unitOfWorkData = unitOfWorkData;
             _commandsAndQueriesPersistanceAndRespositoryDataList = commandsPersistanceAndRespositoryDataList;
         }
 
-        public IFluentCommandRepository SetUpNewCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
+        public IFluentCommandRepository SetUpCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
             where TEntity : class, ICommandAggregateRoot
         {
             if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty())
@@ -38,7 +38,7 @@ namespace FluentRepository.FluentImplementations
             return ContainerUtility.CheckRegistrationAndGetInstance<IFluentCommandRepository, FluentCommandRepository>(_unitOfWorkData, commandRepositoryFunc.ConvertFunc<ICommandRepository<TEntity>, dynamic>(), _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
-        public IFluentQueryRepository SetUpNewQueryRepository<TEntity>(Func<IQueryableRepository<TEntity>> queryRepositoryFunc)
+        public IFluentQueryRepository SetUpQueryRepository<TEntity>(Func<IQueryableRepository<TEntity>> queryRepositoryFunc)
             where TEntity : class, IQueryableAggregateRoot
         {
             if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty())
@@ -51,7 +51,7 @@ namespace FluentRepository.FluentImplementations
             return ContainerUtility.CheckRegistrationAndGetInstance<IFluentQueryRepository, FluentQueryRepository>(WITH_UNIT_OF_WORK_AND_OTHER_DEPENDENCIES, _unitOfWorkData, queryRepositoryFunc.ConvertFunc<IQueryableRepository<TEntity>, dynamic>(), _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
-        public void Execute()
+        public void Execute(Boolean shouldAutomaticallyDisposeAllDisposables = false)
         {
             BaseUnitOfWork unitOfWork = null;
             if (_unitOfWorkData.IsNotNull() && _unitOfWorkData.UnitOfWorkFunc.IsNotNull())
@@ -82,12 +82,19 @@ namespace FluentRepository.FluentImplementations
             if (_unitOfWorkData.IsNotNull() && unitOfWork.IsNotNull())
             {
                 unitOfWork.Commit(_unitOfWorkData.ShouldAutomaticallyRollBackOnTransactionException, _unitOfWorkData.ShouldThrowOnException);
-                unitOfWork.Dispose();
+                if (shouldAutomaticallyDisposeAllDisposables)
+                {
+                    unitOfWork.Dispose();
+                }
             }
-            _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+            if (shouldAutomaticallyDisposeAllDisposables)
+            {
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.QueryRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+            }
         }
         
-        public async Task ExecuteAsync(CancellationToken token = default(CancellationToken))
+        public async Task ExecuteAsync(CancellationToken token = default(CancellationToken), Boolean shouldAutomaticallyDisposeAllDisposables = false)
         {
             BaseUnitOfWork unitOfWork = null;
             if (_unitOfWorkData.IsNotNull() && _unitOfWorkData.UnitOfWorkFunc.IsNotNull())
@@ -124,9 +131,16 @@ namespace FluentRepository.FluentImplementations
             if (unitOfWork.IsNotNull() && _unitOfWorkData.IsNotNull())
             {
                 await unitOfWork.CommitAsync(token, _unitOfWorkData.ShouldAutomaticallyRollBackOnTransactionException, _unitOfWorkData.ShouldThrowOnException);
-                unitOfWork.Dispose();
+                if (shouldAutomaticallyDisposeAllDisposables)
+                {
+                    unitOfWork.Dispose();
+                }
             }
-            _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+            if (shouldAutomaticallyDisposeAllDisposables)
+            {
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.QueryRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+            }
         }
 
         private void SetUpAllRespositoriesForCommandsAndQueriesRespositoryDataList(BaseUnitOfWork unitOfWork)

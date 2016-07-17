@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Infrastructure;
 using Repository.Command;
+using Infrastructure;
 using Testing.Respository.ServiceReferences;
 using TestEFDomainAndContext.TestDomains;
 

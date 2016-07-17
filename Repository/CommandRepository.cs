@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Base.Aggregates;
 using Repository.Base;
 using Repository.Command;
 using Repository.UnitOfWork;
-using Domain.Base.Aggregates;
 using Infrastructure.Utilities;
 
 namespace Repository

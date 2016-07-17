@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using DomainServices.Base.QueryableDomainServices;
 using Domain.Base;
-using Repository;
-using Repository.Base;
 using Domain.Base.Aggregates;
 using Domain.Base.Entities;
+using DomainServices.Base.QueryableDomainServices;
+using Repository;
+using Repository.Base;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
