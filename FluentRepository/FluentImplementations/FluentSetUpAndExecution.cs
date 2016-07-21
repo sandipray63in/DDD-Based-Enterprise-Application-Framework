@@ -158,8 +158,8 @@ namespace FluentRepository.FluentImplementations
             }
             if (shouldAutomaticallyDisposeAllDisposables)
             {
-                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
-                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.QueryRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Where(x => x.CommandRepositoryFunc.IsNotNull()).Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Where(x => x.QueryRepositoryFunc.IsNotNull()).Select(x => x.QueryRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
             }
         }
 
