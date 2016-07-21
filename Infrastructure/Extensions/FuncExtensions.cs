@@ -18,11 +18,5 @@ namespace Infrastructure.Extensions
             // Use Expression.Lambda to get back to strong typing
             return Expression.Lambda<Func<TOutput>>(converted, inputFuncExpression.Parameters);
         }
-
-        public static Type GetUnderlyingType<TType>(this Func<TType> func)
-        {
-            Expression<Func<TType>> funcExpression = () => func();
-            return funcExpression.Body.GetType();
-        }
     }
 }

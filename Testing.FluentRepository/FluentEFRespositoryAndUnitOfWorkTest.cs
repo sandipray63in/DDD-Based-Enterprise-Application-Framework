@@ -29,22 +29,22 @@ namespace Testing.FluentRepository
         [TestCategory("Fast")]
         public void test_fluent_insert_single_department_without_any_explicit_transaction_scope_should_be_saved()
         {
-            /////Arrange
-            //var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            //var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            //var departmentFake = GetDepartmentFake(2);
-            //Department departmentAfterDataInsert = null;
+            ///Arrange
+            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            var departmentFake = GetDepartmentFake();
+            Department departmentAfterDataInsert = null;
 
-            /////Action
-            //FluentRepoNamespace.FluentRepository
-            //                   .SetUpCommandRepository(() => departmentCommandRepository)
-            //                   .Insert(departmentFake)
-            //                   .SetUpQueryRepository(() => departmentQueryableRepository)
-            //                   .RunQuery<Department>(x => x.Single(), x => departmentAfterDataInsert = x)
-            //                   .Execute(true);
+            ///Action
+            FluentRepoNamespace.FluentRepository
+                               .SetUpCommandRepository(() => departmentCommandRepository)
+                               .Insert(departmentFake)
+                               .SetUpQueryRepository(() => departmentQueryableRepository)
+                               .Query<Department>(x => x.Single(), x => departmentAfterDataInsert = x)
+                               .Execute(true);
 
-            /////Assert
-            //departmentAfterDataInsert.DepartmentName.Should().Be("Election");
+            ///Assert
+            departmentAfterDataInsert.DepartmentName.Should().Be("Election");
         }
 
         #region Overrides

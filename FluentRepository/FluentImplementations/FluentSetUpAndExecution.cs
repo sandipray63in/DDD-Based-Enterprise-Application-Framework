@@ -5,24 +5,34 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
-using Repository.Base;
-using Repository.UnitOfWork;
 using Infrastructure.DI;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
+using Repository.Base;
+using Repository.UnitOfWork;
 
 namespace FluentRepository.FluentImplementations
 {
     internal abstract class FluentSetUpAndExecution : IFluentSetUpAndExecution
     {
-        private const string WITH_UNIT_OF_WORK_AND_OTHER_DEPENDENCIES = "WithUnitOfWorkAndOtherDependencies";
         protected UnitOfWorkData _unitOfWorkData;
         protected IList<CommandsAndQueriesPersistanceAndRespositoryData> _commandsAndQueriesPersistanceAndRespositoryDataList;
 
-        internal protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsPersistanceAndRespositoryDataList)
+        protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, Type repositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsPersistanceAndRespositoryDataList)
         {
             _unitOfWorkData = unitOfWorkData;
             _commandsAndQueriesPersistanceAndRespositoryDataList = commandsPersistanceAndRespositoryDataList;
+            if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotNull())
+            {
+                if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty())
+                {
+                    CheckRepositoryType(repositoryType);
+                }
+            }
+            else
+            {
+                _commandsAndQueriesPersistanceAndRespositoryDataList = new List<CommandsAndQueriesPersistanceAndRespositoryData>();
+            }
         }
 
         public IFluentCommandRepository SetUpCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
@@ -31,11 +41,16 @@ namespace FluentRepository.FluentImplementations
             if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty())
             {
                 var lastCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
-                var lastRepositoryType = lastCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc.GetUnderlyingType();
                 ContractUtility.Requires<ArgumentException>(lastCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.IsNotNullOrEmpty(), string.Format("Atleast one command of "
-                    + "IFluentCommands/IFluentQueries needs to be Set Up for the last repository which was of type {0}", lastRepositoryType.ToString()));
+                    + "IFluentCommands/IFluentQueries needs to be Set Up for the last repository"));
             }
-            return ContainerUtility.CheckRegistrationAndGetInstance<IFluentCommandRepository, FluentCommandRepository>(_unitOfWorkData, commandRepositoryFunc.ConvertFunc<ICommandRepository<TEntity>, dynamic>(), _commandsAndQueriesPersistanceAndRespositoryDataList);
+            //var unitOfWorkParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = _unitOfWorkData.GetType(), ParameterName = "unitOfWorkData", ParameterValue = _unitOfWorkData };
+            var dynamicCommandRepositoryFunc = commandRepositoryFunc.ConvertFunc<ICommandRepository<TEntity>, dynamic>();
+            //var dynamicCommandRepositoryFuncParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = dynamicCommandRepositoryFunc.GetType(), ParameterName = "commandRepositoryFunc", ParameterValue = dynamicCommandRepositoryFunc };
+            //var commandRepositoryType = new ParameterTypeOverrideData { ParameterType = typeof(Type), ParameterName = "commandRepositoryType", ParameterValue = typeof(ICommandRepository<TEntity>) };
+            //var commandsAndQueriesPersistanceAndRespositoryDataListParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = typeof(IList<CommandsAndQueriesPersistanceAndRespositoryData>), ParameterName = "commandsAndQueriesPersistanceAndRespositoryDataList", ParameterValue = null };
+            //return ContainerUtility.CheckRegistrationAndGetInstance<IFluentCommandRepository, FluentCommandRepository>(unitOfWorkParameterTypeOverrideData, dynamicCommandRepositoryFuncParameterTypeOverrideData, commandRepositoryType, commandsAndQueriesPersistanceAndRespositoryDataListParameterTypeOverrideData);
+            return new FluentCommandRepository(_unitOfWorkData, dynamicCommandRepositoryFunc, typeof(ICommandRepository<TEntity>), _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
         public IFluentQueryRepository SetUpQueryRepository<TEntity>(Func<IQueryableRepository<TEntity>> queryRepositoryFunc)
@@ -44,11 +59,16 @@ namespace FluentRepository.FluentImplementations
             if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty())
             {
                 var lastCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
-                var lastRepositoryType = lastCommandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryFunc.GetUnderlyingType();
                 ContractUtility.Requires<ArgumentException>(lastCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.IsNotNullOrEmpty(), string.Format("Atleast one command/query of "
-                    + "IFluentCommands/IFluentQueries needs to be Set Up for the last repository which was of type {0}", lastRepositoryType.ToString()));
+                    + "IFluentCommands/IFluentQueries needs to be Set Up for the last repository"));
             }
-            return ContainerUtility.CheckRegistrationAndGetInstance<IFluentQueryRepository, FluentQueryRepository>(WITH_UNIT_OF_WORK_AND_OTHER_DEPENDENCIES, _unitOfWorkData, queryRepositoryFunc.ConvertFunc<IQueryableRepository<TEntity>, dynamic>(), _commandsAndQueriesPersistanceAndRespositoryDataList);
+            //var unitOfWorkParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = _unitOfWorkData.GetType(), ParameterName = "unitOfWorkData", ParameterValue = _unitOfWorkData };
+            var dynamicQueryRepositoryFunc = queryRepositoryFunc.ConvertFunc<IQueryableRepository<TEntity>, dynamic>();
+            //var dynamicQueryRepositoryFuncParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = dynamicQueryRepositoryFunc.GetType(), ParameterName = "commandRepositoryFunc", ParameterValue = dynamicQueryRepositoryFunc };
+            //var queryRepositoryType = new ParameterTypeOverrideData { ParameterType = typeof(Type), ParameterName = "queryRepositoryType", ParameterValue = typeof(IQueryableRepository<TEntity>) };
+            //var commandsAndQueriesPersistanceAndRespositoryDataListParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = typeof(IList<CommandsAndQueriesPersistanceAndRespositoryData>), ParameterName = "commandsAndQueriesPersistanceAndRespositoryDataList", ParameterValue = null };
+            //return ContainerUtility.CheckRegistrationAndGetInstance<IFluentQueryRepository, FluentQueryRepository>(unitOfWorkParameterTypeOverrideData, dynamicQueryRepositoryFuncParameterTypeOverrideData, queryRepositoryType, commandsAndQueriesPersistanceAndRespositoryDataListParameterTypeOverrideData);
+            return new FluentQueryRepository(_unitOfWorkData, dynamicQueryRepositoryFunc, typeof(IQueryableRepository<TEntity>), _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
         public void Execute(Boolean shouldAutomaticallyDisposeAllDisposables = false)
@@ -89,8 +109,8 @@ namespace FluentRepository.FluentImplementations
             }
             if (shouldAutomaticallyDisposeAllDisposables)
             {
-                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
-                _commandsAndQueriesPersistanceAndRespositoryDataList.Select(x => x.QueryRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Where(x => x.CommandRepositoryFunc.IsNotNull()).Select(x => x.CommandRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
+                _commandsAndQueriesPersistanceAndRespositoryDataList.Where(x => x.QueryRepositoryFunc.IsNotNull()).Select(x => x.QueryRepositoryFunc() as IDisposable).Where(x => x.IsNotNull()).CleanUp();
             }
         }
         
@@ -143,36 +163,42 @@ namespace FluentRepository.FluentImplementations
             }
         }
 
+        internal protected virtual void CheckRepositoryType(Type repositoryType) { }
+
+        internal protected CommandsAndQueriesPersistanceAndRespositoryData CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(Type repositoryType)
+            where TEntity : class
+        {
+            var currentCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
+            var expectedTEntityType = repositoryType.GetGenericArguments().First();
+            ContractUtility.Requires<ArgumentException>(expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationsQueue = currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue;
+            if (currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.IsNull())
+            {
+                currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue = new Queue<OperationData>();
+            }
+            return currentCommandsAndQueriesPersistanceAndRespositoryData;
+        }
+
         private void SetUpAllRespositoriesForCommandsAndQueriesRespositoryDataList(BaseUnitOfWork unitOfWork)
         {
             _commandsAndQueriesPersistanceAndRespositoryDataList.ForEach(x =>
                 {
-                    var parameterOverrideDataLis = new List<ParameterOverrideData>();
+                    var parameterOverrideDataList = new List<ParameterOverrideData>();
                     if (unitOfWork.IsNotNull())
                     {
-                        parameterOverrideDataLis.Add(new ParameterOverrideData { ParameterName = "unitOfWork", ParameterValue = unitOfWork });
+                        parameterOverrideDataList.Add(new ParameterOverrideData { ParameterName = "unitOfWork", ParameterValue = unitOfWork });
                     }
-                    if (x.QueryRepositoryFunc.IsNotNull())
+                    if (x.QueryRepositoryFunc.IsNotNull() && x.QueryPersistanceFunc.IsNotNull())
                     {
-                        if (x.QueryPersistanceFunc.IsNotNull())
-                        {
-                            var queryPersistance = x.QueryPersistanceFunc();
-                            parameterOverrideDataLis.Add(new ParameterOverrideData { ParameterName = "persistance", ParameterValue = queryPersistance });
-                        }
-                        dynamic dynamicqueryRepository = parameterOverrideDataLis.IsEmpty() ? ContainerUtility.Resolve(x.QueryRepositoryFunc.GetUnderlyingType(), null) :
-                                        ContainerUtility.Resolve(x.QueryRepositoryFunc.GetUnderlyingType(), parameterOverrideDataLis);
-                        x.QueryRepositoryFunc = () => dynamicqueryRepository;
+                        var queryPersistance = x.QueryPersistanceFunc();
+                        parameterOverrideDataList.Add(new ParameterOverrideData { ParameterName = "persistance", ParameterValue = queryPersistance });
+                        x.QueryRepositoryFunc = () => ContainerUtility.Resolve(x.QueryRepositoryType, parameterOverrideDataList);
                     }
-                    if (x.CommandRepositoryFunc.IsNotNull())
+                    if (x.CommandRepositoryFunc.IsNotNull() && x.CommandPersistanceFunc.IsNotNull())
                     {
-                        if (x.CommandPersistanceFunc.IsNotNull())
-                        {
-                            var commandPersistance = x.CommandPersistanceFunc();
-                            parameterOverrideDataLis.Add(new ParameterOverrideData { ParameterName = "persistance", ParameterValue = commandPersistance });
-                        }
-                        dynamic dynamicCommandRepository = parameterOverrideDataLis.IsEmpty() ? ContainerUtility.Resolve(x.CommandRepositoryFunc.GetUnderlyingType(), null) :
-                                            ContainerUtility.Resolve(x.CommandRepositoryFunc.GetUnderlyingType(), parameterOverrideDataLis);
-                        x.CommandRepositoryFunc = () => dynamicCommandRepository;
+                        var commandPersistance = x.CommandPersistanceFunc();
+                        parameterOverrideDataList.Add(new ParameterOverrideData { ParameterName = "persistance", ParameterValue = commandPersistance });
+                        x.CommandRepositoryFunc = () => ContainerUtility.Resolve(x.CommandRepositoryType, parameterOverrideDataList);
                     }
                 }
             );

@@ -7,7 +7,11 @@ namespace FluentRepository
     {
         internal Func<dynamic> QueryRepositoryFunc { get; set; }
 
+        internal Type QueryRepositoryType { get; set; }
+
         internal Func<dynamic> CommandRepositoryFunc { get; set; }
+
+        internal Type CommandRepositoryType { get; set; }
 
         internal Func<dynamic> QueryPersistanceFunc { get; set; }
 
