@@ -29,7 +29,7 @@ namespace Testing.FluentRepository
         private DbConnection _connection;
 
         [TestMethod]
-        [TestCategory("Fast")]
+        [TestCategory("Medium")]
         public void test_fluent_insert_single_department_without_any_explicit_transaction_scope_should_be_saved()
         {
             ///Arrange
