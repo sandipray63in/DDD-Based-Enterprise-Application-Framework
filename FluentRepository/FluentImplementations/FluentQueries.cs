@@ -9,6 +9,7 @@ namespace FluentRepository.FluentImplementations
 {
     internal class FluentQueries : FluentSetUpAndExecution,IFluentQueries
     {
+
         /// <summary>
         /// For proper working of this class alongwith Unity(for regstration), the constructor needs to be public.
         /// </summary>
@@ -16,16 +17,15 @@ namespace FluentRepository.FluentImplementations
         /// <param name="commandsPersistanceAndRespositoryDataList"></param>
         public FluentQueries(UnitOfWorkData unitOfWorkData, Type queryRepositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsPersistanceAndRespositoryDataList) : base(unitOfWorkData, queryRepositoryType, commandsPersistanceAndRespositoryDataList)
         {
-            
         }
 
         public IFluentQueries Query<TEntity>(Func<IQueryableRepository<TEntity>, TEntity> queryableRepositoryOperation, Action<TEntity> operationToExecuteBeforeNextOperation = null)
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(IQueryableRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryFunc().RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryFunc().RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -33,9 +33,9 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(IQueryableRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryFunc().RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryFunc().RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -43,9 +43,9 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(IQueryableRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryFunc().RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryFunc().RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
     }

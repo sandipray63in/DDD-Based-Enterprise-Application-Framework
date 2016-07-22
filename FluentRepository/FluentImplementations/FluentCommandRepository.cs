@@ -22,8 +22,11 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(commandRepositoryFunc.IsNotNull(), "commandRepositoryFunc instance cannot be null");
             ContractUtility.Requires<ArgumentNullException>(commandRepositoryType.IsNotNull(), "commandRepositoryType instance cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = new CommandsAndQueriesPersistanceAndRespositoryData { CommandRepositoryFunc = commandRepositoryFunc, CommandRepositoryType = commandRepositoryType };
-            _commandsAndQueriesPersistanceAndRespositoryDataList.Add(commandsAndQueriesPersistanceAndRespositoryData);
+            SetAndCheckRepositoryType(commandRepositoryType, () =>
+             {
+                 var commandsAndQueriesPersistanceAndRespositoryData = new CommandsAndQueriesPersistanceAndRespositoryData { CommandRepositoryFunc = commandRepositoryFunc, CommandRepositoryType = commandRepositoryType };
+                 _commandsAndQueriesPersistanceAndRespositoryDataList.Add(commandsAndQueriesPersistanceAndRespositoryData);
+             });
         }
 
         public IFluentCommands SetUpCommandPersistance<TEntity>(Func<ICommand<TEntity>> commandFunc)

@@ -10,15 +10,18 @@ using Repository.Base;
 using Repository.Command;
 using Repository.UnitOfWork;
 using Testing.Respository;
-using TestEFDomainAndContext.TestDomains;
 using TestEFDomainAndContext;
+using TestEFDomainAndContext.TestDomains;
 
 namespace Testing.FluentRepository
 {
     /// <summary>
     /// The fluent way of writing the code is much more intuitive and readable, compared to 
     /// the normal Repository way of doing things as shown in the test cases written in 
-    /// Testing.Repository project library.
+    /// Testing.Repository project library.Also, disposal of all the 
+    /// IDisposables(UnitOfWork, repositories etc) are taken care automatically on calling 
+    /// the Execute method if the paremeter of Execute method viz. shouldAutomaticallyDisposeAllDisposables 
+    /// is set to true.
     /// </summary>
     [TestClass]
     public class FluentEFRespositoryAndUnitOfWorkTest : BaseEFRespositoryAndUnitOfWorkTest

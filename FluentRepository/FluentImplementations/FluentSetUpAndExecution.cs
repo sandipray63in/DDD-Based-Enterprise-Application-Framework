@@ -17,22 +17,14 @@ namespace FluentRepository.FluentImplementations
     {
         protected UnitOfWorkData _unitOfWorkData;
         protected IList<CommandsAndQueriesPersistanceAndRespositoryData> _commandsAndQueriesPersistanceAndRespositoryDataList;
+        protected CommandsAndQueriesPersistanceAndRespositoryData _currentCommandsAndQueriesPersistanceAndRespositoryData;
+        protected Type _expectedTEntityType;
 
-        protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, Type repositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsPersistanceAndRespositoryDataList)
+        internal protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, Type repositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsPersistanceAndRespositoryDataList)
         {
             _unitOfWorkData = unitOfWorkData;
             _commandsAndQueriesPersistanceAndRespositoryDataList = commandsPersistanceAndRespositoryDataList;
-            if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotNull())
-            {
-                if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty())
-                {
-                    CheckRepositoryType(repositoryType);
-                }
-            }
-            else
-            {
-                _commandsAndQueriesPersistanceAndRespositoryDataList = new List<CommandsAndQueriesPersistanceAndRespositoryData>();
-            }
+            _expectedTEntityType = repositoryType.GetGenericArguments().First();
         }
 
         public IFluentCommandRepository SetUpCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
@@ -163,20 +155,32 @@ namespace FluentRepository.FluentImplementations
             }
         }
 
+        internal protected void SetAndCheckRepositoryType(Type repositoryType, Action addRepositoryFunc)
+        {
+            if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotNull())
+            {
+                if (_commandsAndQueriesPersistanceAndRespositoryDataList.IsNotEmpty())
+                {
+                    CheckRepositoryType(repositoryType);
+                }
+            }
+            else
+            {
+                _commandsAndQueriesPersistanceAndRespositoryDataList = new List<CommandsAndQueriesPersistanceAndRespositoryData>();
+            }
+            addRepositoryFunc();
+            SetCurrentCommandsPersistanceAndRespositoryData();
+        }
+
         internal protected virtual void CheckRepositoryType(Type repositoryType) { }
 
-        internal protected CommandsAndQueriesPersistanceAndRespositoryData CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(Type repositoryType)
-            where TEntity : class
+        private void SetCurrentCommandsPersistanceAndRespositoryData()
         {
-            var currentCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
-            var expectedTEntityType = repositoryType.GetGenericArguments().First();
-            ContractUtility.Requires<ArgumentException>(expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", expectedTEntityType.Name, typeof(TEntity).Name));
-            var operationsQueue = currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue;
-            if (currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.IsNull())
+             _currentCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
+            if (_currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.IsNull())
             {
-                currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue = new Queue<OperationData>();
+                _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue = new Queue<OperationData>();
             }
-            return currentCommandsAndQueriesPersistanceAndRespositoryData;
         }
 
         private void SetUpAllRespositoriesForCommandsAndQueriesRespositoryDataList(BaseUnitOfWork unitOfWork)

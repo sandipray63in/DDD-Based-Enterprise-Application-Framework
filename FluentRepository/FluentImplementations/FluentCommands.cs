@@ -4,7 +4,6 @@ using System.Threading;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
 using Infrastructure.Utilities;
-using Repository.Base;
 
 namespace FluentRepository.FluentImplementations
 {
@@ -15,18 +14,17 @@ namespace FluentRepository.FluentImplementations
         /// </summary>
         /// <param name="unitOfWorkData"></param>
         /// <param name="commandsAndQueriesPersistanceAndRespositoryDataList"></param>
-        public FluentCommands(UnitOfWorkData unitOfWorkData, Type queryRepositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsAndQueriesPersistanceAndRespositoryDataList) : base(unitOfWorkData, queryRepositoryType, commandsAndQueriesPersistanceAndRespositoryDataList)
+        public FluentCommands(UnitOfWorkData unitOfWorkData, Type commandRepositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsAndQueriesPersistanceAndRespositoryDataList) : base(unitOfWorkData, commandRepositoryType, commandsAndQueriesPersistanceAndRespositoryDataList)
         {
-
         }
 
         public IFluentCommands Insert<TEntity>(TEntity item, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Insert(item, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Insert(item, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -34,9 +32,9 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Update(item, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Update(item, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -44,9 +42,9 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Delete(item, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Delete(item, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -55,9 +53,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Insert(items, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Insert(items, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -66,9 +64,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Update(items, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Update(items, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -77,9 +75,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Delete(items, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().Delete(items, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -88,9 +86,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkInsert(items, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkInsert(items, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -99,9 +97,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkUpdate(items, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkUpdate(items, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -110,9 +108,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { Operation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkDelete(items, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { Operation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkDelete(items, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
         
@@ -120,9 +118,9 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().InsertAsync(item, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().InsertAsync(item, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -130,9 +128,9 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().UpdateAsync(item, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().UpdateAsync(item, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -140,9 +138,9 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item cannot be null");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().DeleteAsync(item, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().DeleteAsync(item, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -151,9 +149,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().InsertAsync(items, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().InsertAsync(items, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -162,9 +160,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().UpdateAsync(items, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().UpdateAsync(items, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
         
@@ -173,9 +171,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().DeleteAsync(items, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().DeleteAsync(items, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -184,9 +182,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkInsertAsync(items, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkInsertAsync(items, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
 
@@ -195,9 +193,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
         
@@ -206,9 +204,9 @@ namespace FluentRepository.FluentImplementations
         {
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items cannot be empty");
-            var commandsAndQueriesPersistanceAndRespositoryData = CheckForProperEntityTypeAndGetCurrentCommandsPersistanceAndRespositoryData<TEntity>(typeof(ICommandRepository<TEntity>));
-            var operationData = new OperationData { AsyncOperation = () => commandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation) };
-            commandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
+            ContractUtility.Requires<ArgumentException>(_expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", _expectedTEntityType.Name, typeof(TEntity).Name));
+            var operationData = new OperationData { AsyncOperation = () => _currentCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryFunc().BulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation) };
+            _currentCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.Enqueue(operationData);
             return this;
         }
     }
