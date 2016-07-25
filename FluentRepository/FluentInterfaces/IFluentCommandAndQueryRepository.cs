@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Base.Aggregates;
+﻿using Domain.Base.Aggregates;
 using Repository.Base;
 
 namespace FluentRepository.FluentInterfaces
@@ -10,18 +9,18 @@ namespace FluentRepository.FluentInterfaces
         /// Set Up the Command Repository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <param name="commandRepositoryFunc"></param>
+        /// <param name="commandRepository"></param>
         /// <returns></returns>
-        IFluentCommandRepository SetUpCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
+        IFluentCommandRepository SetUpCommandRepository<TEntity>(ICommandRepository<TEntity> commandRepository)
             where TEntity : class, ICommandAggregateRoot;
 
         /// <summary>
         /// Set Up the Query Repository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <param name="queryRepositoryFunc"></param>
+        /// <param name="queryRepository"></param>
         /// <returns></returns>
-        IFluentQueryRepository SetUpQueryRepository<TEntity>(Func<IQueryableRepository<TEntity>> queryRepositoryFunc)
+        IFluentQueryRepository SetUpQueryRepository<TEntity>(IQueryableRepository<TEntity> queryRepository)
             where TEntity : class, IQueryableAggregateRoot; 
     }
 }

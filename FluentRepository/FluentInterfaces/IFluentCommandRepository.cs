@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Base.Aggregates;
+﻿using Domain.Base.Aggregates;
 using Repository.Command;
 
 namespace FluentRepository.FluentInterfaces
@@ -11,7 +10,7 @@ namespace FluentRepository.FluentInterfaces
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        IFluentCommands SetUpCommandPersistance<TEntity>(Func<ICommand<TEntity>> commandFunc)
+        IFluentCommands SetUpCommandPersistance<TEntity>(ICommand<TEntity> command)
             where TEntity : class, ICommandAggregateRoot;
     }
 }

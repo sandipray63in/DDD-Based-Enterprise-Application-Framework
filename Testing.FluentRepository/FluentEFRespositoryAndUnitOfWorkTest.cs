@@ -40,9 +40,9 @@ namespace Testing.FluentRepository
 
             ///Action
             FluentRepoNamespace.FluentRepository
-                               .SetUpCommandRepository(() => departmentCommandRepository)
+                               .SetUpCommandRepository(departmentCommandRepository)
                                .Insert(departmentFake)
-                               .SetUpQueryRepository(() => departmentQueryableRepository)
+                               .SetUpQueryRepository(departmentQueryableRepository)
                                .Query<Department>(x => x.Single(), x => departmentAfterDataInsert = x)
                                .Execute(true);
 

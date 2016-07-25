@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
-using Infrastructure.DI;
-using Infrastructure.Extensions;
 using Infrastructure.Utilities;
 using Repository.Command;
 
@@ -12,33 +10,25 @@ namespace FluentRepository.FluentImplementations
 {
     internal class FluentCommandRepository : FluentCommands, IFluentCommandRepository
     {
-        /// <summary>
-        /// For proper working of this class alongwith Unity(for regstration), the constructor needs to be public.
-        /// </summary>
-        /// <param name="unitOfWorkData"></param>
-        /// <param name="commandRepositoryFunc"></param>
-        /// <param name="commandsAndQueriesPersistanceAndRespositoryDataList"></param>
-        public FluentCommandRepository(UnitOfWorkData unitOfWorkData, Func<dynamic> commandRepositoryFunc, Type commandRepositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsAndQueriesPersistanceAndRespositoryDataList) : base(unitOfWorkData, commandRepositoryType, commandsAndQueriesPersistanceAndRespositoryDataList)
+        public FluentCommandRepository(UnitOfWorkData unitOfWorkData, dynamic commandRepository, Type commandRepositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsAndQueriesPersistanceAndRespositoryDataList) : base(unitOfWorkData, commandRepositoryType, commandsAndQueriesPersistanceAndRespositoryDataList)
         {
-            ContractUtility.Requires<ArgumentNullException>(commandRepositoryFunc.IsNotNull(), "commandRepositoryFunc instance cannot be null");
+            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, "commandRepositoryFunc instance cannot be null");
             ContractUtility.Requires<ArgumentNullException>(commandRepositoryType.IsNotNull(), "commandRepositoryType instance cannot be null");
             SetAndCheckRepositoryType(commandRepositoryType, () =>
              {
-                 var commandsAndQueriesPersistanceAndRespositoryData = new CommandsAndQueriesPersistanceAndRespositoryData { CommandRepositoryFunc = commandRepositoryFunc, CommandRepositoryType = commandRepositoryType };
+                 var commandsAndQueriesPersistanceAndRespositoryData = new CommandsAndQueriesPersistanceAndRespositoryData { CommandRepository = commandRepository, CommandRepositoryType = commandRepositoryType };
                  _commandsAndQueriesPersistanceAndRespositoryDataList.Add(commandsAndQueriesPersistanceAndRespositoryData);
              });
         }
 
-        public IFluentCommands SetUpCommandPersistance<TEntity>(Func<ICommand<TEntity>> commandFunc)
+        public IFluentCommands SetUpCommandPersistance<TEntity>(ICommand<TEntity> command)
             where TEntity : class, ICommandAggregateRoot
         {
+            ContractUtility.Requires<ArgumentNullException>(command.IsNotNull(), "command instance cannot be null");
             var lastCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
-            var expectedTEntityType = lastCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryType;
+            var expectedTEntityType = lastCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryType.GetGenericArguments().First().GetType();
             ContractUtility.Requires<ArgumentException>(expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", expectedTEntityType.Name, typeof(TEntity).Name));
-            lastCommandsAndQueriesPersistanceAndRespositoryData.CommandPersistanceFunc = commandFunc.ConvertFunc<ICommand<TEntity>, dynamic>();
-            var unitOfWorkParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = _unitOfWorkData.GetType(), ParameterName = "unitOfWorkData", ParameterValue = _unitOfWorkData };
-            var commandsAndQueriesPersistanceAndRespositoryDataListParameterTypeOverrideData = new ParameterTypeOverrideData { ParameterType = _commandsAndQueriesPersistanceAndRespositoryDataList.GetType(), ParameterName = "commandsAndQueriesPersistanceAndRespositoryDataList", ParameterValue = _commandsAndQueriesPersistanceAndRespositoryDataList };
-            return ContainerUtility.CheckRegistrationAndGetInstance<IFluentCommands, FluentCommands>(unitOfWorkParameterTypeOverrideData, commandsAndQueriesPersistanceAndRespositoryDataListParameterTypeOverrideData);
+            return new FluentCommands(_unitOfWorkData, lastCommandsAndQueriesPersistanceAndRespositoryData.CommandRepositoryType, _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
         internal protected override void CheckRepositoryType(Type commandRepositoryType)

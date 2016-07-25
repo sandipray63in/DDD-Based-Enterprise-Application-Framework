@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Base.Aggregates;
+﻿using Domain.Base.Aggregates;
 using Repository.Queryable;
 
 namespace FluentRepository.FluentInterfaces
@@ -11,7 +10,7 @@ namespace FluentRepository.FluentInterfaces
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        IFluentQueries SetUpQueryPersistance<TEntity>(Func<IQuery<TEntity>> queryFunc)
+        IFluentQueries SetUpQueryPersistance<TEntity>(IQuery<TEntity> query)
             where TEntity : class, IQueryableAggregateRoot;
     }
 }

@@ -12,18 +12,18 @@ namespace FluentRepository.FluentInterfaces
         /// Set Up Command Repository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <param name="commandRepositoryFunc"></param>
+        /// <param name="commandRepository"></param>
         /// <returns></returns>
-        IFluentCommandRepository SetUpCommandRepository<TEntity>(Func<ICommandRepository<TEntity>> commandRepositoryFunc)
+        IFluentCommandRepository SetUpCommandRepository<TEntity>(ICommandRepository<TEntity> commandRepository)
             where TEntity : class, ICommandAggregateRoot;
 
         /// <summary>
         /// Set Up Query Repository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
-        /// <param name="queryRepositoryFunc"></param>
+        /// <param name="queryRepository"></param>
         /// <returns></returns>
-        IFluentQueryRepository SetUpQueryRepository<TEntity>(Func<IQueryableRepository<TEntity>> queryRepositoryFunc)
+        IFluentQueryRepository SetUpQueryRepository<TEntity>(IQueryableRepository<TEntity> queryRepository)
             where TEntity : class, IQueryableAggregateRoot;
 
         /// <param name="shouldAutomaticallyDisposeAllDisposables">This is set to false 

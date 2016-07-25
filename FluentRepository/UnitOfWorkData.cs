@@ -4,7 +4,7 @@ namespace FluentRepository
 {
     internal class UnitOfWorkData
     {
-        internal Func<dynamic> UnitOfWorkFunc { get; set; }
+        internal dynamic UnitOfWork { get; set; }
 
         internal bool ShouldAutomaticallyRollBackOnTransactionException { get; set; }
 
