@@ -19,7 +19,7 @@ namespace Repository
         #region Private Fields
 
         protected readonly IQuery<TEntity> _queryable;
-        private readonly BaseUnitOfWork _unitOfWork;
+        private BaseUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -40,6 +40,12 @@ namespace Repository
         }
 
         #endregion
+
+        internal void SetUnitOfWork<TUnitOfWork>(TUnitOfWork unitOfWork)
+            where TUnitOfWork : BaseUnitOfWork
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         public virtual void RunQuery(Func<IQueryableRepository<TEntity>, TEntity> queryableRepositoryOperation, Action<TEntity> operationToExecuteBeforeNextOperation = null)
         {

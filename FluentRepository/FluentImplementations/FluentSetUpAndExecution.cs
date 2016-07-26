@@ -8,7 +8,6 @@ using FluentRepository.FluentInterfaces;
 using Infrastructure.Extensions;
 using Infrastructure.Utilities;
 using Repository.Base;
-using Repository.UnitOfWork;
 
 namespace FluentRepository.FluentImplementations
 {
@@ -36,6 +35,10 @@ namespace FluentRepository.FluentImplementations
                 ContractUtility.Requires<ArgumentException>(lastCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.IsNotNullOrEmpty(), string.Format("Atleast one command of "
                     + "IFluentCommands/IFluentQueries needs to be Set Up for the last repository"));
             }
+            if(_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
+            {
+                ((dynamic)commandRepository).SetUnitOfWork(_unitOfWorkData.UnitOfWork);
+            }
             return new FluentCommandRepository(_unitOfWorkData, commandRepository, commandRepository.GetType(), _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
@@ -49,16 +52,15 @@ namespace FluentRepository.FluentImplementations
                 ContractUtility.Requires<ArgumentException>(lastCommandsAndQueriesPersistanceAndRespositoryData.OpreationsQueue.IsNotNullOrEmpty(), string.Format("Atleast one command/query of "
                     + "IFluentCommands/IFluentQueries needs to be Set Up for the last repository"));
             }
+            if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
+            {
+                ((dynamic)queryRepository).SetUnitOfWork(_unitOfWorkData.UnitOfWork);
+            }
             return new FluentQueryRepository(_unitOfWorkData, queryRepository, queryRepository.GetType(), _commandsAndQueriesPersistanceAndRespositoryDataList);
         }
 
         public void Execute(Boolean shouldAutomaticallyDisposeAllDisposables = false)
         {
-            BaseUnitOfWork unitOfWork = null;
-            if (_unitOfWorkData.IsNotNull() && _unitOfWorkData.UnitOfWork.IsNotNull())
-            {
-                unitOfWork = _unitOfWorkData.UnitOfWork();
-            }
             SetUpAllRespositoriesForCommandsAndQueriesRespositoryDataList();
             _commandsAndQueriesPersistanceAndRespositoryDataList.ForEach(x =>
                 {
@@ -80,8 +82,9 @@ namespace FluentRepository.FluentImplementations
                     }
                 }
             );
-            if (_unitOfWorkData.IsNotNull() && unitOfWork.IsNotNull())
+            if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
             {
+                var unitOfWork = _unitOfWorkData.UnitOfWork;
                 unitOfWork.Commit(_unitOfWorkData.ShouldAutomaticallyRollBackOnTransactionException, _unitOfWorkData.ShouldThrowOnException);
                 if (shouldAutomaticallyDisposeAllDisposables)
                 {
@@ -97,11 +100,6 @@ namespace FluentRepository.FluentImplementations
         
         public async Task ExecuteAsync(CancellationToken token = default(CancellationToken), Boolean shouldAutomaticallyDisposeAllDisposables = false)
         {
-            BaseUnitOfWork unitOfWork = null;
-            if (_unitOfWorkData.IsNotNull() && _unitOfWorkData.UnitOfWork.IsNotNull())
-            {
-                unitOfWork = _unitOfWorkData.UnitOfWork();
-            }
             SetUpAllRespositoriesForCommandsAndQueriesRespositoryDataList();
             foreach (var x in _commandsAndQueriesPersistanceAndRespositoryDataList)
             {
@@ -129,8 +127,9 @@ namespace FluentRepository.FluentImplementations
                 }
             }
 
-            if (unitOfWork.IsNotNull() && _unitOfWorkData.IsNotNull())
+            if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
             {
+                var unitOfWork = _unitOfWorkData.UnitOfWork;
                 await unitOfWork.CommitAsync(token, _unitOfWorkData.ShouldAutomaticallyRollBackOnTransactionException, _unitOfWorkData.ShouldThrowOnException);
                 if (shouldAutomaticallyDisposeAllDisposables)
                 {

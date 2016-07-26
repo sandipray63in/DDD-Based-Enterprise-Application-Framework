@@ -20,6 +20,7 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(commandRepository.IsNotNull(), "commandRepository instance cannot be null");
+            ((dynamic)commandRepository).SetUnitOfWork(_unitOfWorkData.UnitOfWork);
             return new FluentCommandRepository(_unitOfWorkData, commandRepository, commandRepository.GetType(), null);
         }
 
@@ -27,6 +28,7 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryRepository.IsNotNull(), "queryRepository instance cannot be null");
+            ((dynamic)queryRepository).SetUnitOfWork(_unitOfWorkData.UnitOfWork);
             return new FluentQueryRepository(_unitOfWorkData, queryRepository, queryRepository.GetType(), null);
         }
     }

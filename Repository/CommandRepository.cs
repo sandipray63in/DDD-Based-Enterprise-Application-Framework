@@ -16,7 +16,7 @@ namespace Repository
     /// <typeparam name="TEntity"></typeparam>
     public class CommandRepository<TEntity> : BaseCommandRepository<TEntity> where TEntity : class,ICommandAggregateRoot
     {
-        protected readonly BaseUnitOfWork _unitOfWork;
+        protected BaseUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Should be used when unit of work instance is not required 
@@ -38,6 +38,12 @@ namespace Repository
             : base(command)
         {
             ContractUtility.Requires<ArgumentNullException>(unitOfWork.IsNotNull(), "unitOfWork instance cannot be null");
+            _unitOfWork = unitOfWork;
+        }
+
+        internal void SetUnitOfWork<TUnitOfWork>(TUnitOfWork unitOfWork)
+            where TUnitOfWork : BaseUnitOfWork
+        {
             _unitOfWork = unitOfWork;
         }
 
