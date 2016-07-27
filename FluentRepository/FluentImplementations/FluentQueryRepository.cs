@@ -10,33 +10,28 @@ namespace FluentRepository.FluentImplementations
 {
     internal class FluentQueryRepository : FluentQueries, IFluentQueryRepository
     {
-
-        public FluentQueryRepository(UnitOfWorkData unitOfWorkData, dynamic queryRepository, Type queryRepositoryType, IList<CommandsAndQueriesPersistanceAndRespositoryData> commandsAndQueriesPersistanceAndRespositoryDataList) : base(unitOfWorkData, queryRepositoryType, commandsAndQueriesPersistanceAndRespositoryDataList)
+        public FluentQueryRepository(UnitOfWorkData unitOfWorkData, IList<dynamic> queryRepositories, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, queryRepositories, repositoriesList, operationsQueue)
         {
-            ContractUtility.Requires<ArgumentNullException>(queryRepository != null, "commandRepositoryFunc instance cannot be null");
-            ContractUtility.Requires<ArgumentNullException>(queryRepositoryType.IsNotNull(), "queryRepositoryType instance cannot be null");
-            SetAndCheckRepositoryType(queryRepositoryType, () =>
-             {
-                 var commandsAndQueriesPersistanceAndRespositoryData = new CommandsAndQueriesPersistanceAndRespositoryData { QueryRepository = queryRepository, QueryRepositoryType = queryRepositoryType };
-                 _commandsAndQueriesPersistanceAndRespositoryDataList.Add(commandsAndQueriesPersistanceAndRespositoryData);
-             });
         }
 
         public IFluentQueries SetUpQueryPersistance<TEntity>(IQuery<TEntity> query)
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(query.IsNotNull(), "query instance cannot be null");
-            var lastCommandsAndQueriesPersistanceAndRespositoryData = _commandsAndQueriesPersistanceAndRespositoryDataList.Last();
-            var expectedTEntityType = lastCommandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryType.GetGenericArguments().First().GetType();
-            ContractUtility.Requires<ArgumentException>(expectedTEntityType == typeof(TEntity), string.Format("Type Mismatch: Expected Generic Type is {0} but the Supplied Generic Type is {1}", expectedTEntityType.Name, typeof(TEntity).Name));
-            return new FluentQueries(_unitOfWorkData, lastCommandsAndQueriesPersistanceAndRespositoryData.QueryRepositoryType, _commandsAndQueriesPersistanceAndRespositoryDataList);
+            var queryRepository = _queryRepositories.SingleOrDefault(x => x != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            ContractUtility.Requires<ArgumentNullException>(queryRepository != null, string.Format("Last Query Repository has been not set up for {0}.", typeof(TEntity).Name));
+            queryRepository.SetCommand(query);
+            return new FluentQueries(_unitOfWorkData, _queryRepositories, _repositoriesList,_operationsQueue);
         }
 
-        internal protected override void CheckRepositoryType(Type queryRepositoryType)
+        public IFluentQueries SetUpQueryPersistance(params dynamic[] queries)
         {
-            ContractUtility.Requires<ArgumentException>(!_commandsAndQueriesPersistanceAndRespositoryDataList
-                        .Any(x => x.QueryRepositoryType == queryRepositoryType)
-                        , string.Format("The repository type {0} has been already Set Up", queryRepositoryType.Name));
+            return SetUpQueryPersistance(queries.ToList());
+        }
+
+        public IFluentQueries SetUpQueryPersistance(IList<dynamic> queries)
+        {
+            throw new NotImplementedException();
         }
     }
 }

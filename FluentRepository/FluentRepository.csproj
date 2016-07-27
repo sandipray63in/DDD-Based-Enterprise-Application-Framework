@@ -305,7 +305,6 @@
     <Compile Include="FluentInterfaces\IFluentSetUpAndExecution.cs" />
     <Compile Include="FluentInterfaces\IFluentQueries.cs" />
     <Compile Include="FluentInterfaces\IFluentCommands.cs" />
-    <Compile Include="CommandsAndQueriesPersistanceAndRespositoryData.cs" />
     <Compile Include="FluentRepository.cs" />
     <Compile Include="FluentImplementations\FluentCommandAndQueryRepository.cs" />
     <Compile Include="FluentImplementations\FluentCommandRepository.cs" />

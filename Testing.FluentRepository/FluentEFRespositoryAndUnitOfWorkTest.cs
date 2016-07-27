@@ -98,9 +98,8 @@ namespace Testing.FluentRepository
             FluentRepoNamespace.FluentRepository
                                .SetUpCommandRepository(employeeCommandRepository)
                                .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
-                               .SetUpQueryRepository(departmentQueryableRepository)
+                               .SetUpQueryRepository(departmentQueryableRepository, employeeQueryableRepository)
                                .Query<Department>(x => x, x => departmentsCount = x.Count())
-                               .SetUpQueryRepository(employeeQueryableRepository)
                                .Query<Employee>(x => x, x =>
                                {
                                    employeesCount = x.Count();
@@ -140,9 +139,8 @@ namespace Testing.FluentRepository
             // Should delete the employee object automatically since the map is defined so 
             // (WillCascadeOnDelete is set to true).
             FluentRepoNamespace.FluentRepository
-                               .SetUpCommandRepository(employeeCommandRepository)
+                               .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
                                .Insert(employeeFake)
-                               .SetUpCommandRepository(departmentCommandRepository)
                                .Delete(departmentFake)
                                .SetUpQueryRepository(employeeQueryableRepository)
                                .Query<Employee>(x => x, x => employeesCount = x.Count())
@@ -186,13 +184,11 @@ namespace Testing.FluentRepository
             /// the Business or Service Layer.
             FluentRepoNamespace.FluentRepository
                                .WithDefaultUnitOfWork()
-                               .SetUpCommandRepository(employeeCommandRepository)
+                               .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
                                .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
-                               .SetUpCommandRepository(departmentCommandRepository)
                                .Insert(departmentFake2)
-                               .SetUpQueryRepository(departmentQueryableRepository)
+                               .SetUpQueryRepository(departmentQueryableRepository, employeeQueryableRepository)
                                .Query<Department>(x => x, x => departmentsCount = x.Count())
-                               .SetUpQueryRepository(employeeQueryableRepository)
                                .Query<Employee>(x => x, x => employeesCount = x.Count())
                                .Execute(true);
 
@@ -237,13 +233,11 @@ namespace Testing.FluentRepository
 
             FluentRepoNamespace.FluentRepository
                                .WithUnitOfWork(unitOfWorkWithExceptionToBeThrown)
-                               .SetUpCommandRepository(employeeCommandRepository)
+                               .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
                                .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
-                               .SetUpCommandRepository(departmentCommandRepository)
                                .Insert(departmentFake2)
-                               .SetUpQueryRepository(departmentQueryableRepository)
+                               .SetUpQueryRepository(departmentQueryableRepository, employeeQueryableRepository)
                                .Query<Department>(x => x, x => departmentsCount = x.Count())
-                               .SetUpQueryRepository(employeeQueryableRepository)
                                .Query<Employee>(x => x, x => employeesCount = x.Count())
                                .Execute(true);
 
@@ -282,9 +276,8 @@ namespace Testing.FluentRepository
             /// the Business or Service Layer.
             FluentRepoNamespace.FluentRepository
                                .WithDefaultUnitOfWork()
-                               .SetUpCommandRepository(employeeCommandRepository)
+                               .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
                                .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
-                               .SetUpCommandRepository(departmentCommandRepository)
                                .Insert(departmentFake2)
                                .SetUpQueryRepository(departmentQueryableRepository)
                                .Query<Department>(x => x, x => departmentsCount = x.Count())

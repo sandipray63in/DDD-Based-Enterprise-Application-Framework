@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace FluentRepository
 {
     internal class UnitOfWorkData

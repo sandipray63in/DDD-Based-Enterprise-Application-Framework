@@ -1,30 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Base.Aggregates;
-using Repository.Base;
 
 namespace FluentRepository.FluentInterfaces
 {
-    public interface IFluentSetUpAndExecution
+    public interface IFluentSetUpAndExecution : IFluentCommandAndQueryRepository
     {
-        /// <summary>
-        /// Set Up Command Repository
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="commandRepository"></param>
-        /// <returns></returns>
-        IFluentCommandRepository SetUpCommandRepository<TEntity>(ICommandRepository<TEntity> commandRepository)
-            where TEntity : class, ICommandAggregateRoot;
-
-        /// <summary>
-        /// Set Up Query Repository
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="queryRepository"></param>
-        /// <returns></returns>
-        IFluentQueryRepository SetUpQueryRepository<TEntity>(IQueryableRepository<TEntity> queryRepository)
-            where TEntity : class, IQueryableAggregateRoot;
 
         /// <param name="shouldAutomaticallyDisposeAllDisposables">This is set to false 
         /// since, ideally, all the disposables should be disposed from the entry point 

@@ -18,7 +18,7 @@ namespace Repository
     {
         #region Private Fields
 
-        protected readonly IQuery<TEntity> _queryable;
+        protected IQuery<TEntity> _queryable;
         private BaseUnitOfWork _unitOfWork;
 
         #endregion
@@ -40,6 +40,11 @@ namespace Repository
         }
 
         #endregion
+
+        internal void SetQuery(dynamic query)
+        {
+            _queryable = query as IQuery<TEntity>;
+        }
 
         internal void SetUnitOfWork<TUnitOfWork>(TUnitOfWork unitOfWork)
             where TUnitOfWork : BaseUnitOfWork

@@ -15,7 +15,7 @@ namespace Repository.Base
     {
         #region Private Fields
 
-        private readonly ICommand<TEntity> _command;
+        private ICommand<TEntity> _command;
 
         #endregion
 
@@ -32,6 +32,11 @@ namespace Repository.Base
         }
 
         #endregion
+
+        internal void SetCommand(dynamic command)
+        {
+            _command = command as ICommand<TEntity>;
+        }
 
         internal override void ActualInsert(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
