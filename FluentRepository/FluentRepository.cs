@@ -41,7 +41,7 @@ namespace FluentRepository
         {
             ContractUtility.Requires<ArgumentNullException>(commandRepository.IsNotNull(), "commandRepository instance cannot be null");
             var commandRepositoryList = new List<dynamic> { commandRepository };
-            return new FluentCommandRepository(null, commandRepositoryList, commandRepositoryList, null);
+            return new FluentCommandRepository(null, commandRepositoryList, null);
         }
 
         public static IFluentCommandRepository SetUpCommandRepository(params dynamic[] commandRepositories)
@@ -55,7 +55,7 @@ namespace FluentRepository
             ContractUtility.Requires<ArgumentOutOfRangeException>(commandRepositories.IsNotEmpty(), "commandRepositories cannot be empty");
             ContractUtility.Requires<ArgumentException>(commandRepositories.All(x => x.GetType().GetGenericTypeDefinition().GetInterface(typeof(ICommandRepository<>).Name) != null), "All repositories should be of type ICommandRepository<>");
             ContractUtility.Requires<ArgumentException>(commandRepositories.Count() == commandRepositories.Distinct().Count(), "One or more Command Repository has been repeated");
-            return new FluentCommandRepository(null, commandRepositories, commandRepositories, null);
+            return new FluentCommandRepository(null, commandRepositories, null);
         }
 
         public static IFluentQueryRepository SetUpQueryRepository<TEntity>(IQueryableRepository<TEntity> queryRepository)
@@ -63,7 +63,7 @@ namespace FluentRepository
         {
             ContractUtility.Requires<ArgumentNullException>(queryRepository.IsNotNull(), "queryRepository instance cannot be null");
             var queryRepositoryList = new List<dynamic> { queryRepository };
-            return new FluentQueryRepository(null, queryRepositoryList, queryRepositoryList, null);
+            return new FluentQueryRepository(null, queryRepositoryList, null);
         }
 
         public static IFluentQueryRepository SetUpQueryRepository(params dynamic[] queryRepositories)
@@ -77,7 +77,7 @@ namespace FluentRepository
             ContractUtility.Requires<ArgumentOutOfRangeException>(queryRepositories.IsNotEmpty(), "queryRepositories cannot be empty");
             ContractUtility.Requires<ArgumentException>(queryRepositories.All(x => x.GetType().GetGenericTypeDefinition().GetInterface(typeof(IQueryableRepository<>).Name) != null), "All repositories should be of type IQueryableRepository<>");
             ContractUtility.Requires<ArgumentException>(queryRepositories.Count() == queryRepositories.Distinct().Count(), "One or more Query Repository has been repeated");
-            return new FluentQueryRepository(null, queryRepositories, queryRepositories, null);
+            return new FluentQueryRepository(null, queryRepositories, null);
         }
     }
 }

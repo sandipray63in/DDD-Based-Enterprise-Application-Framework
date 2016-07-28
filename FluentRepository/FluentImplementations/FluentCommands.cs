@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
 using Infrastructure.Utilities;
+using Repository.Base;
 
 namespace FluentRepository.FluentImplementations
 {
     internal class FluentCommands : FluentSetUpAndExecution,IFluentCommands
     {
-        protected IList<dynamic> _commandRepositories;
 
-        public FluentCommands(UnitOfWorkData unitOfWorkData, IList<dynamic> commandRepositories, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesList, operationsQueue)
+        public FluentCommands(UnitOfWorkData unitOfWorkData, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesList, operationsQueue)
         {
-            _commandRepositories = commandRepositories;
         }
 
         public IFluentCommands Insert<TEntity>(TEntity item, Action operationToExecuteBeforeNextOperation = null)
@@ -159,22 +158,22 @@ namespace FluentRepository.FluentImplementations
         private IFluentCommands GetFluentCommandsAfterSettingCommandRepositoryAndPersistanceQueueData<TEntity>(Action<dynamic> commandRepositoryAction)
             where TEntity : class, ICommandAggregateRoot
         {
-            var commandRepository = _commandRepositories.SingleOrDefault(x => x != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
-            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("Last Command Repository has not been set up for {0}.", typeof(TEntity).Name));
+            var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
+            var commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has not been set up for {0}.", typeof(TEntity).Name));
             var operationData = new OperationData { Operation = () => commandRepositoryAction(commandRepository) };
             _operationsQueue.Enqueue(operationData);
-            _isAnyOperationExecutedLast = true;
             return this;
         }
 
         private IFluentCommands GetFluentCommandsAfterSettingCommandRepositoryAndPersistanceQueueDataForAsync<TEntity>(Func<dynamic,Task> commandRepositoryFunc)
             where TEntity : class, ICommandAggregateRoot
         {
-            var commandRepository = _commandRepositories.SingleOrDefault(x => x != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
-            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("Last Command Repository has been not set up for {0}.", typeof(TEntity).Name));
+            var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
+            var commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been not set up for {0}.", typeof(TEntity).Name));
             var operationData = new OperationData { AsyncOperation = () => commandRepositoryFunc(commandRepository) };
             _operationsQueue.Enqueue(operationData);
-            _isAnyOperationExecutedLast = true;
             return this;
         }
     }

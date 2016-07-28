@@ -4,13 +4,14 @@ using System.Linq;
 using Domain.Base.Aggregates;
 using FluentRepository.FluentInterfaces;
 using Infrastructure.Utilities;
+using Repository.Base;
 using Repository.Command;
 
 namespace FluentRepository.FluentImplementations
 {
     internal class FluentCommandRepository : FluentCommands, IFluentCommandRepository
     {
-        public FluentCommandRepository(UnitOfWorkData unitOfWorkData, IList<dynamic> commandRepositories, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, commandRepositories, repositoriesList, operationsQueue)
+        public FluentCommandRepository(UnitOfWorkData unitOfWorkData, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesList, operationsQueue)
         {
         }
 
@@ -18,10 +19,11 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(command.IsNotNull(), "command instance cannot be null");
-            var commandRepository = _commandRepositories.SingleOrDefault(x => x != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
-            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("Last Command Repository has been not set up for {0}.", typeof(TEntity).Name));
+            var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
+            var commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been not set up for {0}.", typeof(TEntity).Name));
             commandRepository.SetCommand(command);
-            return new FluentCommands(_unitOfWorkData, _commandRepositories, _repositoriesList, _operationsQueue);
+            return new FluentCommands(_unitOfWorkData, _repositoriesList, _operationsQueue);
         }
 
         public IFluentCommands SetUpCommandPersistance(params dynamic[] commands)

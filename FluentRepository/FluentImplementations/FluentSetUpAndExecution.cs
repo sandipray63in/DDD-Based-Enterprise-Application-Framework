@@ -11,17 +11,9 @@ namespace FluentRepository.FluentImplementations
 {
     internal abstract class FluentSetUpAndExecution : FluentCommandAndQueryRepository,IFluentSetUpAndExecution
     {
-        protected Boolean _isAnyOperationExecutedLast;
 
         internal protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesList, operationsQueue)
         {
-        }
-
-        protected override void CheckForOperations()
-        {
-            ContractUtility.Requires<ArgumentException>(_isAnyOperationExecutedLast, string.Format("Atleast one command of "
-                + "IFluentCommands/IFluentQueries needs to be Set Up for the last repository"));
-            _isAnyOperationExecutedLast = false;
         }
 
         public void Execute(Boolean shouldAutomaticallyDisposeAllDisposables = false)
