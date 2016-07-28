@@ -42,10 +42,10 @@ namespace Testing.FluentRepository
             ///Action
             FluentRepoNamespace.FluentRepository
                                .SetUpCommandRepository(departmentCommandRepository)
-                               .Insert(departmentFake)
+                               .InsertAsync(departmentFake)
                                .SetUpQueryRepository(departmentQueryableRepository)
                                .Query<Department>(x => x.Single(), x => departmentAfterDataInsert = x)
-                               .Execute(true);
+                               .ExecuteAsync(shouldAutomaticallyDisposeAllDisposables:true);
 
             ///Assert
             departmentAfterDataInsert.DepartmentName.Should().Be("Election");
@@ -141,10 +141,10 @@ namespace Testing.FluentRepository
             FluentRepoNamespace.FluentRepository
                                .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
                                .Insert(employeeFake)
-                               .Delete(departmentFake)
+                               .DeleteAsync(departmentFake)
                                .SetUpQueryRepository(employeeQueryableRepository)
                                .Query<Employee>(x => x, x => employeesCount = x.Count())
-                               .Execute(true);
+                               .ExecuteAsync(shouldAutomaticallyDisposeAllDisposables: true);
 
             //Assert
             employeesCount.Should().Be(0);
@@ -186,11 +186,11 @@ namespace Testing.FluentRepository
                                .WithDefaultUnitOfWork()
                                .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
                                .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
-                               .Insert(departmentFake2)
+                               .InsertAsync(departmentFake2)
                                .SetUpQueryRepository(departmentQueryableRepository, employeeQueryableRepository)
                                .Query<Department>(x => x, x => departmentsCount = x.Count())
                                .Query<Employee>(x => x, x => employeesCount = x.Count())
-                               .Execute(true);
+                               .ExecuteAsync(shouldAutomaticallyDisposeAllDisposables: true);
 
             //Assert
             departmentsCount.Should().Be(2);
@@ -234,16 +234,16 @@ namespace Testing.FluentRepository
             FluentRepoNamespace.FluentRepository
                                .WithUnitOfWork(unitOfWorkWithExceptionToBeThrown)
                                .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
-                               .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
+                               .InsertAsync<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
                                .Insert(departmentFake2)
                                .SetUpQueryRepository(departmentQueryableRepository, employeeQueryableRepository)
                                .Query<Department>(x => x, x => departmentsCount = x.Count())
                                .Query<Employee>(x => x, x => employeesCount = x.Count())
-                               .Execute(true);
+                               .ExecuteAsync(shouldAutomaticallyDisposeAllDisposables: true);
 
             //Assert
-            departmentsCount.Should().Be(0);
-            employeesCount.Should().Be(0);
+            departmentsCount.Should().Be(2);
+            employeesCount.Should().Be(2);
         }
 
         [TestMethod]
