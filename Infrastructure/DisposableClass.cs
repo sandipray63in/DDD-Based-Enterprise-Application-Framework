@@ -9,7 +9,7 @@ namespace Infrastructure
         private static int MAX_FINALIZATION_ATTEMPTS = ConfigurationManager.AppSettings["MAX_FINALIZATION_ATTEMPTS"].IsNotNull() ? Convert.ToInt32(ConfigurationManager.AppSettings["MAX_FINALIZATION_ATTEMPTS"]) : 3;
         private static ConcurrentQueue<IDisposable> _failedFinalizations = new ConcurrentQueue<IDisposable>();
         private int _finalizationAttempts;
-        private bool disposed = false;
+        private bool _disposed = false;
 
         /// <summary>
         /// Ideally, there should not be any need to call the destructor/finalize for child classes after inheriting from 
@@ -44,7 +44,7 @@ namespace Infrastructure
         // Private implementation of Dispose pattern.
         private void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             if (disposing)
@@ -55,7 +55,19 @@ namespace Infrastructure
 
             // Free unmanaged object(s) here.
             FreeUnmanagedResources();
-            disposed = true;
+            _disposed = true;
+        }
+
+        /// <summary>
+        /// TODO - Need to call this method from each method within every class which 
+        /// inherits from this class.
+        /// </summary>
+        protected void CheckForObjectAlreadyDisposedOrNot()
+        {
+            if(_disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
+            }
         }
 
         protected virtual void FreeManagedResources() { }
