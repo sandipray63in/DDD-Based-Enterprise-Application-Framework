@@ -62,11 +62,11 @@ namespace Infrastructure
         /// TODO - Need to call this method from each method within every class which 
         /// inherits from this class.
         /// </summary>
-        protected void CheckForObjectAlreadyDisposedOrNot()
+        protected void CheckForObjectAlreadyDisposedOrNot(string className)
         {
             if(_disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(className);
             }
         }
 
