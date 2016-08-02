@@ -18,12 +18,14 @@ namespace Repository
 
         public int RunScriptWithRawSQL(String script, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(RawSQLRepository).FullName);
             ContractUtility.Requires<ArgumentNullException>(!script.IsNullOrWhiteSpace(), "script instance cannot be null or empty");
             return _command.RunScriptWithRawSQL(script, parameters);
         }
 
         public int SaveWithRawSQL(String script, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(RawSQLRepository).FullName);
             ContractUtility.Requires<ArgumentNullException>(!script.IsNullOrWhiteSpace(), "script instance cannot be null or empty");
             return _command.SaveWithRawSQL(script, parameters);
         }

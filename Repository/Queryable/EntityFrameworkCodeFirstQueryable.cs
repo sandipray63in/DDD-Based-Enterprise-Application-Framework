@@ -35,12 +35,14 @@ namespace Repository.Queryable
 
         public IQueryable<TEntity> Include(Expression<Func<TEntity, object>> subSelector)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstQueryable<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(subSelector.IsNotNull(), "subSelector instance cannot be null");
             return _dbSet.Include(subSelector);
         }
 
         public IEnumerable<TEntity> GetWithRawSQL(string getQuery, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstQueryable<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(getQuery.IsNotNullOrWhiteSpace(), "getQuery instance cannot be null or empty");
             return _dbContext.Database.SqlQuery<TEntity>(getQuery, parameters);
         }

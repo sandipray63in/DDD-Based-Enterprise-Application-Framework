@@ -30,11 +30,13 @@ namespace Repository.Queryable
 
         public IQueryable<TEntity> Include(Expression<Func<TEntity, object>> subSelector)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(MongoQuery<TId, TEntity>).FullName);
             throw new NotSupportedException();
         }
 
         public IEnumerable<TEntity> GetWithRawSQL(string getQuery, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(MongoQuery<TId, TEntity>).FullName);
             throw new NotSupportedException();
         }
 

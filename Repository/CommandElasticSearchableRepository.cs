@@ -1,8 +1,8 @@
 ﻿using Domain.Base;
 using Domain.Base.Aggregates;
+using Infrastructure.UnitOfWork;
 using Repository.Base;
 using Repository.Command;
-using Repository.UnitOfWork;
 
 namespace Repository
 {
@@ -27,7 +27,7 @@ namespace Repository
         /// </summary>
         /// <param name="unitOfWork"></param>
         /// <param name="command"></param>
-        public CommandElasticSearchableRepository(BaseUnitOfWork unitOfWork, ICommand<TEntity> command)
+        public CommandElasticSearchableRepository(IUnitOfWork unitOfWork, ICommand<TEntity> command)
             : base(unitOfWork,command)
         {
 

@@ -33,11 +33,13 @@ namespace Repository.Queryable
 
         public IQueryable<TEntity> Include(Expression<Func<TEntity, object>> subSelector)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchQuery<TEntity>).FullName);
             throw new NotSupportedException("This API is not supported for Elastic Search");
         }
 
         public IEnumerable<TEntity> GetWithRawSQL(string getQuery, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchQuery<TEntity>).FullName);
             throw new NotSupportedException("This API is not supported for Elastic Search");
         }
 
@@ -45,12 +47,14 @@ namespace Repository.Queryable
 
         public IList<TEntity> QueryString(string term)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchQuery<TEntity>).FullName);
             var results = _elasticsearchContext.Search<TEntity>(BuildQueryStringSearch(term));
             return results.PayloadResult.Hits.HitsResult.Select(t => t.Source).ToList();
         }
 
         public PagingTableResult<TEntity> GetAllPagedResult(string id, int startIndex, int pageSize, string sorting)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchQuery<TEntity>).FullName);
             var result = new PagingTableResult<TEntity>();
             var data = _elasticsearchContext.Search<TEntity>(
                             BuildSearchForChildDocumentsWithIdAndParentType(

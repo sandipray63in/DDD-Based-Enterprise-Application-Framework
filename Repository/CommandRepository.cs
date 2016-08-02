@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base.Aggregates;
+using Infrastructure.UnitOfWork;
+using Infrastructure.Utilities;
 using Repository.Base;
 using Repository.Command;
-using Repository.UnitOfWork;
-using Infrastructure.Utilities;
 
 namespace Repository
 {
@@ -16,7 +16,7 @@ namespace Repository
     /// <typeparam name="TEntity"></typeparam>
     public class CommandRepository<TEntity> : BaseCommandRepository<TEntity> where TEntity : class,ICommandAggregateRoot
     {
-        protected BaseUnitOfWork _unitOfWork;
+        protected IUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Should be used when unit of work instance is not required 
@@ -34,7 +34,7 @@ namespace Repository
         /// </summary>
         /// <param name="unitOfWork"></param>
         /// <param name="command"></param>
-        public CommandRepository(BaseUnitOfWork unitOfWork, ICommand<TEntity> command)
+        public CommandRepository(IUnitOfWork unitOfWork, ICommand<TEntity> command)
             : base(command)
         {
             ContractUtility.Requires<ArgumentNullException>(unitOfWork.IsNotNull(), "unitOfWork instance cannot be null");
@@ -42,7 +42,7 @@ namespace Repository
         }
 
         internal void SetUnitOfWork<TUnitOfWork>(TUnitOfWork unitOfWork)
-            where TUnitOfWork : BaseUnitOfWork
+            where TUnitOfWork : IUnitOfWork
         {
             _unitOfWork = unitOfWork;
         }
@@ -57,10 +57,11 @@ namespace Repository
         /// <returns></returns>
         public override void Insert(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterInsert(item, this);
+                _unitOfWork.AddOperation(() => ActualInsert(item));
             }
             else
             {
@@ -69,10 +70,11 @@ namespace Repository
         }
         public override void Update(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterUpdate(item, this);
+                _unitOfWork.AddOperation(() => ActualUpdate(item));
             }
             else
             {
@@ -81,10 +83,11 @@ namespace Repository
         }
         public override void Delete(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterDelete(item, this);
+                _unitOfWork.AddOperation(() => ActualDelete(item));
             }
             else
             {
@@ -94,11 +97,12 @@ namespace Repository
 
         public override void Insert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterInsertList(items, this);
+                _unitOfWork.AddOperation(() => ActualInsert(items));
             }
             else
             {
@@ -108,11 +112,12 @@ namespace Repository
 
         public override void Update(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterUpdateList(items, this);
+                _unitOfWork.AddOperation(() => ActualUpdate(items));
             }
             else
             {
@@ -122,11 +127,12 @@ namespace Repository
 
         public override void Delete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterDeleteList(items, this);
+                _unitOfWork.AddOperation(() => ActualDelete(items));
             }
             else
             {
@@ -136,11 +142,12 @@ namespace Repository
 
         public override void BulkInsert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterBulkInsertList(items, this);
+                _unitOfWork.AddOperation(() => ActualBulkInsert(items));
             }
             else
             {
@@ -150,11 +157,12 @@ namespace Repository
 
         public override void BulkUpdate(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterBulkUpdateList(items, this);
+                _unitOfWork.AddOperation(() => ActualBulkUpdate(items));
             }
             else
             {
@@ -164,11 +172,12 @@ namespace Repository
 
         public override void BulkDelete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterBulkDeleteList(items, this);
+                _unitOfWork.AddOperation(() => ActualBulkDelete(items));
             }
             else
             {
@@ -178,10 +187,11 @@ namespace Repository
         
         public override async Task InsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterInsertForAsync(item, this);
+                _unitOfWork.AddOperation(x => ActualInsertAsync(item,token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -191,10 +201,11 @@ namespace Repository
         
         public override async Task UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterUpdateForAsync(item, this);
+                _unitOfWork.AddOperation(x => ActualUpdateAsync(item, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -204,10 +215,11 @@ namespace Repository
         
         public override async Task DeleteAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterDeleteForAsync(item, this);
+                _unitOfWork.AddOperation(x => ActualDeleteAsync(item, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -217,11 +229,12 @@ namespace Repository
         
         public override async Task InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterInsertListForAsync(items, this);
+                _unitOfWork.AddOperation(x => ActualInsertAsync(items, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -231,11 +244,12 @@ namespace Repository
         
         public override async Task UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterUpdateListForAsync(items, this);
+                _unitOfWork.AddOperation(x => ActualUpdateAsync(items, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -245,11 +259,12 @@ namespace Repository
         
         public override async Task DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterDeleteListForAsync(items, this);
+                _unitOfWork.AddOperation(x => ActualDeleteAsync(items, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -259,11 +274,12 @@ namespace Repository
         
         public override async Task BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterBulkInsertListForAsync(items, this);
+                _unitOfWork.AddOperation(x => ActualBulkInsertAsync(items, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -273,11 +289,12 @@ namespace Repository
         
         public override async Task BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterBulkUpdateListForAsync(items, this);
+                _unitOfWork.AddOperation(x => ActualBulkUpdateAsync(items, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -287,11 +304,12 @@ namespace Repository
         
         public override async Task BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(CommandRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterBulkDeleteListAsync(items, this);
+                _unitOfWork.AddOperation(x => ActualBulkDeleteAsync(items, token == default(CancellationToken) ? x : token));
             }
             else
             {
@@ -308,7 +326,8 @@ namespace Repository
             base.FreeManagedResources();
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.Dispose();
+                var dynamicUnitOfWork = (dynamic)_unitOfWork;
+                dynamicUnitOfWork.Dispose();
             }
         }
 

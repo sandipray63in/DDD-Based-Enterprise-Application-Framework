@@ -9,7 +9,7 @@ using FluentRepoNamespace = FluentRepository;
 using Repository;
 using Repository.Base;
 using Repository.Command;
-using Repository.UnitOfWork;
+using Infrastructure.UnitOfWork;
 using Testing.Respository;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
@@ -303,7 +303,7 @@ namespace Testing.FluentRepository
             _container.RegisterType<ICommand<Department>, DepartmentTestServiceCommand>(name, new InjectionConstructor(_connection));
             var context = _container.Resolve<EFTestContext>();
             var command = _container.Resolve<ICommand<Department>>(name, new ParameterOverride("dbContext", context));
-            var injectionConstructor = new InjectionConstructor(typeof(BaseUnitOfWork), command);
+            var injectionConstructor = new InjectionConstructor(typeof(IUnitOfWork), command);
             _container.RegisterType<ICommandRepository<Department>, CommandRepository<Department>>(name, injectionConstructor);
         }
 

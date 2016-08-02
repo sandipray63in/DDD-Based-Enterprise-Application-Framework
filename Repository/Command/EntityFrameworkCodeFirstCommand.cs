@@ -49,6 +49,7 @@ namespace Repository.Command
         /// <returns></returns>
         public void Insert(TEntity item)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             var entry = _dbContext.Entry(item);
             if (entry.State != EntityState.Detached)
@@ -64,6 +65,7 @@ namespace Repository.Command
 
         public void Update(TEntity item)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             var entry = _dbContext.Entry(item);
             if (entry.State == EntityState.Detached)
@@ -76,6 +78,7 @@ namespace Repository.Command
 
         public void Delete(TEntity item)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             var entry = _dbContext.Entry(item);
             if (entry.State != EntityState.Deleted)
@@ -93,6 +96,7 @@ namespace Repository.Command
         //Cascading effects to be taken care at Domain level.
         public void Insert(IList<TEntity> items)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
@@ -113,6 +117,7 @@ namespace Repository.Command
         //Cascading effects to be taken care at Domain level.
         public void Update(IList<TEntity> items)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
@@ -130,6 +135,7 @@ namespace Repository.Command
         //Cascading effects to be taken care at Domain level.
         public void Delete(IList<TEntity> items)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
@@ -150,6 +156,7 @@ namespace Repository.Command
 
         public void BulkInsert(IList<TEntity> items)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             var connection = _dbContext.Database.Connection;
@@ -164,6 +171,7 @@ namespace Repository.Command
 
         public void BulkUpdate(IList<TEntity> items)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             var connection = _dbContext.Database.Connection;
@@ -178,6 +186,7 @@ namespace Repository.Command
 
         public void BulkDelete(IList<TEntity> items)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             var connection = _dbContext.Database.Connection;
@@ -192,6 +201,7 @@ namespace Repository.Command
 
         public async Task InsertAsync(TEntity item, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             var entry = _dbContext.Entry(item);
             if (entry.State != EntityState.Detached)
@@ -207,6 +217,7 @@ namespace Repository.Command
 
         public async Task UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             var entry = _dbContext.Entry(item);
             if (entry.State == EntityState.Detached)
@@ -219,6 +230,7 @@ namespace Repository.Command
 
         public async Task DeleteAsync(TEntity item, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             var entry = _dbContext.Entry(item);
             if (entry.State != EntityState.Deleted)
@@ -235,6 +247,7 @@ namespace Repository.Command
 
         public async Task InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
@@ -254,6 +267,7 @@ namespace Repository.Command
 
         public async Task UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
@@ -270,6 +284,7 @@ namespace Repository.Command
 
         public async Task DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(items.IsNotNull(), "items instance cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
@@ -290,18 +305,21 @@ namespace Repository.Command
 
         public async Task BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ///TODO - Need to come up with a way to handle this.
             throw new NotImplementedException();
         }
 
         public async Task BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ///TODO - Need to come up with a way to handle this.
             throw new NotImplementedException();
         }
 
         public async Task BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ///TODO - Need to come up with a way to handle this.
             throw new NotImplementedException();
         }

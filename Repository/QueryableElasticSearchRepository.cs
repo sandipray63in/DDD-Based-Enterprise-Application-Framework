@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base;
 using Domain.Base.Aggregates;
+using Infrastructure.UnitOfWork;
 using Repository.Base;
 using Repository.Queryable;
-using Repository.UnitOfWork;
 
 namespace Repository
 {
@@ -20,7 +20,7 @@ namespace Repository
 
         }
 
-        public QueryableElasticSearchRepository(BaseUnitOfWork unitOfWork, IElasticSearchQuery<TEntity> queryable) : base(unitOfWork,queryable)
+        public QueryableElasticSearchRepository(IUnitOfWork unitOfWork, IElasticSearchQuery<TEntity> queryable) : base(unitOfWork,queryable)
         {
 
         }

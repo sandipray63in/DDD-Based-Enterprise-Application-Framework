@@ -7,7 +7,7 @@ using FluentRepository.FluentImplementations;
 using FluentRepository.FluentInterfaces;
 using Infrastructure.Utilities;
 using Repository.Base;
-using Repository.UnitOfWork;
+using Infrastructure.UnitOfWork;
 
 namespace FluentRepository
 {
@@ -22,14 +22,14 @@ namespace FluentRepository
         }
 
         public static IFluentCommandAndQueryRepository WithUnitOfWork<TUnitOfWork>(IsolationLevel isoLevel, TransactionScopeOption scopeOption, bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
-            where TUnitOfWork : BaseUnitOfWork
+            where TUnitOfWork : IUnitOfWork
         {
             var unitOfWorkData = new UnitOfWorkData { UnitOfWork = new UnitOfWork(isoLevel, scopeOption), ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException };
             return new FluentCommandAndQueryRepository(unitOfWorkData);
         }
 
         public static IFluentCommandAndQueryRepository WithUnitOfWork<TUnitOfWork>(TUnitOfWork unitOfWork, bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
-            where TUnitOfWork : BaseUnitOfWork
+            where TUnitOfWork : class, IUnitOfWork
         {
             ContractUtility.Requires<ArgumentNullException>(unitOfWork.IsNotNull(), "unitOfWork instance cannot be null");
             var unitOfWorkData = new UnitOfWorkData { UnitOfWork = unitOfWork, ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException };

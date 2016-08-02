@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Domain.Base.Aggregates;
-using Repository.Base;
-using Repository.Queryable;
-using Repository.UnitOfWork;
 using Infrastructure;
 using Infrastructure.Utilities;
+using Infrastructure.UnitOfWork;
+using Repository.Base;
+using Repository.Queryable;
 
 namespace Repository
 {
@@ -19,7 +19,7 @@ namespace Repository
         #region Private Fields
 
         protected IQuery<TEntity> _queryable;
-        private BaseUnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace Repository
             _queryable = queryable;
         }
 
-        public QueryableRepository(BaseUnitOfWork unitOfWork, Queryable.IQuery<TEntity> queryable)
+        public QueryableRepository(IUnitOfWork unitOfWork, Queryable.IQuery<TEntity> queryable)
         {
             ContractUtility.Requires<ArgumentNullException>(unitOfWork.IsNotNull(), "unitOfWork instance cannot be null");
             ContractUtility.Requires<ArgumentNullException>(queryable.IsNotNull(), "queryable instance cannot be null");
@@ -43,17 +43,20 @@ namespace Repository
 
         internal void SetQuery(dynamic query)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             _queryable = query as IQuery<TEntity>;
         }
 
         internal void SetUnitOfWork<TUnitOfWork>(TUnitOfWork unitOfWork)
-            where TUnitOfWork : BaseUnitOfWork
+            where TUnitOfWork : IUnitOfWork
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             _unitOfWork = unitOfWork;
         }
 
         public virtual void RunQuery(Func<IQueryableRepository<TEntity>, TEntity> queryableRepositoryOperation, Action<TEntity> operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
             Action operation = () =>
                 {
@@ -65,7 +68,7 @@ namespace Repository
                 };
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterQueryOperation(operation);
+                _unitOfWork.AddOperation(operation);
             }
             else
             {
@@ -75,6 +78,7 @@ namespace Repository
 
         public virtual void RunQuery(Func<IQueryableRepository<TEntity>, IEnumerable<TEntity>> queryableRepositoryOperation, Action<IEnumerable<TEntity>> operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
             Action operation = () =>
                 {
@@ -86,7 +90,7 @@ namespace Repository
                 };
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterQueryOperation(operation);
+                _unitOfWork.AddOperation(operation);
             }
             else
             {
@@ -96,6 +100,7 @@ namespace Repository
 
         public virtual void RunQuery<TIntermediateType>(Func<IQueryableRepository<TEntity>, TIntermediateType> queryableRepositoryOperation, Action<TIntermediateType> operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
             Action operation = () =>
             {
@@ -107,7 +112,7 @@ namespace Repository
             };
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.RegisterQueryOperation(operation);
+                _unitOfWork.AddOperation(operation);
             }
             else
             {
@@ -117,12 +122,14 @@ namespace Repository
 
         public virtual IQueryable<TEntity> Include(Expression<Func<TEntity, object>> subSelector)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(subSelector.IsNotNull(), "subSelector instance cannot be null");
             return _queryable.Include(subSelector);
         }
 
         public virtual IEnumerable<TEntity> GetWithRawSQL(string query, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(!query.IsNullOrWhiteSpace(), "query instance cannot be null or empty");
             return _queryable.GetWithRawSQL(query, parameters);
         }

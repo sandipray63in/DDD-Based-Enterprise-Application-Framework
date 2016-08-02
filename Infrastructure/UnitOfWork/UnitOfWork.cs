@@ -7,9 +7,9 @@ using System.Transactions;
 using Infrastructure.SemanticLogging.CrossCuttingEventSources;
 using Infrastructure.Utilities;
 
-namespace Repository.UnitOfWork
+namespace Infrastructure.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : DisposableClass, IUnitOfWork
     {
         private const string ASYNC_SUFFIX = "Async";
 
@@ -45,12 +45,14 @@ namespace Repository.UnitOfWork
 
         public void AddOperation(Action operation)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(UnitOfWork).FullName);
             _operationsQueue.Enqueue(new OperationData { Operation = operation });
         }
 
         public void AddOperation(Func<CancellationToken, Task> asyncOperation)
         {
-            _operationsQueue.Enqueue(new OperationData { AsyncOperation = asyncOperation});
+            CheckForObjectAlreadyDisposedOrNot(typeof(UnitOfWork).FullName);
+            _operationsQueue.Enqueue(new OperationData { AsyncOperation = asyncOperation });
         }
 
         /// <summary>
@@ -60,13 +62,14 @@ namespace Repository.UnitOfWork
         /// </summary>
         /// <param name="shouldAutomaticallyRollBackOnTransactionException">when set to true(default value) 
         /// the RollBack method need not be called from the consumer class</param>
-        public override void Commit(bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
+        public void Commit(bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
         {
-            ContractUtility.Requires<ArgumentOutOfRangeException>(_operationsQueue.Count > 0,"Atleast one operation must be there to be executed.");
+            CheckForObjectAlreadyDisposedOrNot(typeof(UnitOfWork).FullName);
+            ContractUtility.Requires<ArgumentOutOfRangeException>(_operationsQueue.Count > 0, "Atleast one operation must be there to be executed.");
 
             ContractUtility.Requires<NotSupportedException>(_operationsQueue.All(x => x.AsyncOperation.IsNull()),
                                     "Async operations are not supported by Commit method.Use CommitAsync instead.");
-            
+
             _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption);
             try
             {
@@ -82,12 +85,12 @@ namespace Repository.UnitOfWork
                     }
                 }
                 CompleteScope(() =>
-                    {
-                        _scope.Complete(); // this just completes the transaction.Not yet committed here.
-                        _scope.Dispose();  // After everthing runs successfully within the transaction 
-                                           // and after completion, this should be called to actually commit the data 
-                                           // within the transaction scope.
-                    }, shouldAutomaticallyRollBackOnTransactionException, shouldThrowOnException);
+                {
+                    _scope.Complete(); // this just completes the transaction.Not yet committed here.
+                    _scope.Dispose();  // After everthing runs successfully within the transaction 
+                                       // and after completion, this should be called to actually commit the data 
+                                       // within the transaction scope.
+                }, shouldAutomaticallyRollBackOnTransactionException, shouldThrowOnException);
             }
             catch (Exception ex)
             {
@@ -109,8 +112,9 @@ namespace Repository.UnitOfWork
         /// <param name="shouldAutomaticallyRollBackOnTransactionException"></param>
         /// <param name="shouldThrowOnException"></param>
         /// <returns></returns>
-        public override async Task CommitAsync(CancellationToken token = default(CancellationToken), bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
+        public async Task CommitAsync(CancellationToken token = default(CancellationToken), bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(UnitOfWork).FullName);
             ContractUtility.Requires<ArgumentOutOfRangeException>(_operationsQueue.Count > 0, "Atleast one operation must be there to be executed.");
             ContractUtility.Requires<NotSupportedException>(_operationsQueue.Any(x => x.AsyncOperation.IsNotNull()),
                 "If CommitAsync method is used,there needs to be atleast one async operation exceuted." +
@@ -155,8 +159,9 @@ namespace Repository.UnitOfWork
         /// <summary>
         /// Explicitly call the Dispose method in a Rollback method and call this Rollback method on transaction exceptions if required.
         /// </summary>
-        public override void Rollback(Exception commitException = null, bool shouldThrowOnException = true)
+        public void Rollback(Exception commitException = null, bool shouldThrowOnException = true)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(UnitOfWork).FullName);
             try
             {
                 if (_scope.IsNotNull())
@@ -190,7 +195,7 @@ namespace Repository.UnitOfWork
         }
 
 
-       #region Private Methods
+        #region Private Methods
 
         private void CompleteScope(Action action, bool shouldAutomaticallyRollBackOnTransactionException, bool shouldThrowOnException)
         {

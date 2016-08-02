@@ -8,8 +8,8 @@ using Repository;
 using Repository.Base;
 using Repository.Command;
 using Repository.Queryable;
-using Repository.UnitOfWork;
-using UnitOfWork = Repository.UnitOfWork;
+using Infrastructure.UnitOfWork;
+using UnitOfWork = Infrastructure.UnitOfWork;
 using Infrastructure.DI;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
@@ -84,7 +84,7 @@ namespace Testing.Respository
             var context = _container.Resolve<EFTestContext>();
             var command = _container.Resolve<ICommand<TEntity>>(new ParameterOverride("dbContext", context));
             var respositoryName = isUnitOfWorkRequired ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;
-            var injectionConstructor = !isUnitOfWorkRequired ? new InjectionConstructor(command) : new InjectionConstructor(typeof(BaseUnitOfWork), command);
+            var injectionConstructor = !isUnitOfWorkRequired ? new InjectionConstructor(command) : new InjectionConstructor(typeof(IUnitOfWork), command);
             _container.RegisterType<ICommandRepository<TEntity>, CommandRepository<TEntity>>(respositoryName, injectionConstructor);
         }
 
@@ -102,13 +102,13 @@ namespace Testing.Respository
             var toBeResolvedName = typeof(UnitOfWork.UnitOfWork).Name;
             if (!isExceptionToBeThrownForRollBackTesting)
             {
-                _container.RegisterType<BaseUnitOfWork, UnitOfWork.UnitOfWork>(toBeResolvedName, new InjectionConstructor(IsolationLevel.ReadCommitted, TransactionScopeOption.RequiresNew));
+                _container.RegisterType<IUnitOfWork, UnitOfWork.UnitOfWork>(toBeResolvedName, new InjectionConstructor(IsolationLevel.ReadCommitted, TransactionScopeOption.RequiresNew));
             }
             else
             {
                 toBeResolvedName += WITH_EXCEPTION_TO_BE_THROWN_FOR_ROLLBACK_TEST_SUFFIX;
                 Func<bool> actionToThrowException = () => { throw new Exception("Rollback Test Exception"); };
-                _container.RegisterType<BaseUnitOfWork, UnitOfWork.UnitOfWork>(toBeResolvedName, new InjectionConstructor(actionToThrowException,false, IsolationLevel.ReadCommitted, TransactionScopeOption.RequiresNew));
+                _container.RegisterType<IUnitOfWork, UnitOfWork.UnitOfWork>(toBeResolvedName, new InjectionConstructor(actionToThrowException,false, IsolationLevel.ReadCommitted, TransactionScopeOption.RequiresNew));
             }
         }
 
@@ -122,7 +122,7 @@ namespace Testing.Respository
 
         protected virtual void Cleanup() { }
 
-        protected ICommandRepository<TEntity> GetCommandRepositoryInstance<TEntity>(BaseUnitOfWork unitOfWork = null) where TEntity : ICommandAggregateRoot
+        protected ICommandRepository<TEntity> GetCommandRepositoryInstance<TEntity>(IUnitOfWork unitOfWork = null) where TEntity : ICommandAggregateRoot
         {
             var respositoryName = unitOfWork.IsNotNull() ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;
             var repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<TEntity>>(respositoryName) : _container.Resolve<ICommandRepository<TEntity>>(respositoryName, new ParameterOverride("unitOfWork", unitOfWork));
@@ -134,21 +134,21 @@ namespace Testing.Respository
             return _container.Resolve<IQueryableRepository<TEntity>>();
         }
 
-        protected ICommandRepository<Department> GetDepartmentCommandServiceRepositoryInstance(BaseUnitOfWork unitOfWork = null)
+        protected ICommandRepository<Department> GetDepartmentCommandServiceRepositoryInstance(IUnitOfWork unitOfWork = null)
         {
             var name = typeof(Department).Name + SERVICE_SUFFIX;
             var repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<Department>>(name) : _container.Resolve<ICommandRepository<Department>>(name, new ParameterOverride("unitOfWork", unitOfWork));
             return repository;
         }
 
-        protected BaseUnitOfWork GetUnitOfWorkInstance(bool isExceptionToBeThrownForRollBackTesting = false)
+        protected IUnitOfWork GetUnitOfWorkInstance(bool isExceptionToBeThrownForRollBackTesting = false)
         {
             var toBeResolvedName = typeof(UnitOfWork.UnitOfWork).Name;
             if (isExceptionToBeThrownForRollBackTesting)
             {
                 toBeResolvedName += WITH_EXCEPTION_TO_BE_THROWN_FOR_ROLLBACK_TEST_SUFFIX;
             }
-            return _container.Resolve<BaseUnitOfWork>(toBeResolvedName);
+            return _container.Resolve<IUnitOfWork>(toBeResolvedName);
         }
 
         #endregion

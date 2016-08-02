@@ -17,7 +17,7 @@ namespace Repository.UnitOfWork
     /// else Cancellation token passed to individual methods will be used.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class BaseUnitOfWork : DisposableClass
+    public abstract class IUnitOfWork : DisposableClass
     {
         internal abstract void RegisterQueryOperation(Action operation);
         internal abstract void RegisterInsert<TEntity>(TEntity item, BaseUnitOfWorkRepository<TEntity> repository, Action operationToExecuteBeforeNextOperation = null) where TEntity : ICommandAggregateRoot;

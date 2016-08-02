@@ -58,10 +58,6 @@ namespace Infrastructure
             _disposed = true;
         }
 
-        /// <summary>
-        /// TODO - Need to call this method from each method within every class which 
-        /// inherits from this class.
-        /// </summary>
         protected void CheckForObjectAlreadyDisposedOrNot(string className)
         {
             if(_disposed)

@@ -24,12 +24,14 @@ namespace Repository.Command
 
         public int RunScriptWithRawSQL(string script, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(RawSQLEntityFramework).FullName);
             ContractUtility.Requires<ArgumentNullException>(!script.IsNullOrWhiteSpace(), "script instance cannot be null or empty");
             return _context.Database.ExecuteSqlCommand(script, parameters);
         }
 
         public int SaveWithRawSQL(string script, params object[] parameters)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(RawSQLEntityFramework).FullName);
             ContractUtility.Requires<ArgumentNullException>(!script.IsNullOrWhiteSpace(), "script instance cannot be null or empty");
             return PerformDMLWithRawSQLWithinTransaction(script, parameters);
         }

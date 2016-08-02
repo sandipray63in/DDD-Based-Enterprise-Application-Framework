@@ -40,18 +40,21 @@ namespace Repository.Base
 
         internal override void ActualInsert(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             _command.Insert(item);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override void ActualUpdate(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             _command.Update(item);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override void ActualDelete(TEntity item, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             if (item.GetType().GetProperties().Any(x => x.GetType() == typeof(SoftDeleteableInfo)))
             {
                 ActualUpdate(item);
@@ -65,18 +68,21 @@ namespace Repository.Base
 
         internal override void ActualInsert(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             _command.Insert(itemList);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override void ActualUpdate(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             _command.Update(itemList);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override void ActualDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
             var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
             if (softDeleteableItems.IsNotEmpty())
@@ -92,18 +98,21 @@ namespace Repository.Base
 
         internal override void ActualBulkInsert(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             _command.BulkInsert(itemList);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override void ActualBulkUpdate(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             _command.BulkUpdate(itemList);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override void ActualBulkDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
             var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
             if (softDeleteableItems.IsNotEmpty())
@@ -119,18 +128,21 @@ namespace Repository.Base
 
         internal override async Task ActualInsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             await _command.InsertAsync(item, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override async Task ActualUpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             await _command.UpdateAsync(item, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override async Task ActualDeleteAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             if (item.GetType().GetProperties().Any(x => x.GetType() == typeof(SoftDeleteableInfo)))
             {
                 await ActualUpdateAsync(item, token);
@@ -144,18 +156,21 @@ namespace Repository.Base
 
         internal override async Task ActualInsertAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             await _command.InsertAsync(itemList, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override async Task ActualUpdateAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             await _command.UpdateAsync(itemList, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override async Task ActualDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
             var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
             if (softDeleteableItems.IsNotEmpty())
@@ -171,18 +186,21 @@ namespace Repository.Base
 
         internal override async Task ActualBulkInsertAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             await _command.BulkInsertAsync(itemList, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override async Task ActualBulkUpdateAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             await _command.BulkUpdateAsync(itemList, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
         internal override async Task ActualBulkDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
             var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
             var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
             if (softDeleteableItems.IsNotEmpty())

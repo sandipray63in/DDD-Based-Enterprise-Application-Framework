@@ -7,14 +7,14 @@ using Domain.Base;
 using Domain.Base.Aggregates;
 using Infrastructure.Utilities;
 using Repository.Base;
-using Repository.UnitOfWork;
+using Infrastructure.UnitOfWork;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
 {
     public class ElasticSearchableCommandDomainServiceAsync<TEntity> : CommandDomainServiceAsync<TEntity>, IElasticSearchableCommandDomainServiceAsync<TEntity> where TEntity : ICommandAggregateRoot, IElasticSearchable
     {
         protected readonly ICommandElasticSearchableRepository<TEntity> _elasticSearchableCommandRepository;
-        protected readonly BaseUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWork _unitOfWork;
 
         public ElasticSearchableCommandDomainServiceAsync(ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
         {
@@ -22,7 +22,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             _elasticSearchableCommandRepository = elasticSearchableCommandRepository;
         }
 
-        public ElasticSearchableCommandDomainServiceAsync(BaseUnitOfWork unitOfWork, ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
+        public ElasticSearchableCommandDomainServiceAsync(IUnitOfWork unitOfWork, ICommandRepository<TEntity> commandRepository, ICommandElasticSearchableRepository<TEntity> elasticSearchableCommandRepository) : base(commandRepository)
         {
             ContractUtility.Requires<ArgumentNullException>(unitOfWork != null, "unitOfWork instance cannot be null");
             ContractUtility.Requires<ArgumentNullException>(elasticSearchableCommandRepository != null, "elasticSearchableCommandRepository instance cannot be null");
