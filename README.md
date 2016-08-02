@@ -18,8 +18,6 @@ N.B.-> If one wants to think of any imaginable data source as Repository then at
 
 Pending Tasks ->
 
-• Refactoring UnitOfWork to have just 2 methods(overloaded) viz. AddOperationToQueue(Action action) and AddOperationToQueue(Func`<CancellationToken,Task>` func) instead of all the RegisterXXX methods and move it to Infrastructure layer (so that the UnitOfWork instance can be used as a transaction block not only for the Repositories layer but also for Application/Domain  Services layer or the API layer) and then make the corresponding changes across all the impacting classes.
-
 • Incorporation of some tactical DDD stuffs(mainly the common framework elements)
 
 • Trying exploring and incorporating Dapper(a Micro-ORM - Micro ORMs may not provide you some functionalities like UnitOfWork out of the box like that of an ORM but performance wise they are way better compared to ORMs), Event Stores and Grid Based Storage.
