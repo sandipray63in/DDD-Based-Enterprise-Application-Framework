@@ -41,7 +41,7 @@ Pending Tasks ->
 References(not that everything mentioned below is referred to build this framework, but atleast some bits of each of these awesome resources mentioned below have been referred or will be referred) -   
  1) [Patterns, Principles and Practices of Domain Driven Design](http://www.wrox.com/WileyCDA/WroxTitle/Patterns-Principles-and-Practices-of-Domain-Driven-Design.productCd-1118714709.html)  
  2) [Implementing Domain Driven Design](https://vaughnvernon.co/?page_id=168)    
- 3) [CQRS Wiki](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation#Command_Query_Responsibility_Segregation), [How Eventuate Works](http://eventuate.io/howeventuateworks.html)  and [CQRS Examples](http://stackoverflow.com/questions/5043513/cqrs-examples-and-screencasts)      
+ 3) [CQRS Wiki](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation#Command_Query_Responsibility_Segregation), [How Eventuate Works](http://eventuate.io/howeventuateworks.html), [Rinat Abdullin On CQRS](https://abdullin.com/tags/cqrs/), [CQRS Myths](https://lostechies.com/jimmybogard/2012/08/22/busting-some-cqrs-myths/), [When To Avoid CQRS](http://udidahan.com/2011/04/22/when-to-avoid-cqrs/) and [CQRS Examples](http://stackoverflow.com/questions/5043513/cqrs-examples-and-screencasts)      
  4) [Javascript Domain Driven Design](https://www.packtpub.com/web-development/javascript-domain-driven-design)  
  5) [Coding for Domain Driven Design](https://msdn.microsoft.com/en-us/magazine/dn342868.aspx)  
  6) [Domain Driven Design Wiki](https://en.wikipedia.org/wiki/Domain-driven_design)  
