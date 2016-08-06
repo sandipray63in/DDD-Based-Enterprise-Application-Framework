@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Locking
+namespace Infrastructure.Concurrency.Synchronization.DataProtection
 {
     /// <summary>
     /// The concept used here is somewhat similar to that of currying

@@ -6,7 +6,10 @@ using Microsoft.Practices.Unity.Configuration;
 namespace Infrastructure.DI
 {
     /// <summary>
-    /// A singleton wrapper class over MS Unity Container
+    /// A singleton wrapper class over MS Unity Container.
+    /// For Singleton use-cases, refer - http://codeofdoom.com/wordpress/2008/04/20/how-and-when-to-use-singleton-classes/ 
+    /// and http://programmers.stackexchange.com/questions/235527/when-to-use-a-singleton-and-when-to-use-a-static-class.
+    /// For the Multiton pattern refer - http://gen5.info/q/2008/07/25/the-multiton-design-pattern/.
     /// </summary>
     public class Container
     {

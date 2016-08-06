@@ -347,6 +347,10 @@
     <Compile Include="Caching\DomainMemoryCache.cs" />
     <Compile Include="Caching\ICache.cs" />
     <Compile Include="Caching\MemoryCache.cs" />
+    <Compile Include="Concurrency\Synchronization\DataProtection\BaseLockOrSpin.cs" />
+    <Compile Include="Concurrency\Synchronization\DataProtection\BasicLock.cs" />
+    <Compile Include="Concurrency\Synchronization\DataProtection\ILockOrSpin.cs" />
+    <Compile Include="Concurrency\Synchronization\DataProtection\SpinningWait.cs" />
     <Compile Include="DisposableClass.cs" />
     <Compile Include="DI\Container.cs" />
     <Compile Include="AoP\MethodInvocationData.cs" />
@@ -356,10 +360,10 @@
     <Compile Include="Extensions\CleanUpExtensions.cs" />
     <Compile Include="Extensions\FuncExtensions.cs" />
     <Compile Include="Extensions\UnityContainerExtensions.cs" />
-    <Compile Include="Locking\BaseLockOrSpin.cs" />
-    <Compile Include="Locking\BasicLock.cs" />
-    <Compile Include="Locking\ILockOrSpin.cs" />
-    <Compile Include="Locking\SpinningWait.cs" />
+    <Compile Include="Observers\ISubscribeUnsubscribe.cs" />
+    <Compile Include="Observers\Observable.cs" />
+    <Compile Include="Observers\Observer.cs" />
+    <Compile Include="Observers\Unsubscriber.cs" />
     <Compile Include="SemanticLogging\CrossCuttingEventSources\ExceptionLogEvents.cs" />
     <Compile Include="SemanticLogging\CrossCuttingEventSources\MessageLogEvents.cs" />
     <Compile Include="SemanticLogging\EventListenersHandling\Bootstrapper.cs" />
@@ -398,6 +402,9 @@
       <Project>{35fd83da-a508-43ea-97e8-9329beaf7100}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Concurrency\Synchronization\Communication\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

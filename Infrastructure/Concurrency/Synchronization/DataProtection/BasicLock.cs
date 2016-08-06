@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Locking
+namespace Infrastructure.Concurrency.Synchronization.DataProtection
 {
     public class BasicLock : BaseLockOrSpin
     {

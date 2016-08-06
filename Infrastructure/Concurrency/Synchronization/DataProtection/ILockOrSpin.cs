@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Locking
+namespace Infrastructure.Concurrency.Synchronization.DataProtection
 {
     /// <summary>
     /// As per industry standards, at most a function should have 3 parameters and if it's more than that, one should consider 

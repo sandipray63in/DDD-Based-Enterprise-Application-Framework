@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Infrastructure.Locking
+namespace Infrastructure.Concurrency.Synchronization.DataProtection
 {
     public class SpinningWait : BaseLockOrSpin
     {
