@@ -2,13 +2,6 @@
 
 namespace Infrastructure.Concurrency.Synchronization.SharedDataProtection
 {
-    /// <summary>
-    /// The concept used here is somewhat similar to that of currying
-    /// (a functional programming concept) although ideally Curry and UnCurry 
-    /// extensions should be seperated out into different Extension Methods alltogether 
-    /// as suggested here  - 
-    /// https://weblogs.asp.net/dixin/lambda-calculus-via-c-sharp-1-fundamentals-closure-currying-and-partial-application
-    /// </summary>
     public abstract class BaseLocking : ILocking
     {
         public abstract void LockOrSpin(Action action);
