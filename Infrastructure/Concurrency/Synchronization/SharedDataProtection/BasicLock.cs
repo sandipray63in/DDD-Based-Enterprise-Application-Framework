@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Infrastructure.Concurrency.Synchronization.DataProtection
+namespace Infrastructure.Concurrency.Synchronization.SharedDataProtection
 {
-    public class BasicLock : BaseLockOrSpin
+    public class BasicLock : BaseLocking
     {
         private readonly Object _lockObject;
 

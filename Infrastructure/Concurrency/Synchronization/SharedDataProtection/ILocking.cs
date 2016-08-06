@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Concurrency.Synchronization.DataProtection
+namespace Infrastructure.Concurrency.Synchronization.SharedDataProtection
 {
     /// <summary>
     /// As per industry standards, at most a function should have 3 parameters and if it's more than that, one should consider 
@@ -11,7 +11,7 @@ namespace Infrastructure.Concurrency.Synchronization.DataProtection
     /// the methods.
     /// </summary>
     
-    public interface ILockOrSpin
+    public interface ILocking
     {
         void LockOrSpin(Action action);
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 
-namespace Infrastructure.Concurrency.Synchronization.DataProtection
+namespace Infrastructure.Concurrency.Synchronization.SharedDataProtection
 {
-    public class SpinningWait : BaseLockOrSpin
+    public class SpinningWait : BaseLocking
     {
         private readonly int _timeToSpinWait;
         public SpinningWait(int timeToSpinWait)

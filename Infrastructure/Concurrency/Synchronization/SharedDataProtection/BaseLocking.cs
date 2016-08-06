@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.Concurrency.Synchronization.DataProtection
+namespace Infrastructure.Concurrency.Synchronization.SharedDataProtection
 {
     /// <summary>
     /// The concept used here is somewhat similar to that of currying
@@ -9,7 +9,7 @@ namespace Infrastructure.Concurrency.Synchronization.DataProtection
     /// as suggested here  - 
     /// https://weblogs.asp.net/dixin/lambda-calculus-via-c-sharp-1-fundamentals-closure-currying-and-partial-application
     /// </summary>
-    public abstract class BaseLockOrSpin : ILockOrSpin
+    public abstract class BaseLocking : ILocking
     {
         public abstract void LockOrSpin(Action action);
 

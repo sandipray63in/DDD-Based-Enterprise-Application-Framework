@@ -347,10 +347,10 @@
     <Compile Include="Caching\DomainMemoryCache.cs" />
     <Compile Include="Caching\ICache.cs" />
     <Compile Include="Caching\MemoryCache.cs" />
-    <Compile Include="Concurrency\Synchronization\DataProtection\BaseLockOrSpin.cs" />
-    <Compile Include="Concurrency\Synchronization\DataProtection\BasicLock.cs" />
-    <Compile Include="Concurrency\Synchronization\DataProtection\ILockOrSpin.cs" />
-    <Compile Include="Concurrency\Synchronization\DataProtection\SpinningWait.cs" />
+    <Compile Include="Concurrency\Synchronization\SharedDataProtection\BaseLocking.cs" />
+    <Compile Include="Concurrency\Synchronization\SharedDataProtection\BasicLock.cs" />
+    <Compile Include="Concurrency\Synchronization\SharedDataProtection\ILocking.cs" />
+    <Compile Include="Concurrency\Synchronization\SharedDataProtection\SpinningWait.cs" />
     <Compile Include="DisposableClass.cs" />
     <Compile Include="DI\Container.cs" />
     <Compile Include="AoP\MethodInvocationData.cs" />
@@ -404,7 +404,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Concurrency\Synchronization\Communication\" />
+    <Folder Include="Concurrency\Synchronization\InterThreadCommunication\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
