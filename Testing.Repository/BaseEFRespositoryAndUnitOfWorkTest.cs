@@ -116,7 +116,7 @@ namespace Testing.Respository
 
         #region Protected Members
 
-        protected abstract void RegisterEFTestContext();
+        protected virtual void RegisterEFTestContext() { }
 
         protected abstract void RegisterDepartmentCommandService();
 

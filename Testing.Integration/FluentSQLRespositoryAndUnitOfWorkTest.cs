@@ -1,21 +1,31 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Practices.Unity;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using FluentAssertions;
 using FluentRepoNamespace = FluentRepository;
+using Infrastructure.UnitOfWork;
+using Repository;
+using Repository.Base;
+using Repository.Command;
+using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 using Testing.Respository;
 
 namespace Testing.Integration
 {
+    [TestClass]
     public class FluentSQLRespositoryAndUnitOfWorkTest : BaseEFRespositoryAndUnitOfWorkTest
     {
+        private DbConnection _connection;
+
         /// <summary>
         /// Since tested locally, MSDTC need not be enabled.
         /// </summary>
         [TestMethod]
         [TestCategory("Medium")]
-        public void test_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_should_be_saved()
+        public void test_sql_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_should_be_saved()
         {
             //Arrange
             var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
@@ -62,7 +72,7 @@ namespace Testing.Integration
         /// </summary>
         [TestMethod]
         [TestCategory("Medium")]
-        public void test_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_with_exception_thrown_in_between_should_rollback()
+        public void test_sql_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_with_exception_thrown_in_between_should_rollback()
         {
             //Arrange
             var unitOfWorkWithExceptionToBeThrown = GetUnitOfWorkInstance(true);
@@ -108,7 +118,7 @@ namespace Testing.Integration
 
         [TestMethod]
         [TestCategory("Slow")]
-        public void test_fluent_insert_multiple_employees_alongwith_department_service_with_explicit_transaction_scope_should_save_data()
+        public void test_sql_fluent_insert_multiple_employees_alongwith_department_service_with_explicit_transaction_scope_should_save_data()
         {
             //Arrange
             var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
@@ -147,24 +157,24 @@ namespace Testing.Integration
             departmentsCount.Should().Be(2);
         }
 
-        #region Overrides
-
-        protected override void RegisterEFTestContext()
-        {
-           
-        }
-
         protected override void RegisterDepartmentCommandService()
         {
-            
+            var name = typeof(Department).Name + SERVICE_SUFFIX;
+            var context = _container.Resolve<EFTestContext>();
+            _connection = context.Database.Connection;
+            _container.RegisterType<ICommand<Department>, DepartmentTestServiceCommand>(name, new InjectionConstructor(_connection));
+            var command = _container.Resolve<ICommand<Department>>(name, new ParameterOverride("dbContext", context));
+            var injectionConstructor = new InjectionConstructor(typeof(IUnitOfWork), command);
+            _container.RegisterType<ICommandRepository<Department>, CommandRepository<Department>>(name, injectionConstructor);
         }
 
         protected override void Cleanup()
         {
-           
+            base.Cleanup();
+            if (_connection != null)
+            {
+                _connection.Dispose();
+            }
         }
-
-        #endregion
-
     }
 }
