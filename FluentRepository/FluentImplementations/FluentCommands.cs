@@ -160,7 +160,7 @@ namespace FluentRepository.FluentImplementations
         {
             var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
             var commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
-            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has not been set up for {0}.", typeof(TEntity).Name));
+            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been set up for {0}.", typeof(TEntity).Name));
             var operationData = new OperationData { Operation = () => commandRepositoryAction(commandRepository) };
             _operationsQueue.Enqueue(operationData);
             return this;
@@ -171,7 +171,7 @@ namespace FluentRepository.FluentImplementations
         {
             var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
             var commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
-            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been not set up for {0}.", typeof(TEntity).Name));
+            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been set up for {0}.", typeof(TEntity).Name));
             var operationData = new OperationData { AsyncOperation = () => commandRepositoryFunc(commandRepository) };
             _operationsQueue.Enqueue(operationData);
             return this;

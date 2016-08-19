@@ -41,7 +41,7 @@ namespace FluentRepository.FluentImplementations
         {
             var queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
             var queryRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(queryableRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
-            ContractUtility.Requires<ArgumentNullException>(queryRepository != null, string.Format("No Query Repository has not been set up for {0}.", typeof(TEntity).Name));
+            ContractUtility.Requires<ArgumentNullException>(queryRepository != null, string.Format("No Query Repository has been set up for {0}.", typeof(TEntity).Name));
             var operationData = new OperationData { Operation = () => queryRepositoryAction(queryRepository) };
             _operationsQueue.Enqueue(operationData);
             return this;
