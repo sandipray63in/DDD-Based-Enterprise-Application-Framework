@@ -1,20 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using FluentAssertions;
 using FluentRepoNamespace = FluentRepository;
-using Infrastructure.UnitOfWork;
-using Repository;
-using Repository.Base;
-using Repository.Command;
-using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 using Testing.Respository;
 
 namespace Testing.Integration
 {
+    /// <summary>
+    /// Faced a weird issue(while development), so just keeping a note of it.The issue and the fix is available at -
+    /// http://stackoverflow.com/questions/2155930/fixing-the-breakpoint-will-not-currently-be-hit-no-symbols-have-been-loaded-fo .
+    /// Also SQL Server doesn't allow transactions while creating and deleting DBs as indicated here - 
+    /// http://stackoverflow.com/questions/15168616/create-database-statement-not-allowed-within-multi-statement-transaction
+    /// </summary>
     [TestClass]
     public class FluentSQLRespositoryAndUnitOfWorkTest : BaseEFRespositoryAndUnitOfWorkTest
     {
@@ -155,17 +155,6 @@ namespace Testing.Integration
 
             //Assert
             departmentsCount.Should().Be(2);
-        }
-
-        protected override void RegisterDepartmentCommandService()
-        {
-            var name = typeof(Department).Name + SERVICE_SUFFIX;
-            var context = _container.Resolve<EFTestContext>();
-            _connection = context.Database.Connection;
-            _container.RegisterType<ICommand<Department>, DepartmentTestServiceCommand>(name, new InjectionConstructor(_connection));
-            var command = _container.Resolve<ICommand<Department>>(name, new ParameterOverride("dbContext", context));
-            var injectionConstructor = new InjectionConstructor(typeof(IUnitOfWork), command);
-            _container.RegisterType<ICommandRepository<Department>, CommandRepository<Department>>(name, injectionConstructor);
         }
 
         protected override void Cleanup()

@@ -17,7 +17,11 @@ namespace TestEFDomainAndContext
         public EFTestContext()
         : base("EFTestContext")
         {
+#if TEST
+            Database.SetInitializer<EFTestContext>(new EmployeeDepartmentDBInitializer());
+#else
             Database.SetInitializer<EFTestContext>(new CreateDatabaseIfNotExists<EFTestContext>());
+#endif
             this.Configuration.LazyLoadingEnabled = false;
         }
 
@@ -33,10 +37,10 @@ namespace TestEFDomainAndContext
             this.Configuration.LazyLoadingEnabled = true;
         }
 
-        #region DBSets
+#region DBSets
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        #endregion
+#endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -118,7 +118,7 @@ namespace Testing.Respository
 
         protected virtual void RegisterEFTestContext() { }
 
-        protected abstract void RegisterDepartmentCommandService();
+        protected virtual void RegisterDepartmentCommandService() { }
 
         protected virtual void Cleanup() { }
 
@@ -157,22 +157,12 @@ namespace Testing.Respository
 
         protected Department GetDepartmentFake(int id = 1)
         {
-            var department = new Department(id);
-            department.DepartmentName = "Election"; 
-            department.Loaction = "Centre";
-            department.T1Data.CreatedBy = "Sandip";
-            department.T1Data.LastUpdatedBy = "Sandip";
-            return department;
+            return FakeData.GetDepartmentFake(id);
         }
 
         protected Employee GetEmployeeFake(int id = 1)
         {
-            var employee = new Employee(id);
-            employee.EmployeeName = "Sandip";
-            employee.Job = "Software Development";
-            employee.T1Data.CreatedBy = "Sandip";
-            employee.T1Data.LastUpdatedBy = "Sandip";
-            return employee;
+            return FakeData.GetEmployeeFake(id);
         }
 
         #endregion
