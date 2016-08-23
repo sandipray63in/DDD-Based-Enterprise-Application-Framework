@@ -19,24 +19,24 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation cannot be null");
-            return GetFluentCommandsAfterSettingCommandRepositoryAndPersistanceQueueData<TEntity>(x => x.RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation));
+            return GetFluentQueriesAfterSettingQueryRepositoryAndPersistanceQueueData<TEntity>(x => x.RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation));
         }
 
         public IFluentQueries Query<TEntity>(Func<IQueryableRepository<TEntity>, IEnumerable<TEntity>> queryableRepositoryOperation, Action<IEnumerable<TEntity>> operationToExecuteBeforeNextOperation = null)
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation cannot be null");
-            return GetFluentCommandsAfterSettingCommandRepositoryAndPersistanceQueueData<TEntity>(x => x.RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation));
+            return GetFluentQueriesAfterSettingQueryRepositoryAndPersistanceQueueData<TEntity>(x => x.RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation));
         }
 
         public IFluentQueries Query<TEntity, TIntermediateType>(Func<IQueryableRepository<TEntity>, TIntermediateType> queryableRepositoryOperation, Action<TIntermediateType> operationToExecuteBeforeNextOperation)
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation cannot be null");
-            return GetFluentCommandsAfterSettingCommandRepositoryAndPersistanceQueueData<TEntity>(x => x.RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation));
+            return GetFluentQueriesAfterSettingQueryRepositoryAndPersistanceQueueData<TEntity>(x => x.RunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation));
         }
 
-        private IFluentQueries GetFluentCommandsAfterSettingCommandRepositoryAndPersistanceQueueData<TEntity>(Action<dynamic> queryRepositoryAction)
+        private IFluentQueries GetFluentQueriesAfterSettingQueryRepositoryAndPersistanceQueueData<TEntity>(Action<dynamic> queryRepositoryAction)
             where TEntity : class, IQueryableAggregateRoot
         {
             var queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
