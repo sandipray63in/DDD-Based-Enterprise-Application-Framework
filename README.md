@@ -26,8 +26,6 @@ Pending Tasks ->
   "Event Driven Rest" which is one of the best Integration options based on pure HTTP and optimal for scenarios where Eventual Consistency rather than Transaction Consistency should be the way to go.Although no-where near to any REST approach, but one more viable option (mainly for non-HTTP protocols) is [Zero MQ](http://zeromq.org/) which was designed from the ground up, keeping in mind stock trading apps wherein very high throughput and very low latency are required, as discussed [here](http://aosabook.org/en/zeromq.html).            
   N.B. -> One can refer the paper - [Your Coffe Shop Doesn't use 2 phase commit](http://www.enterpriseintegrationpatterns.com/docs/IEEE_Software_Design_2PC.pdf)(written by the Integration genius - Gregor Hohpe, co-author of the Integration Bible viz. [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/)) to see how apps can be implemented without using Transactional Consistency.
 
-• Will use SQL Express for integration testing of Transaction Management.SQL CE and SQL Lite seems to have lot of issues in this respect (alongwith not supporting DateTimeOffset). Don't want to spend much time on SQL CE/Lite just for testing purpose.
-
 • Testing BulkOperations using SQL Express Edition.
 
 • Redesign Caching stuffs to support in-memory caching or some scalable option like Windows AppFabric or Redis(a scalable NOSQL
