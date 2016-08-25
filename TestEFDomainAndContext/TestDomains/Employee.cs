@@ -30,13 +30,7 @@ namespace TestEFDomainAndContext.TestDomains
 
         public DateTimeOffset HireDate { get; set; } = DateTimeOffset.UtcNow;
 
-        /// <summary>
-        /// ID is needed if there is one to many mapping 
-        /// 
-        /// For one to one mapping just reference the objects on both the sides 
-        /// and use HasOptional/WithOptional or HasRequired/WithRequired
-        /// </summary>
-        public int DeptID { get; set; }
+        public int? DeptID { get; set; }
 
         public Department Department { get; set; }
 

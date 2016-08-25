@@ -101,14 +101,21 @@ namespace Repository.Command
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
              {
-                 var entry = _dbContext.Entry(item);
-                 if (entry.State != EntityState.Detached)
+                 try
                  {
-                     entry.State = EntityState.Added;
+                     var entry = _dbContext.Entry(item);
+                     if (entry.State != EntityState.Detached)
+                     {
+                         entry.State = EntityState.Added;
+                     }
+                     else
+                     {
+                         _dbSet.Add(item);
+                     }
                  }
-                 else
+                 catch(Exception ex)
                  {
-                     _dbSet.Add(item);
+                     var i = 0;
                  }
              });
             SaveChanges();
@@ -203,14 +210,21 @@ namespace Repository.Command
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
-            var entry = _dbContext.Entry(item);
-            if (entry.State != EntityState.Detached)
+            try
             {
-                entry.State = EntityState.Added;
+                var entry = _dbContext.Entry(item);
+                if (entry.State != EntityState.Detached)
+                {
+                    entry.State = EntityState.Added;
+                }
+                else
+                {
+                    _dbSet.Add(item);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                _dbSet.Add(item);
+                var i = 0;
             }
            await SaveChangesAsync(token);
         }

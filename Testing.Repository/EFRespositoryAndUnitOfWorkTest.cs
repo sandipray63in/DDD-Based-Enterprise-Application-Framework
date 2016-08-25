@@ -60,7 +60,7 @@ namespace Testing.Respository
             using (var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>())
             {
                 //Arrange
-                var departmentFake = GetDepartmentFake();
+                var departmentFake = FakeData.GetDepartmentFake();
 
                 //Action
                 departmentCommandRepository.Insert(departmentFake);
@@ -85,14 +85,14 @@ namespace Testing.Respository
             using (var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>())
             {
                 //Arrange
-                var departmentFake = GetDepartmentFake();
+                var departmentFake = FakeData.GetDepartmentFake();
 
-                var managerEmployeeFake = GetEmployeeFake();
+                var managerEmployeeFake = FakeData.GetEmployeeFake();
                 managerEmployeeFake.EmployeeName = "XYZ";
                 managerEmployeeFake.DeptID = departmentFake.Id;
                 managerEmployeeFake.Department = departmentFake;
 
-                var subEmployeeFake = GetEmployeeFake(2);
+                var subEmployeeFake = FakeData.GetEmployeeFake(2);
                 subEmployeeFake.DeptID = departmentFake.Id;
                 subEmployeeFake.Department = departmentFake;
                 subEmployeeFake.ManagerId = managerEmployeeFake.Id;
@@ -138,9 +138,9 @@ namespace Testing.Respository
             using (var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>())
             {
                 //Arrange
-                var departmentFake = GetDepartmentFake();
+                var departmentFake = FakeData.GetDepartmentFake();
 
-                var employeeFake = GetEmployeeFake();
+                var employeeFake = FakeData.GetEmployeeFake();
                 employeeFake.EmployeeName = "XYZ";
                 employeeFake.DeptID = departmentFake.Id;
                 employeeFake.Department = departmentFake;
@@ -174,15 +174,15 @@ namespace Testing.Respository
             using (var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>())
             {
                 //Arrange
-                var departmentFake = GetDepartmentFake();
-                var departmentFake2 = GetDepartmentFake(2);
+                var departmentFake = FakeData.GetDepartmentFake();
+                var departmentFake2 = FakeData.GetDepartmentFake(2);
 
-                var managerEmployeeFake = GetEmployeeFake();
+                var managerEmployeeFake = FakeData.GetEmployeeFake();
                 managerEmployeeFake.EmployeeName = "XYZ";
                 managerEmployeeFake.DeptID = departmentFake.Id;
                 managerEmployeeFake.Department = departmentFake;
 
-                var subEmployeeFake = GetEmployeeFake(2);
+                var subEmployeeFake = FakeData.GetEmployeeFake(2);
                 subEmployeeFake.DeptID = departmentFake.Id;
                 subEmployeeFake.Department = departmentFake;
                 subEmployeeFake.ManagerId = managerEmployeeFake.Id;
@@ -216,15 +216,15 @@ namespace Testing.Respository
             using (var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>())
             {
                 //Arrange
-                var departmentFake = GetDepartmentFake();
-                var departmentFake2 = GetDepartmentFake(2);
+                var departmentFake = FakeData.GetDepartmentFake();
+                var departmentFake2 = FakeData.GetDepartmentFake(2);
 
-                var managerEmployeeFake = GetEmployeeFake();
+                var managerEmployeeFake = FakeData.GetEmployeeFake();
                 managerEmployeeFake.EmployeeName = "XYZ";
                 managerEmployeeFake.DeptID = departmentFake.Id;
                 managerEmployeeFake.Department = departmentFake;
 
-                var subEmployeeFake = GetEmployeeFake(2);
+                var subEmployeeFake = FakeData.GetEmployeeFake(2);
                 subEmployeeFake.DeptID = departmentFake.Id;
                 subEmployeeFake.Department = departmentFake;
                 subEmployeeFake.ManagerId = managerEmployeeFake.Id;
@@ -255,15 +255,15 @@ namespace Testing.Respository
             using (var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>())
             {
                 //Arrange
-                var departmentFake = GetDepartmentFake();
-                var departmentFake2 = GetDepartmentFake(2);
+                var departmentFake = FakeData.GetDepartmentFake();
+                var departmentFake2 = FakeData.GetDepartmentFake(2);
 
-                var managerEmployeeFake = GetEmployeeFake();
+                var managerEmployeeFake = FakeData.GetEmployeeFake();
                 managerEmployeeFake.EmployeeName = "XYZ";
                 managerEmployeeFake.DeptID = departmentFake.Id;
                 managerEmployeeFake.Department = departmentFake;
 
-                var subEmployeeFake = GetEmployeeFake(2);
+                var subEmployeeFake = FakeData.GetEmployeeFake(2);
                 subEmployeeFake.DeptID = departmentFake.Id;
                 subEmployeeFake.Department = departmentFake;
                 subEmployeeFake.ManagerId = managerEmployeeFake.Id;

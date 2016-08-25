@@ -152,19 +152,5 @@ namespace Testing.Respository
         }
 
         #endregion
-
-        #region Fakes i.e. Test Data
-
-        protected Department GetDepartmentFake(int id = 1)
-        {
-            return FakeData.GetDepartmentFake(id);
-        }
-
-        protected Employee GetEmployeeFake(int id = 1)
-        {
-            return FakeData.GetEmployeeFake(id);
-        }
-
-        #endregion
-    }
+   }
 }

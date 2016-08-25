@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace TestEFDomainAndContext
 {
-    internal class EmployeeDepartmentDBInitializer : DropCreateDatabaseAlways<EFTestContext>
+    internal class EmployeeDepartmentDBInitializer : CreateDatabaseIfNotExists<EFTestContext>
     {
         protected override void Seed(EFTestContext context)
         {

@@ -22,7 +22,7 @@ namespace TestEFDomainAndContext
 #else
             Database.SetInitializer<EFTestContext>(new CreateDatabaseIfNotExists<EFTestContext>());
 #endif
-            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.LazyLoadingEnabled = true;
         }
 
         public EFTestContext(string connectionString)
