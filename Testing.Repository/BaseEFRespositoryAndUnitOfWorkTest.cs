@@ -108,7 +108,7 @@ namespace Testing.Respository
             {
                 toBeResolvedName += WITH_EXCEPTION_TO_BE_THROWN_FOR_ROLLBACK_TEST_SUFFIX;
                 Func<bool> actionToThrowException = () => { throw new Exception("Rollback Test Exception"); };
-                _container.RegisterType<IUnitOfWork, UnitOfWork.UnitOfWork>(toBeResolvedName, new InjectionConstructor(actionToThrowException,false, IsolationLevel.ReadCommitted, TransactionScopeOption.RequiresNew));
+                _container.RegisterType<IUnitOfWork, UnitOfWork.UnitOfWork>(toBeResolvedName, new InjectionConstructor(actionToThrowException, IsolationLevel.ReadCommitted, TransactionScopeOption.RequiresNew));
             }
         }
 

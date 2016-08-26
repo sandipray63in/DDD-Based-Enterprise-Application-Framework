@@ -34,12 +34,10 @@ namespace Infrastructure.UnitOfWork
         //(since that's seems to be the simplest Func supported by Unity Container)
         private readonly Func<bool> _throwExceptionActionToTestRollback;
         private bool _isProcessDataMethodExecutedAtleastOnce;
-        private bool _shouldThrowForCommitAsync;
 
-        public UnitOfWork(Func<bool> throwExceptionActionToTestRollback, bool shouldThrowForCommitAsync = false, IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew) : this(isoLevel, scopeOption)
+        public UnitOfWork(Func<bool> throwExceptionActionToTestRollback, IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew) : this(isoLevel, scopeOption)
         {
             _throwExceptionActionToTestRollback = throwExceptionActionToTestRollback;
-            _shouldThrowForCommitAsync = shouldThrowForCommitAsync;
         }
 #endif
 
@@ -76,7 +74,7 @@ namespace Infrastructure.UnitOfWork
                 while (_operationsQueue.Count > 0)
                 {
 #if TEST
-                    ThrowExceptionForRollbackCheck(false);
+                    ThrowExceptionForRollbackCheck();
 #endif
                     var operationData = _operationsQueue.Dequeue();
                     if (operationData.Operation.IsNotNull())
@@ -127,7 +125,7 @@ namespace Infrastructure.UnitOfWork
                 while (_operationsQueue.Count > 0)
                 {
 #if TEST
-                    ThrowExceptionForRollbackCheck(true);
+                    ThrowExceptionForRollbackCheck();
 #endif
                     var operationData = _operationsQueue.Dequeue();
                     if (operationData.Operation.IsNotNull())
@@ -222,20 +220,17 @@ namespace Infrastructure.UnitOfWork
         }
 
 #if TEST
-        private void ThrowExceptionForRollbackCheck(bool isForAsync)
+        private void ThrowExceptionForRollbackCheck()
         {
-            if ((isForAsync && _shouldThrowForCommitAsync) || (!isForAsync && !_shouldThrowForCommitAsync))
+            if (!_isProcessDataMethodExecutedAtleastOnce)
             {
-                if (!_isProcessDataMethodExecutedAtleastOnce)
+                _isProcessDataMethodExecutedAtleastOnce = true;
+            }
+            else
+            {
+                if (_throwExceptionActionToTestRollback.IsNotNull())
                 {
-                    _isProcessDataMethodExecutedAtleastOnce = true;
-                }
-                else
-                {
-                    if (_throwExceptionActionToTestRollback.IsNotNull())
-                    {
-                        _throwExceptionActionToTestRollback();
-                    }
+                    _throwExceptionActionToTestRollback();
                 }
             }
         }

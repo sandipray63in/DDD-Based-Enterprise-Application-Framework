@@ -1,8 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Data.Common;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
 using FluentRepoNamespace = FluentRepository;
 using TestEFDomainAndContext;
@@ -25,34 +24,6 @@ namespace Testing.Integration
     [TestClass]
     public class FluentSQLRespositoryAndUnitOfWorkTest : BaseEFRespositoryAndUnitOfWorkTest
     {
-        private DbConnection _connection;
-
-        /// <summary>
-        /// This test is there just to generate the DB using EF context when this current thread runs for the first time.Also 
-        /// it's not allowed to create a DB within Transactions.
-        /// </summary>
-        [TestMethod]
-        [TestCategory("Medium")]
-        public void test_fluent_insert_single_department_without_any_explicit_transaction_scope_should_be_saved()
-        {
-            ///Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var departmentFake = FakeData.GetDepartmentFake();
-            Department departmentAfterDataInsert = null;
-
-            ///Action
-            FluentRepoNamespace.FluentRepository
-                               .SetUpCommandRepository(departmentCommandRepository)
-                               .Insert(departmentFake)
-                               .SetUpQueryRepository(departmentQueryableRepository)
-                               .Query<Department>(x => x.Single(), x => departmentAfterDataInsert = x)
-                               .Execute(shouldAutomaticallyDisposeAllDisposables: true);
-
-            ///Assert
-            departmentAfterDataInsert.DepartmentName.Should().Be("Election");
-        }
-
         /// <summary>
         /// Since tested locally, MSDTC need not be enabled.
         /// </summary>
@@ -82,10 +53,24 @@ namespace Testing.Integration
             var departmentsCount = 0;
             var employeesCount = 0;
 
+            var dummyDepartmentFakeDataForFirstTimeDBGeneration = FakeData.GetDepartmentFake(111111);
+
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
             /// the Business or Service Layer.
-           await FluentRepoNamespace.FluentRepository
+
+            /// The below code is there just to generate the DB using EF context when this current thread runs for the first time. 
+            /// This is required since it's not allowed to create a DB within Transactions. 
+            /// Seeding of data also becomes part of the transaction and so cannot ultimately create the DB and so seeding the data 
+            /// doesn't serve the purpose.
+            FluentRepoNamespace.FluentRepository
+                               .SetUpCommandRepository(departmentCommandRepository)
+                               .Insert(dummyDepartmentFakeDataForFirstTimeDBGeneration)
+                               .Delete(dummyDepartmentFakeDataForFirstTimeDBGeneration)
+                               .Execute();// here not setting shouldAutomaticallyDisposeAllDisposables = true since that would
+                                          // then dispose the departmentCommandRepository which will be required in the next operation
+
+            await FluentRepoNamespace.FluentRepository
                                     .WithDefaultUnitOfWork()
                                     .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
                                     .InsertAsync<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
@@ -130,9 +115,23 @@ namespace Testing.Integration
             var departmentsCount = 0;
             var employeesCount = 0;
 
+            var dummyDepartmentFakeDataForFirstTimeDBGeneration = FakeData.GetDepartmentFake(111111);
+
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
             /// the Business or Service Layer.
+
+            /// The below code is there just to generate the DB using EF context when this current thread runs for the first time. 
+            /// This is required since it's not allowed to create a DB within Transactions.
+            /// Seeding of data also becomes part of the transaction and so cannot ultimately create the DB and so seeding the data 
+            /// doesn't serve the purpose.
+            FluentRepoNamespace.FluentRepository
+                               .SetUpCommandRepository(departmentCommandRepository)
+                               .Insert(dummyDepartmentFakeDataForFirstTimeDBGeneration)
+                               .Delete(dummyDepartmentFakeDataForFirstTimeDBGeneration)
+                               .Execute();// here not setting shouldAutomaticallyDisposeAllDisposables = true since that would
+                                          // then dispose the departmentCommandRepository which will be required in the next operation
+
             await FluentRepoNamespace.FluentRepository
                                      .WithUnitOfWork(unitOfWorkWithExceptionToBeThrown)
                                      .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
@@ -144,8 +143,8 @@ namespace Testing.Integration
                                      .ExecuteAsync(shouldAutomaticallyDisposeAllDisposables: true);
 
             //Assert
-            departmentsCount.Should().Be(2);
-            employeesCount.Should().Be(2);
+            departmentsCount.Should().Be(0);
+            employeesCount.Should().Be(0);
         }
 
         [TestMethod]
@@ -173,9 +172,23 @@ namespace Testing.Integration
 
             var departmentsCount = 0;
 
+            var dummyDepartmentFakeDataForFirstTimeDBGeneration = FakeData.GetDepartmentFake(111113);
+
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
             /// the Business or Service Layer.
+
+            /// The below code is there just to generate the DB using EF context when this current thread runs for the first time. 
+            /// This is required since it's not allowed to create a DB within Transactions.
+            /// Seeding of data also becomes part of the transaction and so cannot ultimately create the DB and so seeding the data 
+            /// doesn't serve the purpose.
+            FluentRepoNamespace.FluentRepository
+                               .SetUpCommandRepository(departmentCommandRepository)
+                               .Insert(dummyDepartmentFakeDataForFirstTimeDBGeneration)
+                               .Delete(dummyDepartmentFakeDataForFirstTimeDBGeneration)
+                               .Execute();// here not setting shouldAutomaticallyDisposeAllDisposables = true since that would
+                                          // then dispose the departmentCommandRepository which will be required in the next operation
+
             await FluentRepoNamespace.FluentRepository
                                      .WithDefaultUnitOfWork()
                                      .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
@@ -187,15 +200,6 @@ namespace Testing.Integration
 
             //Assert
             departmentsCount.Should().Be(2);
-        }
-
-        protected override void Cleanup()
-        {
-            base.Cleanup();
-            if (_connection != null)
-            {
-                _connection.Dispose();
-            }
         }
     }
 }

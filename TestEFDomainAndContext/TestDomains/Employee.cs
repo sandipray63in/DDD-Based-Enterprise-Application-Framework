@@ -30,7 +30,7 @@ namespace TestEFDomainAndContext.TestDomains
 
         public DateTimeOffset HireDate { get; set; } = DateTimeOffset.UtcNow;
 
-        public int? DeptID { get; set; }
+        public int DeptID { get; set; }
 
         public Department Department { get; set; }
 

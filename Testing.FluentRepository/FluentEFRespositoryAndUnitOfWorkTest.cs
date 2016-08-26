@@ -242,8 +242,8 @@ namespace Testing.FluentRepository
                                .ExecuteAsync(shouldAutomaticallyDisposeAllDisposables: true);
 
             //Assert
-            departmentsCount.Should().Be(2);
-            employeesCount.Should().Be(2);
+            departmentsCount.Should().Be(0);
+            employeesCount.Should().Be(0);
         }
 
         [TestMethod]

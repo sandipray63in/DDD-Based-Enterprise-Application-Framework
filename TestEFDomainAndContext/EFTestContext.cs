@@ -18,7 +18,7 @@ namespace TestEFDomainAndContext
         : base("EFTestContext")
         {
 #if TEST
-            Database.SetInitializer<EFTestContext>(new EmployeeDepartmentDBInitializer());
+            Database.SetInitializer<EFTestContext>(new DropCreateDatabaseAlways<EFTestContext>());
 #else
             Database.SetInitializer<EFTestContext>(new CreateDatabaseIfNotExists<EFTestContext>());
 #endif
