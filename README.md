@@ -35,3 +35,5 @@ Pending Tasks ->
   Basic Design Guidelines")
 
 • Also need to Run the Code Metrics to check everything is as per standards
+
+P.S. -> Once completed, this DDD framework can be considered (as a whole or in parts) as a Reference Architecture for quite a variety of application scenarios. Ultimate goal is to build an Omni-Channel Offline-First Single-Page-Application based SaaS Framework using DDD and Restful API concepts (although parts of the framework can be used for a BPM and Integration Project as well).
