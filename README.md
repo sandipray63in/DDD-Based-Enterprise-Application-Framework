@@ -25,6 +25,8 @@ Pending Tasks ->
 • Incorporation of some Restful stuffs(again the core framework elements), including one of the major strategic DDD pattern -   
   "Event Driven Rest" which is one of the best Integration options based on pure HTTP and optimal for scenarios where Eventual Consistency rather than Transaction Consistency should be the way to go.Although no-where near to any REST approach, but one more viable option (mainly for non-HTTP protocols) is [Zero MQ](http://zeromq.org/) which was designed from the ground up, keeping in mind stock trading apps wherein very high throughput and very low latency are required, as discussed [here](http://aosabook.org/en/zeromq.html).            
   N.B. -> One can refer the paper - [Your Coffe Shop Doesn't use 2 phase commit](http://www.enterpriseintegrationpatterns.com/docs/IEEE_Software_Design_2PC.pdf)(written by the Integration genius - Gregor Hohpe, co-author of the Integration Bible viz. [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/)) to see how apps can be implemented without using Transactional Consistency.
+  
+• Exception Handling for async-await code.
 
 • Testing BulkOperations using SQL Express Edition.
 
