@@ -30,6 +30,8 @@ Pending Tasks ->
 
 • Testing BulkOperations using SQL Express Edition.
 
+• Fixing WCF related Unit Test Case(s).
+
 • Redesign Caching stuffs to support in-memory caching or some scalable option like Windows AppFabric or Redis(a scalable NOSQL
   option). Ideally, should be designed in a pluggable way to support any cool Caching mechanism coming in future as well.Also should use some AOP or attribute(annotation) based approach to apply Caching or invalidating the Cache else it becomes very hectic to apply these cross cutting concerns everywhere within a large application.
 
