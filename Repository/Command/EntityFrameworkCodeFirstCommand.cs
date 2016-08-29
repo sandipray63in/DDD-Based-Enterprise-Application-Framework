@@ -101,22 +101,15 @@ namespace Repository.Command
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             items.ForEach(item =>
              {
-                 try
-                 {
-                     var entry = _dbContext.Entry(item);
-                     if (entry.State != EntityState.Detached)
-                     {
-                         entry.State = EntityState.Added;
-                     }
-                     else
-                     {
-                         _dbSet.Add(item);
-                     }
-                 }
-                 catch(Exception ex)
-                 {
-                     var i = 0;
-                 }
+                var entry = _dbContext.Entry(item);
+                if (entry.State != EntityState.Detached)
+                {
+                    entry.State = EntityState.Added;
+                }
+                else
+                {
+                    _dbSet.Add(item);
+                }
              });
             SaveChanges();
         }
@@ -210,21 +203,14 @@ namespace Repository.Command
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(EntityFrameworkCodeFirstCommand<TId, TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
-            try
+            var entry = _dbContext.Entry(item);
+            if (entry.State != EntityState.Detached)
             {
-                var entry = _dbContext.Entry(item);
-                if (entry.State != EntityState.Detached)
-                {
-                    entry.State = EntityState.Added;
-                }
-                else
-                {
-                    _dbSet.Add(item);
-                }
+                entry.State = EntityState.Added;
             }
-            catch(Exception ex)
+            else
             {
-                var i = 0;
+                _dbSet.Add(item);
             }
            await SaveChangesAsync(token);
         }

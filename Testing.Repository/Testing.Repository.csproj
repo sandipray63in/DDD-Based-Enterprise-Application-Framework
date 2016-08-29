@@ -114,11 +114,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseEFRespositoryAndUnitOfWorkTest.cs" />
-    <Compile Include="DepartmentTestServiceBasedOnSQLCECommand.cs" />
     <Compile Include="EFRespositoryAndUnitOfWorkTest.cs" />
-    <Compile Include="Service References\TestServiceBasedOnSQLCEProxy.cs" />
-    <Compile Include="Service References\TestServiceProxy.cs" />
-    <Compile Include="DepartmentTestServiceCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +142,6 @@
       <Project>{11844668-96d7-4199-850a-1c99fa5fe3ea}</Project>
       <Name>TestEFDomainAndContext</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

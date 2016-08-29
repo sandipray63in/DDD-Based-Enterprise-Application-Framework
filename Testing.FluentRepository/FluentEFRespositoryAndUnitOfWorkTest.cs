@@ -6,10 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Effort.Provider;
 using FluentAssertions;
 using FluentRepoNamespace = FluentRepository;
-using Repository;
-using Repository.Base;
-using Repository.Command;
-using Infrastructure.UnitOfWork;
 using Testing.Respository;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
@@ -246,47 +242,6 @@ namespace Testing.FluentRepository
             employeesCount.Should().Be(0);
         }
 
-        [TestMethod]
-        [TestCategory("Slow")]
-        public void test_fluent_insert_multiple_employees_alongwith_department_service_with_explicit_transaction_scope_should_save_data()
-        {
-            //Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
-            var departmentFake = FakeData.GetDepartmentFake();
-            var departmentFake2 = FakeData.GetDepartmentFake(2);
-
-            var managerEmployeeFake = FakeData.GetEmployeeFake();
-            managerEmployeeFake.EmployeeName = "XYZ";
-            managerEmployeeFake.DeptID = departmentFake.Id;
-            managerEmployeeFake.Department = departmentFake;
-
-            var subEmployeeFake = FakeData.GetEmployeeFake(2);
-            subEmployeeFake.DeptID = departmentFake.Id;
-            subEmployeeFake.Department = departmentFake;
-            subEmployeeFake.ManagerId = managerEmployeeFake.Id;
-            subEmployeeFake.Manager = managerEmployeeFake;
-
-            var departmentsCount = 0;
-
-            //Action
-            /// Order of operations of different instances of same type or different types needs to be handled at 
-            /// the Business or Service Layer.
-            FluentRepoNamespace.FluentRepository
-                               .WithDefaultUnitOfWork()
-                               .SetUpCommandRepository(employeeCommandRepository, departmentCommandRepository)
-                               .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
-                               .Insert(departmentFake2)
-                               .SetUpQueryRepository(departmentQueryableRepository)
-                               .Query<Department>(x => x, x => departmentsCount = x.Count())
-                               .Execute();
-
-            //Assert
-            departmentsCount.Should().Be(2);
-        }
-
         #region Overrides
 
         protected override void RegisterEFTestContext()
@@ -295,16 +250,6 @@ namespace Testing.FluentRepository
             /// create a new DbConnection using Effort(at runtime, the type of the object created is EffortConnection)
             _connection = Effort.DbConnectionFactory.CreateTransient();
             _container.RegisterType<EFTestContext>(new InjectionConstructor(_connection));
-        }
-
-        protected override void RegisterDepartmentCommandService()
-        {
-            var name = typeof(Department).Name + SERVICE_SUFFIX;
-            _container.RegisterType<ICommand<Department>, DepartmentTestServiceCommand>(name, new InjectionConstructor(_connection));
-            var context = _container.Resolve<EFTestContext>();
-            var command = _container.Resolve<ICommand<Department>>(name, new ParameterOverride("dbContext", context));
-            var injectionConstructor = new InjectionConstructor(typeof(IUnitOfWork), command);
-            _container.RegisterType<ICommandRepository<Department>, CommandRepository<Department>>(name, injectionConstructor);
         }
 
         protected override void Cleanup()

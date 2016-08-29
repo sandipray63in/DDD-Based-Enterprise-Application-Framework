@@ -112,8 +112,6 @@
   <ItemGroup>
     <Compile Include="FluentEFRespositoryAndUnitOfWorkTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\TestServiceBasedOnSQLCEProxy.cs" />
-    <Compile Include="Service References\TestServiceProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
@@ -140,9 +138,6 @@
       <Project>{b347125c-a62b-4e54-8e1a-366595cdcd79}</Project>
       <Name>Testing.Repository</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

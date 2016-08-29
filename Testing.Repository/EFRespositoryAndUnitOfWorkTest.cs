@@ -6,10 +6,6 @@ using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Effort.Provider;
 using FluentAssertions;
-using Repository;
-using Repository.Base;
-using Repository.Command;
-using Infrastructure.UnitOfWork;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 
@@ -242,44 +238,6 @@ namespace Testing.Respository
                 employeeQueryableRepository.Count().Should().Be(0);
             };
         }
-
-        [TestMethod]
-        [TestCategory("Slow")]
-        public void test_insert_multiple_employees_alongwith_department_service_with_explicit_transaction_scope_should_save_data()
-        {
-            //Arrange
-            var unitOfWork = GetUnitOfWorkInstance();
-            using (var departmentCommandRepository = GetDepartmentCommandServiceRepositoryInstance(unitOfWork))
-            using (var employeeCommandRepository = GetCommandRepositoryInstance<Employee>(unitOfWork))
-            using (var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>())
-            using (var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>())
-            {
-                //Arrange
-                var departmentFake = FakeData.GetDepartmentFake();
-                var departmentFake2 = FakeData.GetDepartmentFake(2);
-
-                var managerEmployeeFake = FakeData.GetEmployeeFake();
-                managerEmployeeFake.EmployeeName = "XYZ";
-                managerEmployeeFake.DeptID = departmentFake.Id;
-                managerEmployeeFake.Department = departmentFake;
-
-                var subEmployeeFake = FakeData.GetEmployeeFake(2);
-                subEmployeeFake.DeptID = departmentFake.Id;
-                subEmployeeFake.Department = departmentFake;
-                subEmployeeFake.ManagerId = managerEmployeeFake.Id;
-                subEmployeeFake.Manager = managerEmployeeFake;
-
-                //Action
-                /// Order of operations of different instances of same type or different types needs to be handled at 
-                /// the Business or Service Layer.
-                employeeCommandRepository.Insert(new List<Employee> { managerEmployeeFake, subEmployeeFake });
-                departmentCommandRepository.Insert(departmentFake2);
-                unitOfWork.Commit();
-
-                //Assert
-                departmentQueryableRepository.Count().Should().Be(2);
-            };
-        }
         
         #endregion
 
@@ -292,16 +250,6 @@ namespace Testing.Respository
              _connection = Effort.DbConnectionFactory.CreateTransient();
             _container.RegisterType<EFTestContext>(new InjectionConstructor(_connection));
         } 
-
-        protected override void RegisterDepartmentCommandService()
-        {
-            var name = typeof(Department).Name + SERVICE_SUFFIX;
-            _container.RegisterType<ICommand<Department>, DepartmentTestServiceCommand>(name, new InjectionConstructor(_connection));
-            var context = _container.Resolve<EFTestContext>();
-            var command = _container.Resolve<ICommand<Department>>(name,new ParameterOverride("dbContext", context));
-            var injectionConstructor = new InjectionConstructor(typeof(IUnitOfWork), command);
-            _container.RegisterType<ICommandRepository<Department>, CommandRepository<Department>>(name, injectionConstructor);
-        }
 
         protected override void Cleanup()
         {

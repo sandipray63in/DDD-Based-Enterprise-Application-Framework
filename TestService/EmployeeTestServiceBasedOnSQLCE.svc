@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="TestService.TestServiceBasedOnSQLLite`1[[TestEFDomainAndContext.TestDomains.Employee, TestEFDomainAndContext]]" CodeBehind="TestServiceBasedOnSQLLite.cs" %>

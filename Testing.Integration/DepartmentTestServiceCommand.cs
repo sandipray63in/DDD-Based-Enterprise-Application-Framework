@@ -4,27 +4,27 @@ using System.Threading;
 using System.Threading.Tasks;
 using Repository.Command;
 using Infrastructure;
-using Testing.Respository.ServiceReferences;
 using TestEFDomainAndContext.TestDomains;
 
-namespace Testing.Respository
+namespace Testing.Integration
 {
     /// <summary>
-    /// Although here it's mostly of a wrappaer class but in real scenario there can be complex business
-    /// logic incorporated within the methods.
+    /// Although here it's mostly of a wrapper class but in real scenario there can be complex business
+    /// logic incorporated within the methods.But ideally all Business logic should be placed in the 
+    /// Business Layer rather than in the Service Layer.
     /// </summary>
-    internal class DepartmentTestServiceBasedOnSQLCECommand : DisposableClass, ICommand<Department>
+    internal class DepartmentTestServiceCommand : DisposableClass, ICommand<Department>
     {
-        private TestServiceBasedOnSQLCEOf_DepartmentClient _departmentTestService;
+        private TestServiceOf_DepartmentClient _departmentTestService;
 
-        public DepartmentTestServiceBasedOnSQLCECommand()
+        public DepartmentTestServiceCommand()
         {
-            _departmentTestService = new TestServiceBasedOnSQLCEOf_DepartmentClient();
+            _departmentTestService = new TestServiceOf_DepartmentClient();
         }
 
         public void Insert(Department item)
         {
-            _departmentTestService.Insert(item);
+           _departmentTestService.Insert(item);
         }
 
         public void Update(Department item)

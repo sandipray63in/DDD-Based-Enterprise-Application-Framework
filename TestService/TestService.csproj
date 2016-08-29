@@ -90,10 +90,6 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Effort, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6a46696d54971e6d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Effort.EF6.1.1.4\lib\net45\Effort.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -162,20 +158,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EmployeeTestServiceBasedOnSQLCE.svc" />
-    <Content Include="DepartmentTestServiceBasedOnSQLCE.svc" />
+    <Content Include="EmployeeTestService.svc" />
     <Content Include="DepartmentTestService.svc" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="EmployeeTestService.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestService.cs" />
-    <Compile Include="ITestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ITestServiceBasedOnSQLLite.cs" />
-    <Compile Include="TestServiceBasedOnSQLLite.cs" />
+    <Compile Include="ITestService.cs" />
+    <Compile Include="TestService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
