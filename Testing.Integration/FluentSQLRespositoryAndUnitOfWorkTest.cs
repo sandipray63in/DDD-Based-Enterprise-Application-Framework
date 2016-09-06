@@ -152,11 +152,10 @@ namespace Testing.Integration
         public void test_sql_fluent_insert_multiple_employees_alongwith_department_service_with_explicit_transaction_scope_should_save_data()
         {
             //Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
             var departmentCommandServiceRepository = GetDepartmentCommandServiceRepositoryInstance();
             var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            var employeeCommandServiceRepository = GetEmployeeCommandServiceRepositoryInstance();
             var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
             var departmentFake = FakeData.GetDepartmentFake();
             var departmentFake2 = FakeData.GetDepartmentFake(2);
 
@@ -176,10 +175,12 @@ namespace Testing.Integration
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
             /// the Business or Service Layer.
+
             FluentRepoNamespace.FluentRepository
                                .WithDefaultUnitOfWork()
-                               .SetUpCommandRepository(employeeCommandRepository, departmentCommandServiceRepository)
-                               .Insert<Employee>(new List<Employee> { managerEmployeeFake, subEmployeeFake })
+                               .SetUpCommandRepository(employeeCommandServiceRepository, departmentCommandServiceRepository)
+                               .Insert<Employee>(managerEmployeeFake)
+                               .Insert<Employee>(subEmployeeFake)
                                .Insert(departmentFake2)
                                .SetUpQueryRepository(departmentQueryableRepository)
                                .Query<Department>(x => x, x => departmentsCount = x.Count())
@@ -189,13 +190,13 @@ namespace Testing.Integration
             departmentsCount.Should().Be(2);
         }
 
-        protected override void RegisterDepartmentCommandService()
+        protected override void RegisterCommandService<TEntity>()
         {
-            var name = typeof(Department).Name + SERVICE_SUFFIX;
-            _container.RegisterType<ICommand<Department>, DepartmentTestServiceCommand>(name);
-            var command = _container.Resolve<ICommand<Department>>(name);
+            var name = typeof(TEntity).Name + SERVICE_SUFFIX;
+            _container.RegisterType<ICommand<TEntity>, TestServiceCommand<TEntity>>(name);
+            var command = _container.Resolve<ICommand<TEntity>>(name);
             var injectionConstructor = new InjectionConstructor(command);
-            _container.RegisterType<ICommandRepository<Department>, CommandRepository<Department>>(name, injectionConstructor);
+            _container.RegisterType<ICommandRepository<TEntity>, CommandRepository<TEntity>>(name, injectionConstructor);
         }
     }
 }

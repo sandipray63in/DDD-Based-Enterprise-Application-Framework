@@ -25,6 +25,12 @@ namespace TestEFDomainAndContext
             this.Configuration.LazyLoadingEnabled = true;
         }
 
+        public EFTestContext(bool isCalledFromWebService)
+            : base("EFTestContext")
+        {
+            Database.SetInitializer<EFTestContext>(new CreateDatabaseIfNotExists<EFTestContext>());
+        }
+
         public EFTestContext(string connectionString)
         : base(connectionString)
         {

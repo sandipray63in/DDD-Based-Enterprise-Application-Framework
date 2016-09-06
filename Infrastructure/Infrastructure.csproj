@@ -16,7 +16,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -130,7 +130,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
-    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
@@ -341,7 +341,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AoP\BaseInterceptionBehaviour.cs" />
+    <Compile Include="AoP\ExceptionInterceptionBehaviour.cs" />
     <Compile Include="AoP\CrossCuttingInterceptionBehaviours\MethodExecutionTimeInterceptionBehaviour.cs" />
     <Compile Include="AoP\CrossCuttingInterceptionBehaviours\MethodParametersValuesInterceptionBehaviour.cs" />
     <Compile Include="Caching\DomainMemoryCache.cs" />

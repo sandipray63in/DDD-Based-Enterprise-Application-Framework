@@ -1,21 +1,21 @@
 ﻿using System.ServiceModel;
 using Domain.Base.Aggregates;
 
-namespace TestService
+namespace TestWebService
 {
     [ServiceContract]
-    public interface ITestService<TEntity> where TEntity : class, ICommandAggregateRoot
+    public interface ITestWebService<TEntity> where TEntity : class, ICommandAggregateRoot
     {
         [OperationContract]
-        [TransactionFlow(TransactionFlowOption.Allowed)]
+        [TransactionFlow(TransactionFlowOption.Mandatory)]
         void Insert( TEntity item);
 
         [OperationContract]
-        [TransactionFlow(TransactionFlowOption.Allowed)]
+        [TransactionFlow(TransactionFlowOption.Mandatory)]
         void Update(TEntity item);
 
         [OperationContract]
-        [TransactionFlow(TransactionFlowOption.Allowed)]
+        [TransactionFlow(TransactionFlowOption.Mandatory)]
         void Delete(TEntity item);
 
         //

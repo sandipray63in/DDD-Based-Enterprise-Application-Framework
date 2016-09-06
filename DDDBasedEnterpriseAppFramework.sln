@@ -12,11 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{2D9D3C62-BA14-4598-BCB6-64C64C98E7F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.Repository", "Testing.Repository\Testing.Repository.csproj", "{B347125C-A62B-4E54-8E1A-366595CDCD79}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B6D34209-0555-40FF-B120-C0253C6BFD52} = {B6D34209-0555-40FF-B120-C0253C6BFD52}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestService", "TestService\TestService.csproj", "{B6D34209-0555-40FF-B120-C0253C6BFD52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEFDomainAndContext", "TestEFDomainAndContext\TestEFDomainAndContext.csproj", "{11844668-96D7-4199-850A-1C99FA5FE3EA}"
 EndProject
@@ -33,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.FluentRepository", "Testing.FluentRepository\Testing.FluentRepository.csproj", "{3C54F4A9-A0CA-4C4F-8DD2-22F67DEEDF97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.Integration", "Testing.Integration\Testing.Integration.csproj", "{C2FF0DCE-2609-4DB4-B1BE-2EAE9FF8BDAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebService", "TestWebService\TestWebService.csproj", "{2E612A64-29B9-426C-AB79-227ED45AEC3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,12 +68,6 @@ Global
 		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{B347125C-A62B-4E54-8E1A-366595CDCD79}.Test|Any CPU.Build.0 = Test|Any CPU
-		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Debug|Any CPU.ActiveCfg = Test|Any CPU
-		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Debug|Any CPU.Build.0 = Test|Any CPU
-		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{B6D34209-0555-40FF-B120-C0253C6BFD52}.Test|Any CPU.Build.0 = Test|Any CPU
 		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Debug|Any CPU.ActiveCfg = Test|Any CPU
 		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Debug|Any CPU.Build.0 = Test|Any CPU
 		{11844668-96D7-4199-850A-1C99FA5FE3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -125,6 +116,12 @@ Global
 		{C2FF0DCE-2609-4DB4-B1BE-2EAE9FF8BDAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2FF0DCE-2609-4DB4-B1BE-2EAE9FF8BDAF}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{C2FF0DCE-2609-4DB4-B1BE-2EAE9FF8BDAF}.Test|Any CPU.Build.0 = Test|Any CPU
+		{2E612A64-29B9-426C-AB79-227ED45AEC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E612A64-29B9-426C-AB79-227ED45AEC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E612A64-29B9-426C-AB79-227ED45AEC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E612A64-29B9-426C-AB79-227ED45AEC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E612A64-29B9-426C-AB79-227ED45AEC3A}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{2E612A64-29B9-426C-AB79-227ED45AEC3A}.Test|Any CPU.Build.0 = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

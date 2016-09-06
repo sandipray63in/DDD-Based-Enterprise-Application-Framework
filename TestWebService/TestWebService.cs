@@ -3,9 +3,8 @@ using System.ServiceModel;
 using Domain.Base.Aggregates;
 using Repository.Base;
 using Infrastructure.Utilities;
-using Infrastructure.WCFExtensibility.UnityIntegration;
 
-namespace TestService
+namespace TestWebService
 {
     /// <summary>
     /// For Generic WCF Service Implementation refer - http://www.codeproject.com/Articles/290148/Pattern-for-Creating-Generic-WCF-Services 
@@ -31,13 +30,11 @@ namespace TestService
     /// available at - https://cwiki.apache.org/confluence/display/STONEHENGE/Stonehenge+StockTrader+Sample+Application
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-
-    [UnityServiceBehavior]
-    public class TestService<TEntity> : ITestService<TEntity> where TEntity : class, ICommandAggregateRoot
+    public abstract class TestWebService<TEntity> : ITestWebService<TEntity> where TEntity : class, ICommandAggregateRoot
     {
         private ICommandRepository<TEntity> _commandRepository;
 
-        public TestService(ICommandRepository<TEntity> commandRepository)
+        public TestWebService(ICommandRepository<TEntity> commandRepository)
         {
             _commandRepository = commandRepository;
         }
