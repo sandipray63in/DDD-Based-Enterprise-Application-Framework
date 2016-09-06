@@ -30,6 +30,8 @@ Pending Tasks ->
 
 • Testing BulkOperations using SQL Express Edition.
 
+• Fixing WCF related Unit Test Case(s).
+
 • Redesign Caching stuffs to support in-memory caching or some scalable option like Windows AppFabric or Redis(a scalable NOSQL
   option). Ideally, should be designed in a pluggable way to support any cool Caching mechanism coming in future as well.Also should use some AOP or attribute(annotation) based approach to apply Caching or invalidating the Cache else it becomes very hectic to apply these cross cutting concerns everywhere within a large application.
 
@@ -55,6 +57,8 @@ References(not that everything mentioned below is referred to build this framewo
  14) [Single Page Web Applications](https://www.manning.com/books/single-page-web-applications)  
  15) [Telerik Academy's ShowcaseSystem(having a quite good SPA sample using Angular.js)](https://github.com/TelerikAcademy/ShowcaseSystem).Some other resources which might be looked out are [Awesome Angular JS](https://github.com/gianarb/awesome-angularjs), [Awesome Angular 2](https://github.com/AngularClass/awesome-angular2), [Awesome Angular](https://github.com/AngularClass/awesome-angular2),[Awesome React](https://github.com/enaqx/awesome-react), [Awesome React Native](https://github.com/jondot/awesome-react-native), [React Flux vs React Redux](http://stackoverflow.com/questions/32461229/why-use-redux-over-facebook-flux), [Awesome React Redux](https://github.com/xgrommx/awesome-redux),[Building realtime collaborative offline-first apps with React, Redux, PouchDB and WebSockets](http://blog.yld.io/2015/11/30/building-realtime-collaborative-offline-first-apps-with-react-redux-pouchdb-and-web-sockets/#.V2__9DXuMQ0)  and [Awesome Offline First](https://github.com/pazguille/offline-first)    
  16)[FluentHTML](https://github.com/loresoft/FluentHtml/tree/master/Source/FluentHtml/Fluent), [Fluent Bootstrap](http://fluentbootstrap.com/GettingStarted), [Fluent HTML for PHP](https://github.com/fewagency/fluent-html), [HTML Object](https://github.com/SpoonX/html-object) and [Tag Builder](https://github.com/rwhitmire/tag-builder)     
+ 
+ *** Also, if at all this codebase is migrated to .NET Core then hopefully [ASP.NET Core Documentation](https://docs.asp.net/en/latest/) and [Porting to .NET Core](https://blogs.msdn.microsoft.com/dotnet/2016/02/10/porting-to-net-core/) will be pretty much helpfull.But currently lots of .NET Framework stuffs are not supported by the current .NET Core version as verified by [.NET Portability Analyzer Tool](https://visualstudiogallery.msdn.microsoft.com/1177943e-cfb7-4822-a8a6-e56c7905292b).Also don't have any plans to have a mix and match of .NET Framework and .NET Core environment working together since that would have it's own challenges(didn't do any thorough analysis though) and the whole point of using .NET(wholly) for LINUX/MAC is missing in such an approach(although one might suggest to deploy .NET Framework code as a Web Service deployed in a Windows machine while the .NET Core code deployed in some LINUX/MAC machine consuming the Web Service but for sure, that would have it's own challenges).Anyways, that's secondary and so MIGHT be taken care at some later point of time.
  
  Other Good Resources – Most of the references mentioned above are really good(especially for developing this Application Framework) but the resources mentioned  below can hopefully make you a better Coder/Designer/Architect/Systems Programmer –>         
  
