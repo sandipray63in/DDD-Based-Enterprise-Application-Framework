@@ -22,10 +22,12 @@ Pending Tasks ->
 
 • Trying exploring and incorporating Dapper(a Micro-ORM - Micro ORMs may not provide you some functionalities like UnitOfWork out of the box like that of an ORM but performance wise they are way better compared to ORMs), Event Stores and Grid Based Storage.
 
-• Incorporation of some Restful stuffs(again the core framework elements), including one of the major strategic DDD pattern -   
-  "Event Driven Rest" which is one of the best Integration options based on pure HTTP and optimal for scenarios where Eventual Consistency rather than Transaction Consistency should be the way to go.Although no-where near to any REST approach, but one more viable option (mainly for non-HTTP protocols) is [Zero MQ](http://zeromq.org/) which was designed from the ground up, keeping in mind stock trading apps wherein very high throughput and very low latency are required, as discussed [here](http://aosabook.org/en/zeromq.html).            
+• Incorporation of some Restful stuffs which are commonly used in most Enterprise Apps.
+
+• Whatever done till now is all Orchestrations rather than Event Driven Choreographies.Even the async await based request reply 
+  mechanisms are also actually Orchestrations. True Fire and Forget Event Driven Choreographies(may be with some nominal acknowledgement sent to the requester) following Eventually Consistent approach  WILL ALSO BE TRIED, at the Web API Layer using "Event Driven Rest" and at the Business Layer using [Zero  MQ](http://zeromq.org/).[Zero  MQ](http://zeromq.org/) was designed from the ground up, keeping in mind stock trading apps wherein very high throughput and very low latency are required, as discussed [here](http://aosabook.org/en/zeromq.html).
   N.B. -> One can refer the paper - [Your Coffe Shop Doesn't use 2 phase commit](http://www.enterpriseintegrationpatterns.com/docs/IEEE_Software_Design_2PC.pdf)(written by the Integration genius - Gregor Hohpe, co-author of the Integration Bible viz. [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/)) to see how apps can be implemented without using Transactional Consistency.
-  
+
 • Testing BulkOperations using SQL Express Edition.
 
 • Fixing WCF related Unit Test Case(s).
