@@ -8,9 +8,9 @@ using FluentRepoNamespace = FluentRepository;
 using Repository;
 using Repository.Base;
 using Repository.Command;
-using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 using Testing.Respository;
+using Testing.Repository;
 
 namespace Testing.Integration
 {

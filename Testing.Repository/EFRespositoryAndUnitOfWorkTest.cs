@@ -8,6 +8,7 @@ using Effort.Provider;
 using FluentAssertions;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
+using Testing.Repository;
 
 namespace Testing.Respository
 {

@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="BaseEFRespositoryAndUnitOfWorkTest.cs" />
     <Compile Include="EFRespositoryAndUnitOfWorkTest.cs" />
+    <Compile Include="FakeData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

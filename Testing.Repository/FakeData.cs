@@ -1,6 +1,6 @@
 ﻿using TestEFDomainAndContext.TestDomains;
 
-namespace TestEFDomainAndContext
+namespace Testing.Repository
 {
     public static class FakeData
     {
