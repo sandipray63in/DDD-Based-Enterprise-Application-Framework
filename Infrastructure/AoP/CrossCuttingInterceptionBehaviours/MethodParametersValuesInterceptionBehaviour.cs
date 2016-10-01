@@ -4,7 +4,7 @@ using Infrastructure.SemanticLogging.CrossCuttingEventSources;
 
 namespace Infrastructure.AoP.CrossCuttingInterceptionBehaviours
 {
-    public class MethodParametersValuesInterceptionBehaviour : BaseInterceptionBehaviour
+    public class MethodParametersValuesInterceptionBehaviour : ExceptionInterceptionBehaviour
     {
         protected override void ExecuteBeforeMethodInvocation(IMethodInvocation input)
         {

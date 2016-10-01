@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Repository.Command;
 using Infrastructure;
-using TestEFDomainAndContext.TestDomains;
+using Domain.Base.Aggregates;
 
 namespace Testing.Integration
 {
@@ -13,101 +13,102 @@ namespace Testing.Integration
     /// logic incorporated within the methods.But ideally all Business logic should be placed in the 
     /// Business Layer rather than in the Service Layer.
     /// </summary>
-    internal class DepartmentTestServiceCommand : DisposableClass, ICommand<Department>
+    internal class TestServiceCommand<TEntity> : DisposableClass, ICommand<TEntity>
+        where TEntity : ICommandAggregateRoot
     {
-        private TestServiceOf_DepartmentClient _departmentTestService;
+        private dynamic _testServiceClient;
 
-        public DepartmentTestServiceCommand()
+        public TestServiceCommand()
         {
-            _departmentTestService = new TestServiceOf_DepartmentClient();
+            _testServiceClient = TestServiceCommandFactory.GetServiceClientInstance<TEntity>();
         }
 
-        public void Insert(Department item)
+        public void Insert(TEntity item)
         {
-           _departmentTestService.Insert(item);
+           _testServiceClient.Insert(item);
         }
 
-        public void Update(Department item)
+        public void Update(TEntity item)
         {
-            _departmentTestService.Update(item);
+            _testServiceClient.Update(item);
         }
 
-        public void Delete(Department item)
+        public void Delete(TEntity item)
         {
-            _departmentTestService.Delete(item);
+            _testServiceClient.Delete(item);
         }
 
-        public void BulkDelete(IList<Department> items)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BulkInsert(IList<Department> items)
+        public void BulkDelete(IList<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void BulkUpdate(IList<Department> items)
+        public void BulkInsert(IList<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IList<Department> items)
+        public void BulkUpdate(IList<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(IList<Department> items)
+        public void Delete(IList<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IList<Department> items)
+        public void Insert(IList<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public async Task InsertAsync(Department item, CancellationToken token)
+        public void Update(IList<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(Department item, CancellationToken token)
+        public async Task InsertAsync(TEntity item, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync(Department item, CancellationToken token)
+        public async Task UpdateAsync(TEntity item, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task InsertAsync(IList<Department> items, CancellationToken token)
+        public async Task DeleteAsync(TEntity item, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(IList<Department> items, CancellationToken token)
+        public async Task InsertAsync(IList<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync(IList<Department> items, CancellationToken token)
+        public async Task UpdateAsync(IList<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task BulkInsertAsync(IList<Department> items, CancellationToken token)
+        public async Task DeleteAsync(IList<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task BulkUpdateAsync(IList<Department> items, CancellationToken token)
+        public async Task BulkInsertAsync(IList<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task BulkDeleteAsync(IList<Department> items, CancellationToken token)
+        public async Task BulkUpdateAsync(IList<TEntity> items, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task BulkDeleteAsync(IList<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
@@ -118,7 +119,7 @@ namespace Testing.Integration
         protected override void FreeManagedResources()
         {
             base.FreeManagedResources();
-            _departmentTestService.Close();
+            _testServiceClient.Close();
         }
 
         #endregion

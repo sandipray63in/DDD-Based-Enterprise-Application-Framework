@@ -5,7 +5,7 @@ using Infrastructure.SemanticLogging.CrossCuttingEventSources;
 
 namespace Infrastructure.AoP.CrossCuttingInterceptionBehaviours
 {
-    public class MethodExecutionTimeInterceptionBehaviour : BaseInterceptionBehaviour
+    public class MethodExecutionTimeInterceptionBehaviour : ExceptionInterceptionBehaviour
     {
         private Stopwatch stopWatch = new Stopwatch();
         protected override void ExecuteBeforeMethodInvocation(IMethodInvocation input)

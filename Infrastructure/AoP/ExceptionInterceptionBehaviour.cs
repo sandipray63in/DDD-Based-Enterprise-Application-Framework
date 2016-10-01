@@ -5,8 +5,15 @@ using Infrastructure.SemanticLogging.CrossCuttingEventSources;
 
 namespace Infrastructure.AoP
 {
-
-    public abstract class BaseInterceptionBehaviour : IInterceptionBehavior
+    /// <summary>
+    /// Acts as the base class for all other types of Interception Behaviours.
+    /// This AoP approach can be used for normal exception handling as well as Exception Handling for async-await code.
+    /// Exception Handling for async-await is discussed quite well at https://blogs.msdn.microsoft.com/ptorr/2014/12/10/async-exceptions-in-c/,
+    /// http://www.informit.com/articles/article.aspx?p=2425865 , https://www.simple-talk.com/dotnet/net-framework/the-net-4-5-asyncawait-feature-in-promise-and-practice/ ,
+    /// https://jeremybytes.blogspot.in/2015/01/task-and-await-basic-exception-handling.html and http://stackoverflow.com/questions/15503782/architecture-for-async-await.
+    /// These async-await Exception Handling concepts can be used in an AoP way.
+    /// </summary>
+    public class ExceptionInterceptionBehaviour : IInterceptionBehavior
     {
         public IEnumerable<Type> GetRequiredInterfaces()
         {

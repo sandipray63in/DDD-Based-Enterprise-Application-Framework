@@ -91,7 +91,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -126,10 +125,6 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{35fd83da-a508-43ea-97e8-9329beaf7100}</Project>
       <Name>Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DomainContextsAndMaps\DomainContextsAndMaps.csproj">
-      <Project>{9d5812ab-0f1a-42df-94d4-4de7e7f48e65}</Project>
-      <Name>DomainContextsAndMaps</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2d9d3c62-ba14-4598-bcb6-64c64c98e7f4}</Project>

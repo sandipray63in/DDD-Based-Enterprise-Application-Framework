@@ -56,7 +56,8 @@ namespace Testing.Respository
             RegisterUnitOfWorkInstance();
             RegisterUnitOfWorkInstance(true);
 
-            RegisterDepartmentCommandService();
+            RegisterCommandService<Department>();
+            RegisterCommandService<Employee>();
         }
 
         #endregion
@@ -118,7 +119,7 @@ namespace Testing.Respository
 
         protected virtual void RegisterEFTestContext() { }
 
-        protected virtual void RegisterDepartmentCommandService() { }
+        protected virtual void RegisterCommandService<TEntity>() where TEntity : class, ICommandAggregateRoot { } 
 
         protected virtual void Cleanup() { }
 
@@ -138,6 +139,13 @@ namespace Testing.Respository
         {
             var name = typeof(Department).Name + SERVICE_SUFFIX;
             var repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<Department>>(name) : _container.Resolve<ICommandRepository<Department>>(name, new ParameterOverride("unitOfWork", unitOfWork));
+            return repository;
+        }
+
+        protected ICommandRepository<Employee> GetEmployeeCommandServiceRepositoryInstance(IUnitOfWork unitOfWork = null)
+        {
+            var name = typeof(Employee).Name + SERVICE_SUFFIX;
+            var repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<Employee>>(name) : _container.Resolve<ICommandRepository<Employee>>(name, new ParameterOverride("unitOfWork", unitOfWork));
             return repository;
         }
 

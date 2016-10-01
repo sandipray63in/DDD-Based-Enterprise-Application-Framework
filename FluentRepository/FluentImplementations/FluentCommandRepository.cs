@@ -21,7 +21,7 @@ namespace FluentRepository.FluentImplementations
             ContractUtility.Requires<ArgumentNullException>(command.IsNotNull(), "command instance cannot be null");
             var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
             var commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
-            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been not set up for {0}.", typeof(TEntity).Name));
+            ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been set up for {0}.", typeof(TEntity).Name));
             commandRepository.SetCommand(command);
             return new FluentCommands(_unitOfWorkData, _repositoriesList, _operationsQueue);
         }
@@ -31,6 +31,11 @@ namespace FluentRepository.FluentImplementations
             return SetUpCommandRepository(commands.ToList());
         }
 
+        /// <summary>
+        /// TODO- Provide proper implementation for the below method.
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <returns></returns>
         public IFluentCommands SetUpCommandPersistance(IList<dynamic> commands)
         {
             throw new NotImplementedException();

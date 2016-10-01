@@ -11,8 +11,6 @@ namespace Infrastructure.UnitOfWork
 {
     public class UnitOfWork : DisposableClass, IUnitOfWork
     {
-        private const string ASYNC_SUFFIX = "Async";
-
         private TransactionScope _scope;
         private readonly IsolationLevel _isoLevel;
         private readonly TransactionScopeOption _scopeOption;
