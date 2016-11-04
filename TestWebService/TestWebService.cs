@@ -3,6 +3,7 @@ using System.ServiceModel;
 using Domain.Base.Aggregates;
 using Repository.Base;
 using Infrastructure.Utilities;
+using Infrastructure.WCFExtensibility.UnityIntegration;
 
 namespace TestWebService
 {
@@ -30,6 +31,7 @@ namespace TestWebService
     /// available at - https://cwiki.apache.org/confluence/display/STONEHENGE/Stonehenge+StockTrader+Sample+Application
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
+    [UnityServiceBehavior]
     public class TestWebService<TEntity> : ITestWebService<TEntity> where TEntity : class, ICommandAggregateRoot
     {
         private ICommandRepository<TEntity> _commandRepository;

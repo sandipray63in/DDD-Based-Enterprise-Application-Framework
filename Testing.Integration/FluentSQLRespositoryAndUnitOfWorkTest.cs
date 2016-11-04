@@ -67,7 +67,7 @@ namespace Testing.Integration
             /// This is required since it's not allowed to create a DB within Transactions. 
             /// Seeding of data also becomes part of the transaction and so cannot ultimately create the DB and so seeding the data 
             /// doesn't serve the purpose.
-            /// Also, since Unity(& probably any ORM), creates a new instance only on Resolve for only the instances(the depndencies 
+            /// Also, since Unity(& probably any DI container), creates a new instance only on Resolve for only the instances(the depndencies 
             /// are taken from the cache until and unless they are also created using Resolve) and so no point of executing the below 
             /// code for the other unit test cases. 
             FluentRepoNamespace.FluentRepository
