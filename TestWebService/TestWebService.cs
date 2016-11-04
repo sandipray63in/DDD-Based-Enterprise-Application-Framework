@@ -30,7 +30,7 @@ namespace TestWebService
     /// available at - https://cwiki.apache.org/confluence/display/STONEHENGE/Stonehenge+StockTrader+Sample+Application
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public abstract class TestWebService<TEntity> : ITestWebService<TEntity> where TEntity : class, ICommandAggregateRoot
+    public class TestWebService<TEntity> : ITestWebService<TEntity> where TEntity : class, ICommandAggregateRoot
     {
         private ICommandRepository<TEntity> _commandRepository;
 
