@@ -83,7 +83,7 @@ References(not that everything mentioned below is referred to build this framewo
  d) CRM - [SplendidCRM](http://www.splendidcrm.com/)      
  e) Personalization - [My Web Pages Starter Kit](https://mywebpagesstarterkit.codeplex.com/)     
  f) Web Portal - [DropThings](https://www.codeproject.com/articles/35193/web-2-0-ajax-portal-using-jquery-asp-net-3-5-silve) and [ASP.NET Portal Starter Kit](https://aspnetportal.codeplex.com/)        
- g) Social News - [Kigg](http://kigg.codeplex.com/) 
+ g) Social News - [Kigg](http://kigg.codeplex.com/)      
  h) Blog - [BlogEngine.NET](https://github.com/rxtur/BlogEngine.NET)     
  i) SOA - [.NET Stock Trader](https://blogs.msdn.microsoft.com/roberdan/2007/06/20/net-stocktrader-sample-application/)      
  j) Workflows(along-with some Utilities) - [NeoVolve](https://github.com/roryprimrose/Neovolve.Toolkit)
