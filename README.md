@@ -74,9 +74,10 @@ References(not that everything mentioned below is referred to build this framewo
  
  *** Also,one can refer [Udacity Courses](https://www.udacity.com/courses/all)(alongwith [Downloads](https://www.udacity.com/wiki/downloads)), [Coursera Courses](https://www.coursera.org/courses?_facet_changed_=true&domains=computer-science&languages=en&query=free+courses&start=60), [eDX courses](https://www.edx.org/course), [Recurse](https://www.recurse.com/) and [Developer Y's CS Video Courses](https://github.com/Developer-Y/cs-video-courses) for overall breadth and depth of Computer Science and Engineering.  
  
- **** One of the best way to learn SPA,REST/MicroServices and DDD(including CQRS and Event Sourcing) is to gather the requirements 
- (from the  source code), analyze the requirements,architect/design/implement the requirements(alongwith unit and integration 
- testing) of some existing good open source projects using priciples of SPA,REST/MicroServices and DDD(may be if needed, can apply       parts/whole of this Framework for the same).Some intriguing open source Projects in this regard are -        
+ **** One of the best way to learn SPA,REST/MicroServices and DDD(including CQRS and Event Sourcing) is to grab some     
+ existing good open source projects and then gather the requirements (from the  source code), analyze the requirements,     architect/design/implement the requirements(alongwith unit and integration  testing) using priciples of SPA,REST     
+ /MicroServices and DDD(may be if needed, can apply parts/whole of this Framework for the same). Some intriguing     
+ open source projects in this regard are -        
  a) ASP.NET - [ASP.NET(& .NET in general) Open Source Projects](https://www.asp.net/mvc/open-source) and [ASP.NET Samples](https://www.asp.net/aspnet/samples).A good article with regards to comparison of various ASP.NET Technologies is [WEB FORMS, MVC, SINGLE PAGE APP, WEB PAGES COMPARISON](http://prasadhonrao.com/web-forms-mvc-single-page-app-web-pages-comparison/).              
  b) E-Commerce - [NopCommerce](http://www.nopcommerce.com/), [SmartStoreNET](https://www.smartstore.com/en/net) and [Virto Commerce](https://virtocommerce.com/)       
  c) CMS - [Orchard](http://www.orchardproject.net/) and [Umbraco](https://umbraco.com/)       
