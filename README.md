@@ -83,10 +83,12 @@ References(not that everything mentioned below is referred to build this framewo
  d) CRM - [SplendidCRM](http://www.splendidcrm.com/)      
  e) Personalization - [My Web Pages Starter Kit](https://mywebpagesstarterkit.codeplex.com/)     
  f) Web Portal - [DropThings](https://www.codeproject.com/articles/35193/web-2-0-ajax-portal-using-jquery-asp-net-3-5-silve) and [ASP.NET Portal Starter Kit](https://aspnetportal.codeplex.com/)        
- g) Social News - [Kigg](http://kigg.codeplex.com/)     
- h) SOA - [.NET Stock Trader](https://blogs.msdn.microsoft.com/roberdan/2007/06/20/net-stocktrader-sample-application/)      
- i) Concurrency - [Parallel Programming Samples](https://code.msdn.microsoft.com/ParExtSamples) and [Parallel Programming Extras](https://blogs.msdn.microsoft.com/pfxteam/2010/04/04/a-tour-of-parallelextensionsextras/). Please note that these projects are not mentioned for learning SPA or REST or DDD principles directly but the underlying principles can be used for some REST/DDD based projects at the server side.      
- j) Angular.JS - [Telerik's Showcase System](https://github.com/TelerikAcademy/ShowcaseSystem).Probably the best resource to learn SPA using Angular.js.      
+ g) Social News - [Kigg](http://kigg.codeplex.com/) 
+ h) Blog - [BlogEngine.NET](https://github.com/rxtur/BlogEngine.NET)     
+ i) SOA - [.NET Stock Trader](https://blogs.msdn.microsoft.com/roberdan/2007/06/20/net-stocktrader-sample-application/)      
+ j) Workflows(along-with some Utilities) - [NeoVolve](https://github.com/roryprimrose/Neovolve.Toolkit)
+ k) Concurrency - [Parallel Programming Samples](https://code.msdn.microsoft.com/ParExtSamples) and [Parallel Programming Extras](https://blogs.msdn.microsoft.com/pfxteam/2010/04/04/a-tour-of-parallelextensionsextras/). Please note that these projects are not mentioned for learning SPA or REST or DDD principles directly but the underlying principles can be used for some REST/DDD based projects at the server side.      
+ l) Angular.JS - [Telerik's Showcase System](https://github.com/TelerikAcademy/ShowcaseSystem).Probably the best resource to learn SPA using Angular.js.      
  
  N.B. -> It’s not that I have read/viewed everything mentioned above but yes, I have read/viewed a few of them (partially or completely) and many are yet to be even started(for reading) but all the resources mentioned above are some of the best resources(as per my interaction with some beautiful minds and my own exploration). Also, something not mentioned in the above list doesn't mean that it's not good - only that I am not aware of(or not my preference).
 
