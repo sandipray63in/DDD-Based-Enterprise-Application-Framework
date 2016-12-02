@@ -87,7 +87,7 @@ References(not that everything mentioned below is referred to build this framewo
  g) Social News - [Kigg](http://kigg.codeplex.com/)      
  h) Blog - [BlogEngine.NET](https://github.com/rxtur/BlogEngine.NET)     
  i) SOA - [.NET Stock Trader](https://blogs.msdn.microsoft.com/roberdan/2007/06/20/net-stocktrader-sample-application/)      
- j) Workflows(along-with some Utilities) - [NeoVolve.Toolkit](https://github.com/roryprimrose/Neovolve.Toolkit).This project is more of a toolkit, the utilities and concepts of which can be used to build REST/DDD based Workflow projects.    
+ j) Workflows(along-with some Utilities) - [NeoVolve.Toolkit](https://github.com/roryprimrose/Neovolve.Toolkit).This project is more of a toolkit, the utilities and concepts of which can be used to build REST/DDD based Workflow projects.Also watch out for WWF based PageFlow samples like [Rule Driven Pageflow / Workflow](https://code.msdn.microsoft.com/windowsapps/Rule-Driven-Pageflow-fc765617) and   [ASP.Net Page Navigation using Workflow 4.0](http://www.c-sharpcorner.com/uploadfile/sridhar_subra/Asp-Net-page-navigation-using-workflow-4-0/).     
  k) Concurrency - [Parallel Programming Samples](https://code.msdn.microsoft.com/ParExtSamples) and [Parallel Programming Extras](https://blogs.msdn.microsoft.com/pfxteam/2010/04/04/a-tour-of-parallelextensionsextras/). Again,please note that these projects are not mentioned for learning SPA or REST or DDD principles directly but the underlying principles can be used for some REST/DDD based projects at the server side.      
  l) Angular.JS - [Telerik's Showcase System](https://github.com/TelerikAcademy/ShowcaseSystem).Probably the best resource to learn SPA using Angular.js.      
  
