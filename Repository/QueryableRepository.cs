@@ -56,49 +56,20 @@ namespace Repository
 
         public virtual void RunQuery(Func<IQueryableRepository<TEntity>, TEntity> queryableRepositoryOperation, Action<TEntity> operationToExecuteBeforeNextOperation = null)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
-            ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
-            Action operation = () =>
-                {
-                    var queryReturnValue = queryableRepositoryOperation(this);
-                    if (operationToExecuteBeforeNextOperation.IsNotNull())
-                    {
-                        operationToExecuteBeforeNextOperation(queryReturnValue);
-                    }
-                };
-            if (_unitOfWork.IsNotNull())
-            {
-                _unitOfWork.AddOperation(operation);
-            }
-            else
-            {
-                operation();
-            }
+            HandleRunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation);
         }
 
         public virtual void RunQuery(Func<IQueryableRepository<TEntity>, IEnumerable<TEntity>> queryableRepositoryOperation, Action<IEnumerable<TEntity>> operationToExecuteBeforeNextOperation = null)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
-            ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
-            Action operation = () =>
-                {
-                    var queryReturnValue = queryableRepositoryOperation(this);
-                    if (operationToExecuteBeforeNextOperation.IsNotNull())
-                    {
-                        operationToExecuteBeforeNextOperation(queryReturnValue);
-                    }
-                };
-            if (_unitOfWork.IsNotNull())
-            {
-                _unitOfWork.AddOperation(operation);
-            }
-            else
-            {
-                operation();
-            }
+            HandleRunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation);
         }
 
         public virtual void RunQuery<TIntermediateType>(Func<IQueryableRepository<TEntity>, TIntermediateType> queryableRepositoryOperation, Action<TIntermediateType> operationToExecuteBeforeNextOperation = null)
+        {
+            HandleRunQuery(queryableRepositoryOperation, operationToExecuteBeforeNextOperation);
+        }
+
+        private void HandleRunQuery<TNextActionType>(Func<IQueryableRepository<TEntity>, TNextActionType> queryableRepositoryOperation, Action<TNextActionType> operationToExecuteBeforeNextOperation)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
