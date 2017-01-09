@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Practices.Unity.InterceptionExtension;
-using Infrastructure.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
 
 namespace Infrastructure.AoP
 {

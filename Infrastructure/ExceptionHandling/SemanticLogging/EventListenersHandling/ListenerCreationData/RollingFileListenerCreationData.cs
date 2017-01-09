@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Formatters;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Sinks;
 
-namespace Infrastructure.SemanticLogging.EventListenersHandling.ListenerCreationData
+namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.ListenerCreationData
 {
     public class RollingFileListenerCreationData : IListenerCreationData
     {

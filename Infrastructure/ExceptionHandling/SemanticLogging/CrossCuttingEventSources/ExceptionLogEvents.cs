@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.Tracing;
 
-namespace Infrastructure.SemanticLogging.CrossCuttingEventSources
+namespace Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources
 {
     [EventSource(Name = "ExceptionLogEvents")]
     public class ExceptionLogEvents : EventSource

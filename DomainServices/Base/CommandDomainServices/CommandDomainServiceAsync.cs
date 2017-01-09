@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base.Aggregates;
 using Infrastructure;
-using Infrastructure.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
 using Infrastructure.Utilities;
 using Repository.Base;
 

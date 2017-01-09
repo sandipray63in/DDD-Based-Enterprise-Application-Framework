@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics.Tracing;
 using System.Linq;
-using Infrastructure.SemanticLogging.EventListenersHandling.ListenerCreationData;
+using Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.ListenerCreationData;
 using Infrastructure.Utilities;
 
-namespace Infrastructure.SemanticLogging.EventListenersHandling.Listeners
+namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.Listeners
 {
     internal abstract class BaseListener : IListener
     {

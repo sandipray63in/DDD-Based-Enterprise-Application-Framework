@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Unity.InterceptionExtension;
 using Infrastructure.Extensions;
-using Infrastructure.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
 
 namespace Infrastructure.AoP.CrossCuttingInterceptionBehaviours
 {

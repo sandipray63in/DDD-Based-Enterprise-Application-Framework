@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
-using Infrastructure.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
 using Infrastructure.Utilities;
 
 namespace Infrastructure.UnitOfWork

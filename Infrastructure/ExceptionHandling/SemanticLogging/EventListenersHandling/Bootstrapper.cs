@@ -2,11 +2,11 @@
 using System.Collections.Immutable;
 using Microsoft.Practices.Unity;
 using Infrastructure.DI;
-using Infrastructure.SemanticLogging.EventListenersHandling.Listeners;
-using Infrastructure.SemanticLogging.EventListenersHandling.ListenerCreationData;
+using Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.Listeners;
+using Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.ListenerCreationData;
 using Infrastructure.Utilities;
 
-namespace Infrastructure.SemanticLogging.EventListenersHandling
+namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling
 {
     internal static class Bootstrapper
     {

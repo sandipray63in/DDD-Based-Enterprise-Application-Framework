@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.Tracing;
 
-namespace Infrastructure.SemanticLogging.EventListenersHandling
+namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling
 {
     public class EventSourceAndLevel
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Domain.Base.Aggregates;
 using Infrastructure;
-using Infrastructure.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
 using Infrastructure.Utilities;
 using Repository.Base;
 

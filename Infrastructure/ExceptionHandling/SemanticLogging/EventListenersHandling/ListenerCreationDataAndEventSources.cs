@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.SemanticLogging.EventListenersHandling.ListenerCreationData;
+using Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.ListenerCreationData;
 
-namespace Infrastructure.SemanticLogging.EventListenersHandling
+namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling
 {
     public class ListenerCreationDataAndEventSources
     {

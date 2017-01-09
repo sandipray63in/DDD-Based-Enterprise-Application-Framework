@@ -1,5 +1,5 @@
 ﻿
-namespace Infrastructure.SemanticLogging.EventListenersHandling
+namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling
 {
     public enum ListenerType { Console, FlatFile, RollingFile }
 
