@@ -24,7 +24,7 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
                 if (numberOfRetries < maxNumberOfRetriesAllowed)
                 {
                     numberOfRetries++;
-                    HandleExceptionAfterAllRetryFailure(action);
+                    HandleExceptionAfterAllRetryFailure(action,onExceptionCompensatingHandler,maxNumberOfRetriesAllowed);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
                 if (numberOfRetries < maxNumberOfRetriesAllowed)
                 {
                     numberOfRetries++;
-                    return HandleExceptionAfterAllRetryFailure(action);
+                    return HandleExceptionAfterAllRetryFailure(action, onExceptionCompensatingHandler, maxNumberOfRetriesAllowed);
                 }
                 else
                 {
