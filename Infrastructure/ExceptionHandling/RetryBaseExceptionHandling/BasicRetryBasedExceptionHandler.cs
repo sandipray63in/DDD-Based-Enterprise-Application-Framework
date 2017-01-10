@@ -6,6 +6,16 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
     public class BasicRetryBasedExceptionHandler : BaseRetryBasedExceptionHandler
     {
         private int numberOfRetries = 0;
+        private bool shouldThrowOnException;
+
+        public BasicRetryBasedExceptionHandler()
+        {
+        }
+
+        public BasicRetryBasedExceptionHandler(bool shouldThrowOnException)
+        {
+            this.shouldThrowOnException = shouldThrowOnException;
+        }
 
         /// <summary>
         /// Retries for the maxNumberOfRetriesAllowed value and if still some exception occurs
@@ -28,7 +38,7 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
                 }
                 else
                 {
-                    HandleExceptionCompensatingHandler(onExceptionCompensatingHandler, ex);
+                    HandleExceptionCompensation(onExceptionCompensatingHandler, ex);
                 }
             }
         }
@@ -54,19 +64,23 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
                 }
                 else
                 {
-                    HandleExceptionCompensatingHandler(onExceptionCompensatingHandler, ex);
+                    HandleExceptionCompensation(onExceptionCompensatingHandler, ex);
                     return default(TReturn);
                 }
             }
         }
 
-        private void HandleExceptionCompensatingHandler(Action onExceptionCompensatingHandler,Exception ex)
+        private void HandleExceptionCompensation(Action onExceptionCompensatingHandler,Exception ex)
         {
-            if (onExceptionCompensatingHandler == null)
+            ExceptionLogEvents.Log.LogException(ex.ToString());
+            if (onExceptionCompensatingHandler.IsNotNull())
             {
-                onExceptionCompensatingHandler = () => ExceptionLogEvents.Log.LogException(ex.ToString());
+                onExceptionCompensatingHandler();
             }
-            onExceptionCompensatingHandler();
+            if(shouldThrowOnException)
+            {
+                throw new Exception("Check Inner Exception",ex);
+            }
         }
     }
 }
