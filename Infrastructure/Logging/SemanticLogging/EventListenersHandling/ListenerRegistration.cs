@@ -5,7 +5,7 @@ using Microsoft.Practices.Unity;
 using Infrastructure.DI;
 using Infrastructure.Utilities;
 
-namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.Listeners
+namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling.Listeners
 {
     /// <summary>
     /// Here Logging is implemented based on Enterprise Library Semantic Logging.

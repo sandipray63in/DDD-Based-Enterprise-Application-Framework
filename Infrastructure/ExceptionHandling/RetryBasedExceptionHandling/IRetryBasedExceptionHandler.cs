@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
+namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
 {
 
     public interface IRetryBasedExceptionHandler

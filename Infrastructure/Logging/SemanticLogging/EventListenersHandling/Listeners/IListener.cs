@@ -1,5 +1,5 @@
 ﻿
-namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.Listeners
+namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling.Listeners
 {
     internal interface IListener
     {

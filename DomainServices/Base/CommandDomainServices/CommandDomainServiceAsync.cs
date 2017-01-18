@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base.Aggregates;
 using Infrastructure;
-using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
 using Repository.Base;
 
@@ -14,12 +14,16 @@ namespace DomainServices.Base.CommandDomainServices
     {
         protected readonly ICommandRepository<TEntity> _repository;
 
-        public CommandDomainServiceAsync(ICommandRepository<TEntity> repository)
+        protected readonly ILogger logger;
+
+        public CommandDomainServiceAsync(ICommandRepository<TEntity> repository, ILogger logger)
         {
             ContractUtility.Requires<ArgumentNullException>(repository != null, "repository instance cannot be null");
+            ContractUtility.Requires<ArgumentNullException>(logger != null, "logger instance cannot be null");
             _repository = repository;
+            this.logger = logger;
         }
-        
+
         public virtual async Task<bool> InsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainServiceAsync<TEntity>).FullName);
@@ -83,7 +87,7 @@ namespace DomainServices.Base.CommandDomainServices
             }
             catch (Exception ex)
             {
-                ExceptionLogEvents.Log.LogException(ex.ToString());
+                logger.LogException(ex);
                 return false;
             }
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Formatters;
 
-namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.ListenerCreationData
+namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling.ListenerCreationData
 {
     public class FlatFileListenerCreationData : IListenerCreationData
     {

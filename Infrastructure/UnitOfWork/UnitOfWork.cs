@@ -4,20 +4,23 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
-using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.Logging;
+using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
 
 namespace Infrastructure.UnitOfWork
 {
     public class UnitOfWork : DisposableClass, IUnitOfWork
     {
+        private readonly ILogger logger;
         private TransactionScope _scope;
         private readonly IsolationLevel _isoLevel;
         private readonly TransactionScopeOption _scopeOption;
         private Queue<OperationData> _operationsQueue;
 
-        public UnitOfWork(IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew)
+        public UnitOfWork(IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew, ILogger logger = null)
         {
+            ContractUtility.Requires<ArgumentNullException>(logger.IsNotNull(), "logger instance cannot be null");
             _isoLevel = isoLevel;
             _scopeOption = scopeOption;
             _operationsQueue = new Queue<OperationData>();
@@ -33,7 +36,7 @@ namespace Infrastructure.UnitOfWork
         private readonly Func<bool> _throwExceptionActionToTestRollback;
         private bool _isProcessDataMethodExecutedAtleastOnce;
 
-        public UnitOfWork(Func<bool> throwExceptionActionToTestRollback, IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew) : this(isoLevel, scopeOption)
+        public UnitOfWork(Func<bool> throwExceptionActionToTestRollback, IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew) : this(isoLevel, scopeOption,LoggerFactory.GetLogger(LoggerType.Default))
         {
             _throwExceptionActionToTestRollback = throwExceptionActionToTestRollback;
         }
@@ -172,20 +175,20 @@ namespace Infrastructure.UnitOfWork
                     var rollBackException = new Exception("Rollback failed for the current transaction.Please check inner exception.", ex);
                     if (commitException.IsNull())
                     {
-                        ExceptionLogEvents.Log.LogException(rollBackException.ToString());
+                        logger.LogException(rollBackException);
                         throw rollBackException;
                     }
                     else
                     {
                         var exceptionOccurredWhileCommitting = new Exception("Commit failed for the current transaction.Please check inner exception.", commitException);
                         var commitAndRollbackException = new AggregateException("Both commit and rollback failed for the current transaction.Please check inner exceptions.", exceptionOccurredWhileCommitting, rollBackException);
-                        ExceptionLogEvents.Log.LogException(commitAndRollbackException.ToString());
+                        logger.LogException(commitAndRollbackException);
                         throw commitAndRollbackException;
                     }
                 }
                 else
                 {
-                    ExceptionLogEvents.Log.LogException(ex.ToString());
+                    logger.LogException(ex);
                 }
             }
         }
@@ -204,7 +207,7 @@ namespace Infrastructure.UnitOfWork
                 catch (Exception ex)
                 {
                     Rollback();
-                    ExceptionLogEvents.Log.LogException(ex.ToString());
+                    logger.LogException(ex);
                     if (shouldThrowOnException)
                     {
                         throw new Exception("Commit failed for the current transaction.Please check inner exception", ex);

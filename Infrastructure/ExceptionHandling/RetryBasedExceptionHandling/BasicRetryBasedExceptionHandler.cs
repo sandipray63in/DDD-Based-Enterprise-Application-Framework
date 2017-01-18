@@ -1,19 +1,21 @@
 ﻿using System;
-using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.Extensions;
+using Infrastructure.Logging.Loggers;
+using Infrastructure.Utilities;
 
-namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
+namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
 {
     public class BasicRetryBasedExceptionHandler : BaseRetryBasedExceptionHandler
     {
         private int numberOfRetries = 0;
         private bool shouldThrowOnException;
 
-        public BasicRetryBasedExceptionHandler()
-        {
-        }
+        private readonly ILogger logger;
 
-        public BasicRetryBasedExceptionHandler(bool shouldThrowOnException)
+        public BasicRetryBasedExceptionHandler(ILogger logger,bool shouldThrowOnException = false)
         {
+            ContractUtility.Requires<ArgumentNullException>(logger.IsNotNull(), "logger instance cannot be null");
+            this.logger = logger;
             this.shouldThrowOnException = shouldThrowOnException;
         }
 
@@ -51,6 +53,12 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
         /// <param name="maxNumberOfRetriesAllowed"></param>
         public override TReturn HandleExceptionAfterAllRetryFailure<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null, int maxNumberOfRetriesAllowed = 0)
         {
+            Func<TReturn> retryBasedExceptionHandler = () => HandleExceptionAfterAllRetryFailureForMemoize(action, onExceptionCompensatingHandler, maxNumberOfRetriesAllowed);
+            return retryBasedExceptionHandler.Memoize()();
+        }
+
+        private TReturn HandleExceptionAfterAllRetryFailureForMemoize<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null, int maxNumberOfRetriesAllowed = 0)
+        {
             try
             {
                 return action();
@@ -60,7 +68,7 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
                 if (numberOfRetries < maxNumberOfRetriesAllowed)
                 {
                     numberOfRetries++;
-                    return HandleExceptionAfterAllRetryFailure(action, onExceptionCompensatingHandler, maxNumberOfRetriesAllowed);
+                    return HandleExceptionAfterAllRetryFailureForMemoize(action, onExceptionCompensatingHandler, maxNumberOfRetriesAllowed);
                 }
                 else
                 {
@@ -72,7 +80,7 @@ namespace Infrastructure.ExceptionHandling.RetryBaseExceptionHandling
 
         private void HandleExceptionCompensation(Action onExceptionCompensatingHandler,Exception ex)
         {
-            ExceptionLogEvents.Log.LogException(ex.ToString());
+            logger.LogException(ex);
             if (onExceptionCompensatingHandler.IsNotNull())
             {
                 onExceptionCompensatingHandler();

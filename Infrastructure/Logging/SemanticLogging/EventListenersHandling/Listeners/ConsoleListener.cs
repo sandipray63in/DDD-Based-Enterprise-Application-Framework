@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics.Tracing;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
-using Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.ListenerCreationData;
+using Infrastructure.Logging.SemanticLogging.EventListenersHandling.ListenerCreationData;
 using Infrastructure.Utilities;
 
-namespace Infrastructure.ExceptionHandling.SemanticLogging.EventListenersHandling.Listeners
+namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling.Listeners
 {
     internal class ConsoleListener : BaseListener
     {

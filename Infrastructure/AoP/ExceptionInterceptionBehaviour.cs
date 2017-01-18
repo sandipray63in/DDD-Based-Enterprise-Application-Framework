@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Practices.Unity.InterceptionExtension;
-using Infrastructure.ExceptionHandling.SemanticLogging.CrossCuttingEventSources;
+using Infrastructure.Logging.Loggers;
+using Infrastructure.Utilities;
 
 namespace Infrastructure.AoP
 {
@@ -15,6 +16,14 @@ namespace Infrastructure.AoP
     /// </summary>
     public class ExceptionInterceptionBehaviour : IInterceptionBehavior
     {
+        protected readonly ILogger logger;
+
+        public ExceptionInterceptionBehaviour(ILogger logger)
+        {
+            ContractUtility.Requires<ArgumentNullException>(logger.IsNotNull(), "logger instance cannot be null");
+            this.logger = logger;
+        }
+
         public IEnumerable<Type> GetRequiredInterfaces()
         {
             return Type.EmptyTypes;
@@ -36,7 +45,7 @@ namespace Infrastructure.AoP
                 var methodReturnException = methodReturn.Exception;
                 if (methodReturnException.IsNotNull())
                 {
-                    ExceptionLogEvents.Log.LogException(methodReturnException.ToString());
+                    logger.LogException(methodReturnException);
                     throw new Exception("Method Return Exception.Please check inner exception", methodReturnException);
                 }
                 else
@@ -47,7 +56,7 @@ namespace Infrastructure.AoP
             }
             catch(Exception ex)
             {
-                ExceptionLogEvents.Log.LogException(ex.ToString());
+                logger.LogException(ex);
                 throw;
             }
         }
