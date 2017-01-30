@@ -1,22 +1,22 @@
 ﻿using System;
-using Infrastructure.Extensions;
 using Infrastructure.Logging.Loggers;
-using Infrastructure.Utilities;
+using Infrastructure.Logging;
 
 namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
 {
     public class BasicRetryBasedExceptionHandler : BaseRetryBasedExceptionHandler
     {
-        private int numberOfRetries = 0;
-        private bool shouldThrowOnException;
+        private bool _shouldThrowOnException;
+        private ILogger _logger;
+        private int _maxNumberOfAllowedRetries;
+        private readonly Func<DateTime, bool> _retryConditionFunc;
 
-        private readonly ILogger logger;
-
-        public BasicRetryBasedExceptionHandler(ILogger logger,bool shouldThrowOnException = false)
+        public BasicRetryBasedExceptionHandler(ILogger logger, int maxNumberOfAllowedRetries, bool shouldThrowOnException, int timeOutInMilliSeconds = -1)
         {
-            ContractUtility.Requires<ArgumentNullException>(logger.IsNotNull(), "logger instance cannot be null");
-            this.logger = logger;
-            this.shouldThrowOnException = shouldThrowOnException;
+            _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
+            _maxNumberOfAllowedRetries = maxNumberOfAllowedRetries;
+            _shouldThrowOnException = shouldThrowOnException;
+            _retryConditionFunc = x => _maxNumberOfAllowedRetries > 0 && DateTime.Now.Subtract(x).Milliseconds < timeOutInMilliSeconds;
         }
 
         /// <summary>
@@ -25,24 +25,26 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
         /// </summary>
         /// <param name="action"></param>
         /// <param name="maxNumberOfRetriesAllowed"></param>
-        public override void HandleExceptionAfterAllRetryFailure(Action action, Action onExceptionCompensatingHandler = null, int maxNumberOfRetriesAllowed = 0)
+        public override void HandleExceptionAfterAllRetryFailure(Action action, Action onExceptionCompensatingHandler = null)
         {
-            try
+            DateTime methodEntryTime = DateTime.Now;
+            do
             {
-                action();
-            }
-            catch (Exception ex)
-            {
-                if (numberOfRetries < maxNumberOfRetriesAllowed)
+                try
                 {
-                    numberOfRetries++;
-                    HandleExceptionAfterAllRetryFailure(action,onExceptionCompensatingHandler,maxNumberOfRetriesAllowed);
+                    action();
                 }
-                else
+                catch (Exception ex)
                 {
-                    HandleExceptionCompensation(onExceptionCompensatingHandler, ex);
+                    _maxNumberOfAllowedRetries--;
+                    if (!_retryConditionFunc(methodEntryTime))
+                    {
+                        HandleExceptionCompensation(onExceptionCompensatingHandler, ex);
+                        break;
+                    }
                 }
             }
+            while (_retryConditionFunc(methodEntryTime));
         }
 
         /// <summary>
@@ -51,44 +53,40 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
         /// </summary>
         /// <param name="action"></param>
         /// <param name="maxNumberOfRetriesAllowed"></param>
-        public override TReturn HandleExceptionAfterAllRetryFailure<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null, int maxNumberOfRetriesAllowed = 0)
+        public override TReturn HandleExceptionAfterAllRetryFailure<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null)
         {
-            Func<TReturn> retryBasedExceptionHandler = () => HandleExceptionAfterAllRetryFailureForMemoize(action, onExceptionCompensatingHandler, maxNumberOfRetriesAllowed);
-            return retryBasedExceptionHandler.Memoize()();
-        }
-
-        private TReturn HandleExceptionAfterAllRetryFailureForMemoize<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null, int maxNumberOfRetriesAllowed = 0)
-        {
-            try
+            DateTime methodEntryTime = DateTime.Now;
+            do
             {
-                return action();
-            }
-            catch (Exception ex)
-            {
-                if (numberOfRetries < maxNumberOfRetriesAllowed)
+                try
                 {
-                    numberOfRetries++;
-                    return HandleExceptionAfterAllRetryFailureForMemoize(action, onExceptionCompensatingHandler, maxNumberOfRetriesAllowed);
+                    return action();
                 }
-                else
+                catch (Exception ex)
                 {
-                    HandleExceptionCompensation(onExceptionCompensatingHandler, ex);
-                    return default(TReturn);
+                    _maxNumberOfAllowedRetries--;
+                    if (!_retryConditionFunc(methodEntryTime))
+                    {
+                        HandleExceptionCompensation(onExceptionCompensatingHandler, ex);
+                        break;
+                    }
                 }
             }
+            while (_retryConditionFunc(methodEntryTime));
+            return default(TReturn);
         }
 
-        private void HandleExceptionCompensation(Action onExceptionCompensatingHandler,Exception ex)
+        private void HandleExceptionCompensation(Action onExceptionCompensatingHandler, Exception ex)
         {
-            logger.LogException(ex);
-            if (onExceptionCompensatingHandler.IsNotNull())
+            _logger.LogException(ex);
+            if (onExceptionCompensatingHandler != null)
             {
                 onExceptionCompensatingHandler();
             }
-            if(shouldThrowOnException)
+            if (_shouldThrowOnException)
             {
-                throw new Exception("Check Inner Exception",ex);
+                throw new Exception("Check Inner Exception", ex);
             }
         }
-    }
+   }
 }
