@@ -16,7 +16,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
             _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
             _maxNumberOfAllowedRetries = maxNumberOfAllowedRetries;
             _shouldThrowOnException = shouldThrowOnException;
-            _retryConditionFunc = x => _maxNumberOfAllowedRetries > 0 && DateTime.Now.Subtract(x).Milliseconds < timeOutInMilliSeconds;
+            _retryConditionFunc = x => _maxNumberOfAllowedRetries > 0 && (timeOutInMilliSeconds < 0 || DateTime.Now.Subtract(x).Milliseconds < timeOutInMilliSeconds);
         }
 
         /// <summary>
@@ -28,6 +28,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
         public override void HandleExceptionAfterAllRetryFailure(Action action, Action onExceptionCompensatingHandler = null)
         {
             DateTime methodEntryTime = DateTime.Now;
+            bool isActionInvokedSuceessfullyWithoutAnyException = true;
             do
             {
                 try
@@ -36,6 +37,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
                 }
                 catch (Exception ex)
                 {
+                    isActionInvokedSuceessfullyWithoutAnyException = false;
                     _maxNumberOfAllowedRetries--;
                     if (!_retryConditionFunc(methodEntryTime))
                     {
@@ -44,7 +46,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
                     }
                 }
             }
-            while (_retryConditionFunc(methodEntryTime));
+            while (!isActionInvokedSuceessfullyWithoutAnyException && _retryConditionFunc(methodEntryTime));
         }
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
         public override TReturn HandleExceptionAfterAllRetryFailure<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null)
         {
             DateTime methodEntryTime = DateTime.Now;
+            bool isActionInvokedSuceessfullyWithoutAnyException = true;
             do
             {
                 try
@@ -64,6 +67,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
                 }
                 catch (Exception ex)
                 {
+                    isActionInvokedSuceessfullyWithoutAnyException = false;
                     _maxNumberOfAllowedRetries--;
                     if (!_retryConditionFunc(methodEntryTime))
                     {
@@ -72,7 +76,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
                     }
                 }
             }
-            while (_retryConditionFunc(methodEntryTime));
+            while (!isActionInvokedSuceessfullyWithoutAnyException && _retryConditionFunc(methodEntryTime));
             return default(TReturn);
         }
 
@@ -88,5 +92,5 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
                 throw new Exception("Check Inner Exception", ex);
             }
         }
-   }
+    }
 }
