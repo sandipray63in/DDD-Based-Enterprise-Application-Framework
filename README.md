@@ -79,7 +79,7 @@ References(not that everything mentioned below is referred to build this framewo
  open source projects in this regard are -        
  a) ASP.NET - [ASP.NET(& .NET in general) Open Source Projects](https://www.asp.net/mvc/open-source) and [ASP.NET Samples](https://www.asp.net/aspnet/samples).A good article with regards to comparison of various ASP.NET Technologies is [WEB FORMS, MVC, SINGLE PAGE APP, WEB PAGES COMPARISON](http://prasadhonrao.com/web-forms-mvc-single-page-app-web-pages-comparison/).              
  b) E-Commerce - [NopCommerce](http://www.nopcommerce.com/), [SmartStoreNET](https://www.smartstore.com/en/net) and [Virto Commerce](https://virtocommerce.com/)     
- c) Trading - [StockSharp](https://github.com/StockSharp/StockSharp)      
+ c) Trading - [StockSharp](https://github.com/StockSharp/StockSharp) and [QuantConnect's Lean](https://github.com/QuantConnect/Lean)     
  d) CMS - [Orchard](http://www.orchardproject.net/) and [Umbraco](https://umbraco.com/)       
  e) CRM - [SplendidCRM](http://www.splendidcrm.com/)      
  f) Personalization - [My Web Pages Starter Kit](https://mywebpagesstarterkit.codeplex.com/)     
