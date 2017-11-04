@@ -7,6 +7,6 @@ namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling
     {
         public IListenerCreationData ListenerCreationData { get; set; }
 
-        public IList<EventSourceAndLevel> EventSourcesAlongWithLevel { get; set; }
+        public IEnumerable<EventSourceAndLevel> EventSourcesAlongWithLevel { get; set; }
     }
 }

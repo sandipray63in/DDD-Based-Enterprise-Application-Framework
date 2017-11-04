@@ -7,7 +7,7 @@ namespace Repository.Queryable
     public interface IElasticSearchQuery<TEntity> : IQuery<TEntity> 
         where TEntity : IQueryableAggregateRoot,IElasticSearchable
     {
-        IList<TEntity> QueryString(string term);
+        IEnumerable<TEntity> QueryString(string term);
 
         PagingTableResult<TEntity> GetAllPagedResult(string id, int startIndex, int pageSize, string sorting);
 

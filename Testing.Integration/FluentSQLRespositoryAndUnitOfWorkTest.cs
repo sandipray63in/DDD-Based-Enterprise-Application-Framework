@@ -5,6 +5,7 @@ using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
 using FluentRepoNamespace = FluentRepository;
+using Infrastructure.UnitOfWork;
 using Repository;
 using Repository.Base;
 using Repository.Command;
@@ -36,28 +37,28 @@ namespace Testing.Integration
         public async Task test_sql_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_should_be_saved()
         {
             //Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
-            var departmentFake = FakeData.GetDepartmentFake();
-            var departmentFake2 = FakeData.GetDepartmentFake(2);
+            ICommandRepository<Department> departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            ICommandRepository<Employee> employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            IQueryableRepository<Department> departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            IQueryableRepository<Employee> employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
+            Department departmentFake = FakeData.GetDepartmentFake();
+            Department departmentFake2 = FakeData.GetDepartmentFake(2);
 
-            var managerEmployeeFake = FakeData.GetEmployeeFake();
+            Employee managerEmployeeFake = FakeData.GetEmployeeFake();
             managerEmployeeFake.EmployeeName = "XYZ";
             managerEmployeeFake.DeptID = departmentFake.Id;
             managerEmployeeFake.Department = departmentFake;
 
-            var subEmployeeFake = FakeData.GetEmployeeFake(2);
+            Employee subEmployeeFake = FakeData.GetEmployeeFake(2);
             subEmployeeFake.DeptID = departmentFake.Id;
             subEmployeeFake.Department = departmentFake;
             subEmployeeFake.ManagerId = managerEmployeeFake.Id;
             subEmployeeFake.Manager = managerEmployeeFake;
 
-            var departmentsCount = 0;
-            var employeesCount = 0;
+            int departmentsCount = 0;
+            int employeesCount = 0;
 
-            var dummyDepartmentFakeDataForFirstTimeDBGeneration = FakeData.GetDepartmentFake(111111);
+            Department dummyDepartmentFakeDataForFirstTimeDBGeneration = FakeData.GetDepartmentFake(111111);
 
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
@@ -100,27 +101,27 @@ namespace Testing.Integration
         public async Task test_sql_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_with_exception_thrown_in_between_should_rollback()
         {
             //Arrange
-            var unitOfWorkWithExceptionToBeThrown = GetUnitOfWorkInstance(true);
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
-            var departmentFake = FakeData.GetDepartmentFake();
-            var departmentFake2 = FakeData.GetDepartmentFake(2);
+            IUnitOfWork unitOfWorkWithExceptionToBeThrown = GetUnitOfWorkInstance(true);
+            ICommandRepository<Department> departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            ICommandRepository<Employee> employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            IQueryableRepository<Department> departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            IQueryableRepository<Employee> employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
+            Department departmentFake = FakeData.GetDepartmentFake();
+            Department departmentFake2 = FakeData.GetDepartmentFake(2);
 
-            var managerEmployeeFake = FakeData.GetEmployeeFake();
+            Employee managerEmployeeFake = FakeData.GetEmployeeFake();
             managerEmployeeFake.EmployeeName = "XYZ";
             managerEmployeeFake.DeptID = departmentFake.Id;
             managerEmployeeFake.Department = departmentFake;
 
-            var subEmployeeFake = FakeData.GetEmployeeFake(2);
+            Employee subEmployeeFake = FakeData.GetEmployeeFake(2);
             subEmployeeFake.DeptID = departmentFake.Id;
             subEmployeeFake.Department = departmentFake;
             subEmployeeFake.ManagerId = managerEmployeeFake.Id;
             subEmployeeFake.Manager = managerEmployeeFake;
 
-            var departmentsCount = 0;
-            var employeesCount = 0;
+            int departmentsCount = 0;
+            int employeesCount = 0;
 
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
@@ -152,25 +153,25 @@ namespace Testing.Integration
         public void test_sql_fluent_insert_multiple_employees_alongwith_department_service_with_explicit_transaction_scope_should_save_data()
         {
             //Arrange
-            var departmentCommandServiceRepository = GetDepartmentCommandServiceRepositoryInstance();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var employeeCommandServiceRepository = GetEmployeeCommandServiceRepositoryInstance();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var departmentFake = FakeData.GetDepartmentFake();
-            var departmentFake2 = FakeData.GetDepartmentFake(2);
+            ICommandRepository<Department> departmentCommandServiceRepository = GetDepartmentCommandServiceRepositoryInstance();
+            ICommandRepository<Employee> employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            ICommandRepository<Employee> employeeCommandServiceRepository = GetEmployeeCommandServiceRepositoryInstance();
+            IQueryableRepository<Department> departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            Department departmentFake = FakeData.GetDepartmentFake();
+            Department departmentFake2 = FakeData.GetDepartmentFake(2);
 
-            var managerEmployeeFake = FakeData.GetEmployeeFake();
+            Employee managerEmployeeFake = FakeData.GetEmployeeFake();
             managerEmployeeFake.EmployeeName = "XYZ";
             managerEmployeeFake.DeptID = departmentFake.Id;
             managerEmployeeFake.Department = departmentFake;
 
-            var subEmployeeFake = FakeData.GetEmployeeFake(2);
+            Employee subEmployeeFake = FakeData.GetEmployeeFake(2);
             subEmployeeFake.DeptID = departmentFake.Id;
             subEmployeeFake.Department = departmentFake;
             subEmployeeFake.ManagerId = managerEmployeeFake.Id;
             subEmployeeFake.Manager = managerEmployeeFake;
 
-            var departmentsCount = 0;
+            int departmentsCount = 0;
 
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
@@ -192,9 +193,9 @@ namespace Testing.Integration
 
         protected override void RegisterCommandService<TEntity>()
         {
-            var name = typeof(TEntity).Name + SERVICE_SUFFIX;
+            string name = typeof(TEntity).Name + SERVICE_SUFFIX;
             _container.RegisterType<ICommand<TEntity>, TestServiceCommand<TEntity>>(name);
-            var command = _container.Resolve<ICommand<TEntity>>(name);
+            ICommand<TEntity> command = _container.Resolve<ICommand<TEntity>>(name);
             var injectionConstructor = new InjectionConstructor(command);
             _container.RegisterType<ICommandRepository<TEntity>, CommandRepository<TEntity>>(name, injectionConstructor);
         }

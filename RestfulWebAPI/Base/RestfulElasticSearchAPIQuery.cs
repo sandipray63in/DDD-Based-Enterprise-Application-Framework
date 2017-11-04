@@ -18,7 +18,7 @@ namespace RestfulWebAPI.Base
 
         }
 
-        public virtual async Task<IList<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IEnumerable<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken))
         {
             return await (_queryableDomainServiceAsync as IElasticSearchableQueryableDomainServiceAsync<TId, TEntity>).QueryStringAsync(term,token);
         }

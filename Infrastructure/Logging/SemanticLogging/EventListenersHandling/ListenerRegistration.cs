@@ -37,7 +37,7 @@ namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling.Listener
                 "listenerData.ListenerCreationDataAndEventSources.ListenerCreationData instance cannot be null");
             if (Bootstrapper.CheckForPermissibleBootstrapedListenerType(listenerData))
             {
-                var listener = Container.Instance.Resolve<IListener>(listenerData.ListenerType.ToString());
+                IListener listener = Container.Instance.Resolve<IListener>(listenerData.ListenerType.ToString());
                 listener.RegisterListener(listenerData.ListenerCreationDataAndEventSources);
             }
         }

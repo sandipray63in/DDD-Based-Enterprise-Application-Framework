@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -22,7 +23,7 @@ namespace RestfulWebAPI.Versioning
 
         public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {
-            var version = GetVersion(request.Headers) ?? GetVersion(request.RequestUri) ?? 0;
+            Double version = GetVersion(request.Headers) ?? GetVersion(request.RequestUri) ?? 0;
             if (version == 0 && IsDefault)
             {
                 return true;
@@ -37,8 +38,8 @@ namespace RestfulWebAPI.Versioning
             if (!headers.Contains("x-api-version"))
                 return null;
 
-            var versionNumber = 0d;
-            var versionHeader = headers.GetValues("x-api-version").FirstOrDefault();
+            Double versionNumber = 0d;
+            string versionHeader = headers.GetValues("x-api-version").FirstOrDefault();
             if (versionHeader.IsNotNull())
             {
                 double.TryParse(versionHeader, out versionNumber);
@@ -50,9 +51,9 @@ namespace RestfulWebAPI.Versioning
         {
             if (requestUri.Query.IsNullOrEmpty())
                 return null;
-            var query = HttpUtility.ParseQueryString(requestUri.Query);
-            var versionNumber = 0d;
-            var version = query["version"];
+            NameValueCollection query = HttpUtility.ParseQueryString(requestUri.Query);
+            Double versionNumber = 0d;
+            string version = query["version"];
             double.TryParse(version, out versionNumber);
             return versionNumber;
         }

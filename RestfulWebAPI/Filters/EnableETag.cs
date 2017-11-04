@@ -15,11 +15,11 @@ namespace WebCaching
 
         public override void OnActionExecuting(HttpActionContext context)
         {
-            var request = context.Request;
+            HttpRequestMessage request = context.Request;
             if (request.Method == HttpMethod.Get)
             {
-                var key = GetKey(request);
-                var etagsFromClient = request.Headers.IfNoneMatch;
+                string key = GetKey(request);
+                HttpHeaderValueCollection< EntityTagHeaderValue> etagsFromClient = request.Headers.IfNoneMatch;
                 if (etagsFromClient.Count > 0)
                 {
                     EntityTagHeaderValue etag = null;
@@ -33,8 +33,8 @@ namespace WebCaching
 
         public override void OnActionExecuted(HttpActionExecutedContext context)
         {
-            var request = context.Request;
-            var key = GetKey(request);
+            HttpRequestMessage request = context.Request;
+            string key = GetKey(request);
             EntityTagHeaderValue etag = null;
             bool isGet = request.Method == HttpMethod.Get;
             bool isPutOrPost = request.Method == HttpMethod.Put || request.Method == HttpMethod.Post;

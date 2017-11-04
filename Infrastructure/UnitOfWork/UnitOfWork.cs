@@ -77,7 +77,7 @@ namespace Infrastructure.UnitOfWork
 #if TEST
                     ThrowExceptionForRollbackCheck();
 #endif
-                    var operationData = _operationsQueue.Dequeue();
+                    OperationData operationData = _operationsQueue.Dequeue();
                     if (operationData.Operation.IsNotNull())
                     {
                         operationData.Operation();
@@ -128,7 +128,7 @@ namespace Infrastructure.UnitOfWork
 #if TEST
                     ThrowExceptionForRollbackCheck();
 #endif
-                    var operationData = _operationsQueue.Dequeue();
+                    OperationData operationData = _operationsQueue.Dequeue();
                     if (operationData.Operation.IsNotNull())
                     {
                         operationData.Operation();

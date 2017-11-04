@@ -46,10 +46,10 @@ namespace FluentRepository
 
         public static IFluentCommandRepository SetUpCommandRepository(params dynamic[] commandRepositories)
         {
-            return SetUpCommandRepository(commandRepositories.ToList());
+            return SetUpCommandRepository(commandRepositories);
         }
 
-        public static IFluentCommandRepository SetUpCommandRepository(IList<dynamic> commandRepositories)
+        public static IFluentCommandRepository SetUpCommandRepository(IEnumerable<dynamic> commandRepositories)
         {
             ContractUtility.Requires<ArgumentNullException>(commandRepositories.IsNotNull(), "commandRepositories cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(commandRepositories.IsNotEmpty(), "commandRepositories cannot be empty");
@@ -68,10 +68,10 @@ namespace FluentRepository
 
         public static IFluentQueryRepository SetUpQueryRepository(params dynamic[] queryRepositories)
         {
-            return SetUpQueryRepository(queryRepositories.ToList());
+            return SetUpQueryRepository(queryRepositories);
         }
 
-        public static IFluentQueryRepository SetUpQueryRepository(IList<dynamic> queryRepositories)
+        public static IFluentQueryRepository SetUpQueryRepository(IEnumerable<dynamic> queryRepositories)
         {
             ContractUtility.Requires<ArgumentNullException>(queryRepositories.IsNotNull(), "queryRepositories cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(queryRepositories.IsNotEmpty(), "queryRepositories cannot be empty");

@@ -34,7 +34,7 @@ namespace RestfulWebAPI.Binding.MediaFormatters
         {
             using (stream)
             {
-                var encoding = SelectCharacterEncoding(content.Headers);
+                TextEncoding.Encoding encoding = SelectCharacterEncoding(content.Headers);
                 using (var writer = new StreamWriter(stream, encoding))
                 {
                     var entities = value as IEnumerable<TEntity>;

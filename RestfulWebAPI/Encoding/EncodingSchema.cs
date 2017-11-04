@@ -48,7 +48,7 @@ namespace RestfulWebAPI.Encoding
         {
             if (list.IsNotNullOrEmpty())
             {
-                var headerValue = list.OrderByDescending(e => e.Quality ?? 1.0D)
+                StringWithQualityHeaderValue headerValue = list.OrderByDescending(e => e.Quality ?? 1.0D)
                                       .Where(e => !e.Quality.HasValue || e.Quality.Value > 0.0D)
                                       .FirstOrDefault(e => supported.Keys
                                       .Contains(e.Value, StringComparer.OrdinalIgnoreCase));
@@ -63,7 +63,7 @@ namespace RestfulWebAPI.Encoding
                 // the ones explicitly specified as not preferred by setting q=0
                 if (list.Any(e => e.Value == "*" && (!e.Quality.HasValue || e.Quality.Value > 0.0D)))
                 {
-                    var encoding = supported.Keys.Where(se =>
+                    string encoding = supported.Keys.Where(se =>
                                         !list.Any(e =>
                                                     e.Value.Equals(se, StringComparison.OrdinalIgnoreCase) &&
                                                         e.Quality.HasValue &&

@@ -24,7 +24,7 @@ namespace MongoDBDomainMaps
 
         static MongoContext()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[CONNECTION_STRING_NAME].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings[CONNECTION_STRING_NAME].ConnectionString;
             var client = new MongoClient(connectionString);
             _database = client.GetDatabase(DATABASE_NAME);
         }

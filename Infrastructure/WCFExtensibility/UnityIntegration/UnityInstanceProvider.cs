@@ -49,7 +49,7 @@ namespace Infrastructure.WCFExtensibility.UnityIntegration
 
         public void ReleaseInstance(InstanceContext instanceContext, object instance)
         {
-            var instanceType = instance.GetType();
+            Type instanceType = instance.GetType();
             if (_container.IsTypeOrSomeBaseTypeRegistered(instance, _serviceName, MAX_DEPTH_TO_CHECK_FOR_BASE_TYPE))
             {
                 _container.Teardown(instance);

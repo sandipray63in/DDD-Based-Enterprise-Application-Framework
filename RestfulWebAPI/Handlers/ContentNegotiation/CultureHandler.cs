@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,10 +19,10 @@ namespace RestfulWebAPI.Handlers.ContentNegotiation
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,CancellationToken cancellationToken)
         {
-            var acceptedLanguages = request.Headers.AcceptLanguage;
+            HttpHeaderValueCollection<StringWithQualityHeaderValue> acceptedLanguages = request.Headers.AcceptLanguage;
             if (acceptedLanguages.IsNotNullOrEmpty())
             {
-                var headerValue = acceptedLanguages.OrderByDescending(e => e.Quality ?? 1.0D)
+                StringWithQualityHeaderValue headerValue = acceptedLanguages.OrderByDescending(e => e.Quality ?? 1.0D)
                                       .Where(e => !e.Quality.HasValue || e.Quality.Value > 0.0D)
                                       .FirstOrDefault(e => supportedCultures.Contains(e.Value, StringComparer.OrdinalIgnoreCase));
 

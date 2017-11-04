@@ -61,7 +61,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override bool Insert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public override bool Insert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             return InvokeAfterWrappingWithinExceptionHandling(() =>
                 {
@@ -72,7 +72,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override bool Update(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public override bool Update(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             return InvokeAfterWrappingWithinExceptionHandling(() =>
                 {
@@ -83,7 +83,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override bool Delete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public override bool Delete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             return InvokeAfterWrappingWithinExceptionHandling(() =>
                 {
@@ -94,7 +94,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override bool BulkInsert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public override bool BulkInsert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             return InvokeAfterWrappingWithinExceptionHandling(() =>
                 {
@@ -105,7 +105,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override bool BulkUpdate(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public override bool BulkUpdate(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             return InvokeAfterWrappingWithinExceptionHandling(() =>
                 {
@@ -116,7 +116,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override bool BulkDelete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public override bool BulkDelete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             return InvokeAfterWrappingWithinExceptionHandling(() =>
                 {

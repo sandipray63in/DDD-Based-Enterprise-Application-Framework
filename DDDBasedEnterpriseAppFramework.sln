@@ -23,8 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulWebAPI", "RestfulWeb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Client.SPA.UI", "Test.Client.SPA.UI\Test.Client.SPA.UI.csproj", "{10427C7B-E27A-4048-B6C9-928E08FB78B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETComponents", "ASPNETComponents\ASPNETComponents.csproj", "{1C3B39D0-9A92-45BC-9602-1BE18BF3CC31}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.FluentRepository", "Testing.FluentRepository\Testing.FluentRepository.csproj", "{3C54F4A9-A0CA-4C4F-8DD2-22F67DEEDF97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.Integration", "Testing.Integration\Testing.Integration.csproj", "{C2FF0DCE-2609-4DB4-B1BE-2EAE9FF8BDAF}"
@@ -98,12 +96,6 @@ Global
 		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{10427C7B-E27A-4048-B6C9-928E08FB78B2}.Test|Any CPU.Build.0 = Release|Any CPU
-		{1C3B39D0-9A92-45BC-9602-1BE18BF3CC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C3B39D0-9A92-45BC-9602-1BE18BF3CC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C3B39D0-9A92-45BC-9602-1BE18BF3CC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C3B39D0-9A92-45BC-9602-1BE18BF3CC31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C3B39D0-9A92-45BC-9602-1BE18BF3CC31}.Test|Any CPU.ActiveCfg = Release|Any CPU
-		{1C3B39D0-9A92-45BC-9602-1BE18BF3CC31}.Test|Any CPU.Build.0 = Release|Any CPU
 		{3C54F4A9-A0CA-4C4F-8DD2-22F67DEEDF97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C54F4A9-A0CA-4C4F-8DD2-22F67DEEDF97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C54F4A9-A0CA-4C4F-8DD2-22F67DEEDF97}.Release|Any CPU.ActiveCfg = Release|Any CPU

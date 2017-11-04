@@ -11,7 +11,7 @@ namespace FluentRepository.FluentImplementations
 {
     internal class FluentCommandRepository : FluentCommands, IFluentCommandRepository
     {
-        public FluentCommandRepository(UnitOfWorkData unitOfWorkData, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesList, operationsQueue)
+        public FluentCommandRepository(UnitOfWorkData unitOfWorkData, IEnumerable<dynamic> repositoriesEnumerable, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesEnumerable, operationsQueue)
         {
         }
 
@@ -19,8 +19,8 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(command.IsNotNull(), "command instance cannot be null");
-            var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
-            var commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            string commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
+            dynamic commandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
             ContractUtility.Requires<ArgumentNullException>(commandRepository != null, string.Format("No Command Repository has been set up for {0}.", typeof(TEntity).Name));
             commandRepository.SetCommand(command);
             return new FluentCommands(_unitOfWorkData, _repositoriesList, _operationsQueue);
@@ -28,7 +28,7 @@ namespace FluentRepository.FluentImplementations
 
         public IFluentCommands SetUpCommandPersistance(params dynamic[] commands)
         {
-            return SetUpCommandRepository(commands.ToList());
+            return SetUpCommandRepository(commands);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace FluentRepository.FluentImplementations
         /// </summary>
         /// <param name="commands"></param>
         /// <returns></returns>
-        public IFluentCommands SetUpCommandPersistance(IList<dynamic> commands)
+        public IFluentCommands SetUpCommandPersistance(IEnumerable<dynamic> commands)
         {
             throw new NotImplementedException();
         }

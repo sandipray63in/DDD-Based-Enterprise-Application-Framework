@@ -14,7 +14,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
         where TId : struct
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
     {
-        Task<IList<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        Task<IEnumerable<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
 
         Task<PagingTableResult<TEntity>> GetAllPagedResultAsync(string id, int startIndex, int pageSize, string sorting, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
 

@@ -75,7 +75,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
             Action operation = () =>
             {
-                var queryReturnValue = queryableRepositoryOperation(this);
+                TNextActionType queryReturnValue = queryableRepositoryOperation(this);
                 if (operationToExecuteBeforeNextOperation.IsNotNull())
                 {
                     operationToExecuteBeforeNextOperation(queryReturnValue);

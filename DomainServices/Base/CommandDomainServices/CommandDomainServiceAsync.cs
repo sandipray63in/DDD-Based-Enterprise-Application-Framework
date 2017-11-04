@@ -42,37 +42,37 @@ namespace DomainServices.Base.CommandDomainServices
             return await InvokeAfterWrappingWithinExceptionHandling(async () => await _repository.DeleteAsync(item, token, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual async Task<bool> InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public virtual async Task<bool> InsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainServiceAsync<TEntity>).FullName);
             return await InvokeAfterWrappingWithinExceptionHandling(async () => await _repository.InsertAsync(items, token, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual async Task<bool> UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public virtual async Task<bool> UpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainServiceAsync<TEntity>).FullName);
             return await InvokeAfterWrappingWithinExceptionHandling(async () => await _repository.UpdateAsync(items, token, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual async Task<bool> DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public virtual async Task<bool> DeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainServiceAsync<TEntity>).FullName);
             return await InvokeAfterWrappingWithinExceptionHandling(async () => await _repository.DeleteAsync(items, token, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual async Task<bool> BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public virtual async Task<bool> BulkInsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainServiceAsync<TEntity>).FullName);
             return await InvokeAfterWrappingWithinExceptionHandling(async () => await _repository.BulkInsertAsync(items, token, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual async Task<bool> BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public virtual async Task<bool> BulkUpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainServiceAsync<TEntity>).FullName);
             return await InvokeAfterWrappingWithinExceptionHandling(async () => await _repository.BulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual async Task<bool> BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public virtual async Task<bool> BulkDeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainServiceAsync<TEntity>).FullName);
             return await InvokeAfterWrappingWithinExceptionHandling(async () => await _repository.BulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation));

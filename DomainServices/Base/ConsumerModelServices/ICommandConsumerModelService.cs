@@ -19,12 +19,12 @@ namespace DomainServices.Base.ConsumerModelServices
         void Insert(TConsumerModel item, Action operationToExecuteBeforeNextOperation = null);
         void Update(TConsumerModel item, Action operationToExecuteBeforeNextOperation = null);
         void Delete(TConsumerModel item, Action operationToExecuteBeforeNextOperation = null);
-        void Insert(IList<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
-        void Update(IList<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
-        void Delete(IList<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
-        void BulkInsert(IList<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
-        void BulkUpdate(IList<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
-        void BulkDelete(IList<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
+        void Insert(IEnumerable<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
+        void Update(IEnumerable<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
+        void Delete(IEnumerable<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
+        void BulkInsert(IEnumerable<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
+        void BulkUpdate(IEnumerable<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
+        void BulkDelete(IEnumerable<TConsumerModel> items, Action operationToExecuteBeforeNextOperation = null);
 
         ///More methods can be added similarly e.g. Async versions of the above methods.
     }

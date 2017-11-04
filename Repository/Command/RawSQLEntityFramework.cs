@@ -41,10 +41,10 @@ namespace Repository.Command
         private int PerformDMLWithRawSQLWithinTransaction(String query, params Object[] parameters)
         {
             ContractUtility.Requires<ArgumentNullException>(!query.IsNullOrWhiteSpace(), "query instance cannot be null or empty");
-            var scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption);
+            Transactions.TransactionScope scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption);
             using (scope)
             {
-                var retValue = _context.Database.ExecuteSqlCommand(query, parameters);
+                int retValue = _context.Database.ExecuteSqlCommand(query, parameters);
                 scope.Complete();
                 return retValue;
             }

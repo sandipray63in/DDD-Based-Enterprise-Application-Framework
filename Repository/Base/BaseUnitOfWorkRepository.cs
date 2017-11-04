@@ -20,23 +20,23 @@ namespace Repository.Base
         internal abstract void ActualInsert(TEntity item, Action operationToExecuteBeforeNextOperation = null);
         internal abstract void ActualUpdate(TEntity item, Action operationToExecuteBeforeNextOperation = null);
         internal abstract void ActualDelete(TEntity item, Action operationToExecuteBeforeNextOperation = null);
-        internal abstract void ActualInsert(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null);
-        internal abstract void ActualUpdate(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null);
-        internal abstract void ActualDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null);
-        internal abstract void ActualBulkInsert(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null);
-        internal abstract void ActualBulkUpdate(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null);
-        internal abstract void ActualBulkDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null);
+        internal abstract void ActualInsert(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null);
+        internal abstract void ActualUpdate(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null);
+        internal abstract void ActualDelete(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null);
+        internal abstract void ActualBulkInsert(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null);
+        internal abstract void ActualBulkUpdate(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null);
+        internal abstract void ActualBulkDelete(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null);
 
         #region Async Versions
         internal abstract Task ActualInsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         internal abstract Task ActualUpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         internal abstract Task ActualDeleteAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        internal abstract Task ActualInsertAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        internal abstract Task ActualUpdateAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        internal abstract Task ActualDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        internal abstract Task ActualBulkInsertAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        internal abstract Task ActualBulkUpdateAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        internal abstract Task ActualBulkDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        internal abstract Task ActualInsertAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        internal abstract Task ActualUpdateAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        internal abstract Task ActualDeleteAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        internal abstract Task ActualBulkInsertAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        internal abstract Task ActualBulkUpdateAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        internal abstract Task ActualBulkDeleteAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         #endregion
     }
 }

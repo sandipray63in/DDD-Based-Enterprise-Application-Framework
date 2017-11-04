@@ -33,7 +33,7 @@ namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling
             Type type = null;
             ContractUtility.Requires<ArgumentNullException>(_permissibleListenerCreationDataTypeForListenerType.TryGetValue(listenerData.ListenerType, out type),
                 "Immutable Dictionary could not get the value");
-            var listenerCreationData = listenerData.ListenerCreationDataAndEventSources.ListenerCreationData;
+            IListenerCreationData listenerCreationData = listenerData.ListenerCreationDataAndEventSources.ListenerCreationData;
             ContractUtility.Requires<ArgumentNullException>(listenerCreationData.GetType() == type, 
                 string.Format("For Listener Type {0}, the Listener Creation Data must be of type {1}", listenerData.ListenerType.ToString(),
                 _permissibleListenerCreationDataTypeForListenerType[listenerData.ListenerType].Name));

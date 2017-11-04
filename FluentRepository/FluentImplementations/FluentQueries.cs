@@ -11,7 +11,7 @@ namespace FluentRepository.FluentImplementations
     internal class FluentQueries : FluentSetUpAndExecution,IFluentQueries
     {
 
-        public FluentQueries(UnitOfWorkData unitOfWorkData, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesList, operationsQueue)
+        public FluentQueries(UnitOfWorkData unitOfWorkData, IEnumerable<dynamic> repositoriesEnumerable, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesEnumerable, operationsQueue)
         {
         }
 
@@ -39,10 +39,10 @@ namespace FluentRepository.FluentImplementations
         private IFluentQueries GetFluentQueriesAfterSettingQueryRepositoryAndPersistanceQueueData<TEntity>(Action<dynamic> queryRepositoryAction)
             where TEntity : class, IQueryableAggregateRoot
         {
-            var queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
-            var queryRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(queryableRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            string queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
+            dynamic queryRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(queryableRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
             ContractUtility.Requires<ArgumentNullException>(queryRepository != null, string.Format("No Query Repository has been set up for {0}.", typeof(TEntity).Name));
-            var operationData = new OperationData { Operation = () => queryRepositoryAction(queryRepository) };
+            OperationData operationData = new OperationData { Operation = () => queryRepositoryAction(queryRepository) };
             _operationsQueue.Enqueue(operationData);
             return this;
         }

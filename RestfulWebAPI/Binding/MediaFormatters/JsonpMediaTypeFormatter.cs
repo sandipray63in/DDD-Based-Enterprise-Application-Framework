@@ -39,8 +39,8 @@ namespace RestfulWebAPI.Binding.MediaFormatters
 
         public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type,HttpRequestMessage request,MediaTypeHeaderValue mediaType)
         {
-            var isGet = request.IsNotNull() && request.Method == HttpMethod.Get;
-            var callback = String.Empty;
+            bool isGet = request.IsNotNull() && request.Method == HttpMethod.Get;
+            string callback = String.Empty;
             if (request.RequestUri.IsNotNull())
             {
                 callback = HttpUtility.ParseQueryString(request.RequestUri.Query)[queryStringParameterName];
@@ -49,7 +49,7 @@ namespace RestfulWebAPI.Binding.MediaFormatters
             // Only if this is an HTTP GET and there is a callback, we consider
             // the request a valid JSONP request and service the same. If not,
             // fallback to JSON
-            var isJsonp = isGet && callback.IsNotNullOrEmpty();
+            bool isJsonp = isGet && callback.IsNotNullOrEmpty();
 
             // Returning a new instance since callback must be stored at the
             // class level for WriteToStreamAsync to output. Our formatter is not
@@ -86,7 +86,7 @@ namespace RestfulWebAPI.Binding.MediaFormatters
             {
                 if (this.IsJsonp) // JSONP
                 {
-                    var encoding = TextEncoding.Encoding.GetEncoding(content.Headers.ContentType.CharSet);
+                    TextEncoding.Encoding encoding = TextEncoding.Encoding.GetEncoding(content.Headers.ContentType.CharSet);
                     using (var writer = new StreamWriter(stream, encoding))
                     {
                         writer.Write(this.Callback + "(");

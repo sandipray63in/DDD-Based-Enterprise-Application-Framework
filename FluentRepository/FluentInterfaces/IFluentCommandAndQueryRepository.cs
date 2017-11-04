@@ -16,18 +16,18 @@ namespace FluentRepository.FluentInterfaces
             where TEntity : class, ICommandAggregateRoot;
 
         /// <summary>
-        /// Set Up list of Command Repositories
+        /// Set Up array of Command Repositories
         /// </summary>
         /// <param name="commandRepositories"></param>
         /// <returns></returns>
         IFluentCommandRepository SetUpCommandRepository(params dynamic[] commandRepositories);
 
         /// <summary>
-        /// Set Up list of Command Repositories
+        /// Set Up enumerable of Command Repositories
         /// </summary>
         /// <param name="commandRepositories"></param>
         /// <returns></returns>
-        IFluentCommandRepository SetUpCommandRepository(IList<dynamic> commandRepositories);
+        IFluentCommandRepository SetUpCommandRepository(IEnumerable<dynamic> commandRepositories);
 
         /// <summary>
         /// Set Up the Query Repository
@@ -39,17 +39,17 @@ namespace FluentRepository.FluentInterfaces
             where TEntity : class, IQueryableAggregateRoot;
 
         /// <summary>
-        /// Set Up list of Query Repositories
+        /// Set Up array of Query Repositories
         /// </summary>
         /// <param name="queryRepositories"></param>
         /// <returns></returns>
         IFluentQueryRepository SetUpQueryRepository(params dynamic[] queryRepositories);
 
         /// <summary>
-        /// Set Up list of Query Repositories
+        /// Set Up enumerable of Query Repositories
         /// </summary>
         /// <param name="queryRepositories"></param>
         /// <returns></returns>
-        IFluentQueryRepository SetUpQueryRepository(IList<dynamic> queryRepositories);
+        IFluentQueryRepository SetUpQueryRepository(IEnumerable<dynamic> queryRepositories);
     }
 }

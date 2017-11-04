@@ -35,11 +35,11 @@ namespace Infrastructure.WCFExtensibility.UnityIntegration
         {
             serviceHostBase.ChannelDispatchers.ForEach(channelDispatcherBase =>
                 {
-                    var serviceType = serviceDescription.ServiceType;
+                    Type serviceType = serviceDescription.ServiceType;
                     var channelDispatcher = channelDispatcherBase as ChannelDispatcher;
                     channelDispatcher.Endpoints.ForEach(endpointDispatcher =>
                         {
-                            var contractName = endpointDispatcher.ContractName;
+                            string contractName = endpointDispatcher.ContractName;
                             if (contractName != METADATA_EXCHANGE_CONTRACT_NAME && contractName != HTTP_GET_HELP_PAGE_AND_METADATA_CONTRACT)
                             {
                                 ////TODO - Need to come up of a way to pass the type name only when 

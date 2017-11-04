@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using RestfulWebAPI.Encoding;
+using System.IO;
+using System;
 
 namespace RestfulWebAPI.Handlers.ContentNegotiation
 {
@@ -10,11 +12,11 @@ namespace RestfulWebAPI.Handlers.ContentNegotiation
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,CancellationToken cancellationToken)
         {
-            var response = await base.SendAsync(request, cancellationToken);
+            HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
             try
             {
                 var schema = new EncodingSchema();
-                var encoder = schema.GetEncoder(response.RequestMessage.Headers.AcceptEncoding);
+                Func<Stream, Stream> encoder = schema.GetEncoder(response.RequestMessage.Headers.AcceptEncoding);
                 if (encoder.IsNotNull())
                 {
                     response.Content = new EncodedContent(response.Content, encoder);

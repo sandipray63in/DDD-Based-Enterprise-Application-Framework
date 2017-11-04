@@ -14,10 +14,10 @@ namespace FluentRepository.FluentImplementations
         protected readonly IList<dynamic> _repositoriesList;
         protected readonly Queue<OperationData> _operationsQueue;
 
-        public FluentCommandAndQueryRepository(UnitOfWorkData unitOfWorkData, IList<dynamic> repositoriesList = null, Queue<OperationData> operationsQueue = null)
+        public FluentCommandAndQueryRepository(UnitOfWorkData unitOfWorkData, IEnumerable<dynamic> repositoriesEnumerable = null, Queue<OperationData> operationsQueue = null)
         {
             _unitOfWorkData = unitOfWorkData;
-            _repositoriesList = repositoriesList ?? new List<dynamic>();
+            _repositoriesList = repositoriesEnumerable.IsNotNullOrEmpty() ? repositoriesEnumerable.ToList() : new List<dynamic>();
             _operationsQueue = operationsQueue ?? new Queue<OperationData>();
         }
 
@@ -25,8 +25,8 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, ICommandAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(commandRepository.IsNotNull(), "commandRepository instance cannot be null");
-            var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
-            var existingCommandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            string commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
+            dynamic existingCommandRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
             ContractUtility.Requires<ArgumentNullException>(existingCommandRepository == null, string.Format("Command Repository for {0} has already been set up", typeof(TEntity).Name));
             if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
             {
@@ -38,19 +38,19 @@ namespace FluentRepository.FluentImplementations
 
         public IFluentCommandRepository SetUpCommandRepository(params dynamic[] commandRepositories)
         {
-            return SetUpCommandRepository(commandRepositories.ToList());
+            return SetUpCommandRepository(commandRepositories);
         }
 
-        public IFluentCommandRepository SetUpCommandRepository(IList<dynamic> commandRepositories)
+        public IFluentCommandRepository SetUpCommandRepository(IEnumerable<dynamic> commandRepositories)
         {
             ContractUtility.Requires<ArgumentNullException>(commandRepositories.IsNotNull(), "commandRepositories cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(commandRepositories.IsNotEmpty(), "commandRepositories cannot be empty");
             ContractUtility.Requires<ArgumentException>(commandRepositories.All(x => x.GetType().GetGenericTypeDefinition().GetInterface(typeof(ICommandRepository<>).Name) != null), "All repositories should be of type ICommandRepository<>");
             ContractUtility.Requires<ArgumentException>(commandRepositories.Count() == commandRepositories.Distinct().Count(), "One or more Command Repository has been repeated");
-            var commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
+            string commandRepositoryTypeName = typeof(ICommandRepository<>).Name;
             commandRepositories.ForEach(x =>
             {
-                var existingCommandRepository = _repositoriesList.SingleOrDefault(y => y != null && y.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && y.GetType().GenericTypeArguments[0] == x.GetType().GenericTypeArguments[0]);
+                dynamic existingCommandRepository = _repositoriesList.SingleOrDefault(y => y != null && y.GetType().GetGenericTypeDefinition().GetInterface(commandRepositoryTypeName) != null && y.GetType().GenericTypeArguments[0] == x.GetType().GenericTypeArguments[0]);
                 ContractUtility.Requires<ArgumentNullException>(existingCommandRepository == null, string.Format("Command Repository for {0} has already been set up", x.GetType().GenericTypeArguments[0].Name));
             });
             if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
@@ -69,8 +69,8 @@ namespace FluentRepository.FluentImplementations
             where TEntity : class, IQueryableAggregateRoot
         {
             ContractUtility.Requires<ArgumentNullException>(queryRepository.IsNotNull(), "queryRepository instance cannot be null");
-            var queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
-            var existingQueryRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(queryableRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
+            string queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
+            dynamic existingQueryRepository = _repositoriesList.SingleOrDefault(x => x != null && x.GetType().GetGenericTypeDefinition().GetInterface(queryableRepositoryTypeName) != null && x.GetType().GenericTypeArguments[0] == typeof(TEntity));
             ContractUtility.Requires<ArgumentNullException>(existingQueryRepository == null, string.Format("Query Repository for {0} has already been set up", typeof(TEntity).Name));
             if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
             {
@@ -82,19 +82,19 @@ namespace FluentRepository.FluentImplementations
 
         public IFluentQueryRepository SetUpQueryRepository(params dynamic[] queryRepositories)
         {
-            return SetUpQueryRepository(queryRepositories.ToList());
+            return SetUpQueryRepository(queryRepositories);
         }
 
-        public IFluentQueryRepository SetUpQueryRepository(IList<dynamic> queryRepositories)
+        public IFluentQueryRepository SetUpQueryRepository(IEnumerable<dynamic> queryRepositories)
         {
             ContractUtility.Requires<ArgumentNullException>(queryRepositories.IsNotNull(), "queryRepositories cannot be null");
             ContractUtility.Requires<ArgumentOutOfRangeException>(queryRepositories.IsNotEmpty(), "queryRepositories cannot be empty");
             ContractUtility.Requires<ArgumentException>(queryRepositories.All(x => x.GetType().GetGenericTypeDefinition().GetInterface(typeof(IQueryableRepository<>).Name) != null), "All repositories should be of type IQueryableRepository<>");
             ContractUtility.Requires<ArgumentException>(queryRepositories.Count() == queryRepositories.Distinct().Count(), "One or more Query Repository has been repeated");
-            var queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
+            string queryableRepositoryTypeName = typeof(IQueryableRepository<>).Name;
             queryRepositories.ForEach(x =>
             {
-                var existingQueryRepository = _repositoriesList.SingleOrDefault(y => y != null && y.GetType().GetGenericTypeDefinition().GetInterface(queryableRepositoryTypeName) != null && y.GetType().GenericTypeArguments[0] == x.GetType().GenericTypeArguments[0]);
+                dynamic existingQueryRepository = _repositoriesList.SingleOrDefault(y => y != null && y.GetType().GetGenericTypeDefinition().GetInterface(queryableRepositoryTypeName) != null && y.GetType().GenericTypeArguments[0] == x.GetType().GenericTypeArguments[0]);
                 ContractUtility.Requires<ArgumentNullException>(existingQueryRepository == null, string.Format("Query Repository for {0} has already been set up", x.GetType().GenericTypeArguments[0].Name));
             });
             if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)

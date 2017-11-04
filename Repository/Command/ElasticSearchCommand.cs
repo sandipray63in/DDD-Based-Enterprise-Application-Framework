@@ -46,7 +46,7 @@ namespace Repository.Command
             SaveChanges();
         }
 
-        public void Insert(IList<TEntity> items)
+        public void Insert(IEnumerable<TEntity> items)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             items.ToList().ForEach(item =>
@@ -57,7 +57,7 @@ namespace Repository.Command
             SaveChanges();
         }
 
-        public void Update(IList<TEntity> items)
+        public void Update(IEnumerable<TEntity> items)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             items.ToList().ForEach(item =>
@@ -68,7 +68,7 @@ namespace Repository.Command
             SaveChanges();
         }
 
-        public void Delete(IList<TEntity> items)
+        public void Delete(IEnumerable<TEntity> items)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             items.ToList().ForEach(item =>
@@ -79,19 +79,19 @@ namespace Repository.Command
             SaveChanges();
         }
         
-        public void BulkInsert(IList<TEntity> items)
+        public void BulkInsert(IEnumerable<TEntity> items)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             this.Insert(items);
         }
 
-        public void BulkUpdate(IList<TEntity> items)
+        public void BulkUpdate(IEnumerable<TEntity> items)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             this.Update(items);
         }
 
-        public void BulkDelete(IList<TEntity> items)
+        public void BulkDelete(IEnumerable<TEntity> items)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             this.Delete(items);
@@ -118,7 +118,7 @@ namespace Repository.Command
             await SaveChangesAsync(token);
         }
 
-        public async Task InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public async Task InsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             items.ToList().ForEach(item =>
@@ -129,7 +129,7 @@ namespace Repository.Command
             await SaveChangesAsync(token);
         }
 
-        public async Task UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public async Task UpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             items.ToList().ForEach(item =>
@@ -140,7 +140,7 @@ namespace Repository.Command
             await SaveChangesAsync(token);
         }
 
-        public async Task DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public async Task DeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             items.ToList().ForEach(item =>
@@ -151,19 +151,19 @@ namespace Repository.Command
             await SaveChangesAsync(token);
         }
 
-        public async Task BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public async Task BulkInsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             await this.InsertAsync(items, token);
         }
 
-        public async Task BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public async Task BulkUpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             await this.UpdateAsync(items, token);
         }
 
-        public async Task BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public async Task BulkDeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchCommand<TId, TEntity>).FullName);
             await this.DeleteAsync(items, token);

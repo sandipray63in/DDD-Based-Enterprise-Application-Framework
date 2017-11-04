@@ -66,62 +66,62 @@ namespace Repository.Base
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override void ActualInsert(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
+        internal override void ActualInsert(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            _command.Insert(itemList);
+            _command.Insert(itemsEnumerable);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override void ActualUpdate(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
+        internal override void ActualUpdate(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            _command.Update(itemList);
+            _command.Update(itemsEnumerable);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override void ActualDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
+        internal override void ActualDelete(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
+            IEnumerable<TEntity> softDeleteableItems = itemsEnumerable.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)));
+            IEnumerable<TEntity> nonSoftDeleteableItems = itemsEnumerable.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))));
             if (softDeleteableItems.IsNotEmpty())
             {
                 ActualUpdate(softDeleteableItems);
             }
             if (nonSoftDeleteableItems.IsNotEmpty())
             {
-                _command.Delete(itemList);
+                _command.Delete(itemsEnumerable);
             }
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override void ActualBulkInsert(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
+        internal override void ActualBulkInsert(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            _command.BulkInsert(itemList);
+            _command.BulkInsert(itemsEnumerable);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override void ActualBulkUpdate(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
+        internal override void ActualBulkUpdate(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            _command.BulkUpdate(itemList);
+            _command.BulkUpdate(itemsEnumerable);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override void ActualBulkDelete(IList<TEntity> itemList, Action operationToExecuteBeforeNextOperation = null)
+        internal override void ActualBulkDelete(IEnumerable<TEntity> itemsEnumerable, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
+            IEnumerable<TEntity> softDeleteableItems = itemsEnumerable.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)));
+            IEnumerable<TEntity> nonSoftDeleteableItems = itemsEnumerable.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))));
             if (softDeleteableItems.IsNotEmpty())
             {
                 ActualBulkUpdate(softDeleteableItems);
             }
             if (nonSoftDeleteableItems.IsNotEmpty())
             {
-                _command.BulkDelete(itemList);
+                _command.BulkDelete(itemsEnumerable);
             }
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
@@ -154,62 +154,62 @@ namespace Repository.Base
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override async Task ActualInsertAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        internal override async Task ActualInsertAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            await _command.InsertAsync(itemList, token);
+            await _command.InsertAsync(itemsEnumerable, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override async Task ActualUpdateAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        internal override async Task ActualUpdateAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            await _command.UpdateAsync(itemList, token);
+            await _command.UpdateAsync(itemsEnumerable, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override async Task ActualDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        internal override async Task ActualDeleteAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
+            IEnumerable<TEntity> softDeleteableItems = itemsEnumerable.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)));
+            IEnumerable<TEntity> nonSoftDeleteableItems = itemsEnumerable.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))));
             if (softDeleteableItems.IsNotEmpty())
             {
                 await ActualUpdateAsync(softDeleteableItems, token);
             }
             if (nonSoftDeleteableItems.IsNotEmpty())
             {
-                await _command.DeleteAsync(itemList, token);
+                await _command.DeleteAsync(itemsEnumerable, token);
             }
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override async Task ActualBulkInsertAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        internal override async Task ActualBulkInsertAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            await _command.BulkInsertAsync(itemList, token);
+            await _command.BulkInsertAsync(itemsEnumerable, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override async Task ActualBulkUpdateAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        internal override async Task ActualBulkUpdateAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            await _command.BulkUpdateAsync(itemList, token);
+            await _command.BulkUpdateAsync(itemsEnumerable, token);
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
 
-        internal override async Task ActualBulkDeleteAsync(IList<TEntity> itemList, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        internal override async Task ActualBulkDeleteAsync(IEnumerable<TEntity> itemsEnumerable, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseCommandRepository<TEntity>).FullName);
-            var softDeleteableItems = itemList.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))).ToList();
-            var nonSoftDeleteableItems = itemList.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)))).ToList();
+            IEnumerable<TEntity> softDeleteableItems = itemsEnumerable.Where(x => x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo)));
+            IEnumerable<TEntity> nonSoftDeleteableItems = itemsEnumerable.Where(x => !(x.GetType().GetProperties().Any(y => y.GetType() == typeof(SoftDeleteableInfo))));
             if (softDeleteableItems.IsNotEmpty())
             {
                 await ActualBulkUpdateAsync(softDeleteableItems, token);
             }
             if (nonSoftDeleteableItems.IsNotEmpty())
             {
-                await _command.BulkDeleteAsync(itemList, token);
+                await _command.BulkDeleteAsync(itemsEnumerable, token);
             }
             ExecuteOperationBeforeNextOperation(operationToExecuteBeforeNextOperation);
         }
@@ -218,27 +218,27 @@ namespace Repository.Base
         public abstract void Update(TEntity item, Action operationToExecuteBeforeNextOperation = null);
 
         public abstract void Delete(TEntity item, Action operationToExecuteBeforeNextOperation = null);
-        public abstract void Insert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        public abstract void Insert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
-        public abstract void Update(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        public abstract void Update(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
-        public abstract void Delete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        public abstract void Delete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
-        public abstract void BulkInsert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        public abstract void BulkInsert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
-        public abstract void BulkUpdate(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        public abstract void BulkUpdate(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
-        public abstract void BulkDelete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        public abstract void BulkDelete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
         public abstract Task InsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         public abstract Task UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         public abstract Task DeleteAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        public abstract Task InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        public abstract Task UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        public abstract Task DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        public abstract Task BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        public abstract Task BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        public abstract Task BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        public abstract Task InsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        public abstract Task UpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        public abstract Task DeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        public abstract Task BulkInsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        public abstract Task BulkUpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        public abstract Task BulkDeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
 
         #region Private Methods
 

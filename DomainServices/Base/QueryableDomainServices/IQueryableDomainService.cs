@@ -12,19 +12,19 @@ namespace DomainServices.Base.QueryableDomainServices
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
     {
         IQueryable<TEntity> Get();
-        IList<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll();
         TEntity GetByID(TId id);
-        IList<TEntity> GetByFilterExpression(Expression<Func<TEntity, bool>> whereExpression);
-        IList<TEntity> GetByOrderExpression<TKey>(Expression<Func<TEntity, TKey>> orderExpression);
-        IList<TEntity> GetByExpression<TKey>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, TKey>> orderExpression);
+        IEnumerable<TEntity> GetByFilterExpression(Expression<Func<TEntity, bool>> whereExpression);
+        IEnumerable<TEntity> GetByOrderExpression<TKey>(Expression<Func<TEntity, TKey>> orderExpression);
+        IEnumerable<TEntity> GetByExpression<TKey>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, TKey>> orderExpression);
 
         /// <summary>
-        /// Can be used for Includes which ultimately needs to return a List.Useful only in case of single Include 
+        /// Can be used for Includes which ultimately needs to return an Enumerable.Useful only in case of single Include 
         /// scenarios.
         /// </summary>
         /// <param name="subSelector"></param>
         /// <returns></returns>
-        IList<TEntity> IncludeList(Expression<Func<TEntity, object>> subSelector);
+        IEnumerable<TEntity> IncludeList(Expression<Func<TEntity, object>> subSelector);
 
         /// <summary>
         /// Can be used for multiple Includes.

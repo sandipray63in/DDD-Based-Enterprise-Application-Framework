@@ -14,10 +14,10 @@ namespace DomainServices.Base.QueryableDomainServices
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
     {
         Task<IQueryable<TEntity>> GetAsync(CancellationToken token = default(CancellationToken));
-        Task<IList<TEntity>> GetAllAsync(CancellationToken token = default(CancellationToken));
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default(CancellationToken));
         Task<TEntity> GetByIDAsync(TId id, CancellationToken token = default(CancellationToken));
-        Task<IList<TEntity>> GetByFilterExpressionAsync(Expression<Func<TEntity, bool>> whereExpression, CancellationToken token = default(CancellationToken));
-        Task<IList<TEntity>> GetByOrderExpressionAsync<TKey>(Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken));
-        Task<IList<TEntity>> GetByExpressionAsync<TKey>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken));
+        Task<IEnumerable<TEntity>> GetByFilterExpressionAsync(Expression<Func<TEntity, bool>> whereExpression, CancellationToken token = default(CancellationToken));
+        Task<IEnumerable<TEntity>> GetByOrderExpressionAsync<TKey>(Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken));
+        Task<IEnumerable<TEntity>> GetByExpressionAsync<TKey>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken));
     }
 }

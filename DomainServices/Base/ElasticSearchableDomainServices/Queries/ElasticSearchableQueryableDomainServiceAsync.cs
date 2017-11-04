@@ -20,7 +20,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 
         }
 
-        public virtual async Task<IList<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public virtual async Task<IEnumerable<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             return await (_repository as IQueryableElasticSearchRepository<TEntity>).QueryStringAsync(term, token, operationToExecuteBeforeNextOperation);
         }

@@ -32,11 +32,11 @@ namespace RestfulWebAPI.Binding.ValueProviders
 
         public ValueProviderResult GetValue(string key)
         {
-            var header = headers.FirstOrDefault(h => predicate(h, key));
+            KeyValuePair<string,IEnumerable<string>> header = headers.FirstOrDefault(h => predicate(h, key));
             if (header.Key.IsNotNullOrEmpty())
             {
                 key = header.Key; // Replace the passed in key with the header name
-                var values = headers.GetValues(key);
+                IEnumerable<string> values = headers.GetValues(key);
 
                 if (values.Count() > 1) // We got a list of values
                 {
@@ -45,7 +45,7 @@ namespace RestfulWebAPI.Binding.ValueProviders
                 else
                 {
                     // We could have received multiple values (comma separated) or just one value
-                    var value = values.First();
+                    string value = values.First();
                     values = value.Split(',').Select(x => x.Trim()).ToArray();
                     if (values.Count() > 1)
                     {

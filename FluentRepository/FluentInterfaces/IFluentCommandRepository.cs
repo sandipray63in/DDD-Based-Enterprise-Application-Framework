@@ -26,6 +26,6 @@ namespace FluentRepository.FluentInterfaces
         /// </summary>
         /// <param name="commands"></param>
         /// <returns></returns>
-        IFluentCommands SetUpCommandPersistance(IList<dynamic> commands);
+        IFluentCommands SetUpCommandPersistance(IEnumerable<dynamic> commands);
     }
 }

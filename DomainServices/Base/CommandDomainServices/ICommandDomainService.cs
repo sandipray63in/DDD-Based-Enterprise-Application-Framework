@@ -9,11 +9,11 @@ namespace DomainServices.Base.CommandDomainServices
         bool Insert(TEntity item, Action operationToExecuteBeforeNextOperation = null);
         bool Update(TEntity item, Action operationToExecuteBeforeNextOperation = null);
         bool Delete(TEntity item, Action operationToExecuteBeforeNextOperation = null);
-        bool Insert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        bool Update(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        bool Delete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        bool BulkInsert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        bool BulkUpdate(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        bool BulkDelete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        bool Insert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        bool Update(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        bool Delete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        bool BulkInsert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        bool BulkUpdate(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        bool BulkDelete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
     }
 }

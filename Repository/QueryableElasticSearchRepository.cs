@@ -29,7 +29,7 @@ namespace Repository
 
         public PagingTableResult<TEntity> GetAllPagedResult(string id, int startIndex, int pageSize, string sorting, Action operationToExecuteBeforeNextOperation = null)
         {
-            var pagingTableResult =  (_queryable as IElasticSearchQuery<TEntity>).GetAllPagedResult(id, startIndex, pageSize, sorting);
+            PagingTableResult<TEntity> pagingTableResult =  (_queryable as IElasticSearchQuery<TEntity>).GetAllPagedResult(id, startIndex, pageSize, sorting);
             if (operationToExecuteBeforeNextOperation.IsNotNull())
             {
                 operationToExecuteBeforeNextOperation();
@@ -43,9 +43,9 @@ namespace Repository
             return await Task.Run(() => this.GetAllPagedResult(id, startIndex, pageSize, sorting, operationToExecuteBeforeNextOperation));
         }
 
-        public IList<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null)
+        public IEnumerable<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null)
         {
-            var entities = (_queryable as IElasticSearchQuery<TEntity>).QueryString(term);
+            IEnumerable<TEntity> entities = (_queryable as IElasticSearchQuery<TEntity>).QueryString(term);
             if (operationToExecuteBeforeNextOperation.IsNotNull())
             {
                 operationToExecuteBeforeNextOperation();
@@ -53,7 +53,7 @@ namespace Repository
             return entities;
         }
 
-        public async Task<IList<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public async Task<IEnumerable<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             token.ThrowIfCancellationRequested();
             return await Task.Run(() => this.QueryString(term, operationToExecuteBeforeNextOperation));

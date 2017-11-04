@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -6,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Net.Http.Headers;
 using Infrastructure.Utilities;
+using System.Web.Http.Routing;
 
 namespace RestfulWebAPI.ControllerDispatchment
 {
@@ -21,9 +23,9 @@ namespace RestfulWebAPI.ControllerDispatchment
         public override string GetControllerName(HttpRequestMessage request)
         {
             ContractUtility.Requires<ArgumentNullException>(request.IsNotNull(), "request cannot be null");
-            var routeData = request.GetRouteData();
+            IHttpRouteData routeData = request.GetRouteData();
             // Get the controller version from header or url.
-            var controllerVersionInRequestObject = GetControllerVersion(request.Headers) ?? GetControllerVersion(request.RequestUri) ?? 0;
+            Double controllerVersionInRequestObject = GetControllerVersion(request.Headers) ?? GetControllerVersion(request.RequestUri) ?? 0;
             // Look up controller in route data
             object controllerName = null;
             routeData.Values.TryGetValue(ControllerKey, out controllerName);
@@ -40,8 +42,8 @@ namespace RestfulWebAPI.ControllerDispatchment
                 return null;
             }
 
-            var versionNumber = 0d;
-            var versionHeader = headers.GetValues("x-api-controller-version").FirstOrDefault();
+            Double versionNumber = 0d;
+            string versionHeader = headers.GetValues("x-api-controller-version").FirstOrDefault();
             if (versionHeader.IsNotNull())
             {
                 double.TryParse(versionHeader, out versionNumber);
@@ -55,9 +57,9 @@ namespace RestfulWebAPI.ControllerDispatchment
             {
                 return null;
             }
-            var query = HttpUtility.ParseQueryString(requestUri.Query);
-            var versionNumber = 0d;
-            var version = query["controllerVersion"];
+            NameValueCollection query = HttpUtility.ParseQueryString(requestUri.Query);
+            Double versionNumber = 0d;
+            string version = query["controllerVersion"];
             double.TryParse(version, out versionNumber);
             return versionNumber;
         }

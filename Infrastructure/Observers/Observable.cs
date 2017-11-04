@@ -5,8 +5,8 @@ namespace Infrastructure.Observers
 {
     public abstract class Observable<TSubject> : IObservable<TSubject>
     {
-        private List<IObserver<TSubject>> _observers;
-        private List<TSubject> _subjects;
+        private IList<IObserver<TSubject>> _observers;
+        private IList<TSubject> _subjects;
 
         public Observable()
         {
@@ -21,7 +21,7 @@ namespace Infrastructure.Observers
             {
                 _observers.Add(observer);
                 // Provide observer with existing data.
-                foreach (var item in _subjects)
+                foreach (TSubject item in _subjects)
                     observer.OnNext(item);
             }
             return new Unsubscriber<TSubject>(_observers, observer);

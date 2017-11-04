@@ -51,7 +51,7 @@ namespace RestfulWebAPI.Base
         }
 
         [HttpGet]
-        public virtual async Task<IList<TEntity>> Index(CancellationToken token = default(CancellationToken))
+        public virtual async Task<IEnumerable<TEntity>> Index(CancellationToken token = default(CancellationToken))
         {
             return await _queryableDomainServiceAsync.GetAllAsync(token);
         }

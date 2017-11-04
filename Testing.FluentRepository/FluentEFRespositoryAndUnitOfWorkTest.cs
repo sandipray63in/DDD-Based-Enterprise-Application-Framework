@@ -6,10 +6,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Effort.Provider;
 using FluentAssertions;
 using FluentRepoNamespace = FluentRepository;
+using Infrastructure.UnitOfWork;
+using Repository.Base;
 using Testing.Respository;
 using TestEFDomainAndContext;
 using TestEFDomainAndContext.TestDomains;
 using Testing.Repository;
+
 
 namespace Testing.FluentRepository
 {
@@ -31,9 +34,9 @@ namespace Testing.FluentRepository
         public void test_fluent_insert_single_department_without_any_explicit_transaction_scope_should_be_saved()
         {
             ///Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var departmentFake = FakeData.GetDepartmentFake();
+            ICommandRepository<Department> departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            IQueryableRepository<Department> departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            Department departmentFake = FakeData.GetDepartmentFake();
             Department departmentAfterDataInsert = null;
 
             ///Action
@@ -57,27 +60,27 @@ namespace Testing.FluentRepository
         public void test_fluent_insert_multiple_employees_without_any_explicit_transaction_scope_should_be_saved()
         {
             //Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
-            var departmentFake = FakeData.GetDepartmentFake();
+            ICommandRepository<Department> departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            ICommandRepository<Employee> employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            IQueryableRepository<Department> departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            IQueryableRepository<Employee> employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
+            Department departmentFake = FakeData.GetDepartmentFake();
 
-            var managerEmployeeFake = FakeData.GetEmployeeFake();
+            Employee managerEmployeeFake = FakeData.GetEmployeeFake();
             managerEmployeeFake.EmployeeName = "XYZ";
             managerEmployeeFake.DeptID = departmentFake.Id;
             managerEmployeeFake.Department = departmentFake;
 
-            var subEmployeeFake = FakeData.GetEmployeeFake(2);
+            Employee subEmployeeFake = FakeData.GetEmployeeFake(2);
             subEmployeeFake.DeptID = departmentFake.Id;
             subEmployeeFake.Department = departmentFake;
             subEmployeeFake.ManagerId = managerEmployeeFake.Id;
             subEmployeeFake.Manager = managerEmployeeFake;
 
-            var departmentsCount = 0;
-            var employeesCount = 0;
-            var firstEmployeeName = string.Empty;
-            var employeeSandipID = 0;
+            int departmentsCount = 0;
+            int employeesCount = 0;
+            string firstEmployeeName = string.Empty;
+            int employeeSandipID = 0;
 
             //Action
             //Considering cascading inserts, here the order in which the list is inserted with different employee 
@@ -118,17 +121,17 @@ namespace Testing.FluentRepository
         public void test_fluent_delete_of_department_should_delete_the_underlying_employee()
         {
             //Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
-            var departmentFake = FakeData.GetDepartmentFake();
+            ICommandRepository<Department> departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            ICommandRepository<Employee> employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            IQueryableRepository<Employee> employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
+            Department departmentFake = FakeData.GetDepartmentFake();
 
-            var employeeFake = FakeData.GetEmployeeFake();
+            Employee employeeFake = FakeData.GetEmployeeFake();
             employeeFake.EmployeeName = "XYZ";
             employeeFake.DeptID = departmentFake.Id;
             employeeFake.Department = departmentFake;
 
-            var employeesCount = 0;
+            int employeesCount = 0;
 
             //Action
             //Employee insert will automatically insert the department object before inserting this employee object 
@@ -155,26 +158,26 @@ namespace Testing.FluentRepository
         public void test_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_should_be_saved()
         {
             //Arrange
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
-            var departmentFake = FakeData.GetDepartmentFake();
-            var departmentFake2 = FakeData.GetDepartmentFake(2);
+            ICommandRepository<Department> departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            ICommandRepository<Employee> employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            IQueryableRepository<Department> departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            IQueryableRepository<Employee> employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
+            Department departmentFake = FakeData.GetDepartmentFake();
+            Department departmentFake2 = FakeData.GetDepartmentFake(2);
 
-            var managerEmployeeFake = FakeData.GetEmployeeFake();
+            Employee managerEmployeeFake = FakeData.GetEmployeeFake();
             managerEmployeeFake.EmployeeName = "XYZ";
             managerEmployeeFake.DeptID = departmentFake.Id;
             managerEmployeeFake.Department = departmentFake;
 
-            var subEmployeeFake = FakeData.GetEmployeeFake(2);
+            Employee subEmployeeFake = FakeData.GetEmployeeFake(2);
             subEmployeeFake.DeptID = departmentFake.Id;
             subEmployeeFake.Department = departmentFake;
             subEmployeeFake.ManagerId = managerEmployeeFake.Id;
             subEmployeeFake.Manager = managerEmployeeFake;
 
-            var departmentsCount = 0;
-            var employeesCount = 0;
+            int departmentsCount = 0;
+            int employeesCount = 0;
 
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 
@@ -202,27 +205,27 @@ namespace Testing.FluentRepository
         public void test_fluent_insert_multiple_employees_alongwith_department_with_explicit_transaction_scope_with_exception_thrown_in_between_should_rollback()
         {
             //Arrange
-            var unitOfWorkWithExceptionToBeThrown = GetUnitOfWorkInstance(true);
-            var departmentCommandRepository = GetCommandRepositoryInstance<Department>();
-            var employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
-            var departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
-            var employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
-            var departmentFake = FakeData.GetDepartmentFake();
-            var departmentFake2 = FakeData.GetDepartmentFake(2);
+            IUnitOfWork unitOfWorkWithExceptionToBeThrown = GetUnitOfWorkInstance(true);
+            ICommandRepository<Department> departmentCommandRepository = GetCommandRepositoryInstance<Department>();
+            ICommandRepository<Employee> employeeCommandRepository = GetCommandRepositoryInstance<Employee>();
+            IQueryableRepository<Department> departmentQueryableRepository = GetQueryableRepositoryInstance<Department>();
+            IQueryableRepository<Employee> employeeQueryableRepository = GetQueryableRepositoryInstance<Employee>();
+            Department departmentFake = FakeData.GetDepartmentFake();
+            Department departmentFake2 = FakeData.GetDepartmentFake(2);
 
-            var managerEmployeeFake = FakeData.GetEmployeeFake();
+            Employee managerEmployeeFake = FakeData.GetEmployeeFake();
             managerEmployeeFake.EmployeeName = "XYZ";
             managerEmployeeFake.DeptID = departmentFake.Id;
             managerEmployeeFake.Department = departmentFake;
 
-            var subEmployeeFake = FakeData.GetEmployeeFake(2);
+            Employee subEmployeeFake = FakeData.GetEmployeeFake(2);
             subEmployeeFake.DeptID = departmentFake.Id;
             subEmployeeFake.Department = departmentFake;
             subEmployeeFake.ManagerId = managerEmployeeFake.Id;
             subEmployeeFake.Manager = managerEmployeeFake;
 
-            var departmentsCount = 0;
-            var employeesCount = 0;
+            int departmentsCount = 0;
+            int employeesCount = 0;
 
             //Action
             /// Order of operations of different instances of same type or different types needs to be handled at 

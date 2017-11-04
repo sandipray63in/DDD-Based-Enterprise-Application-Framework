@@ -37,7 +37,7 @@ namespace DomainServices.Base.QueryableDomainServices
             return await Task.Run(() => _repository);
         }
 
-        public virtual async Task<IList<TEntity>> GetAllAsync(CancellationToken token = default(CancellationToken))
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainServiceAsync<TId, TEntity>).FullName);
             return await _repository.Select(x => x).ToListAsync(token);
@@ -49,18 +49,18 @@ namespace DomainServices.Base.QueryableDomainServices
             return await _repository.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
         }
 
-        public virtual async Task<IList<TEntity>> GetByFilterExpressionAsync(Expression<Func<TEntity, bool>> whereExpression, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IEnumerable<TEntity>> GetByFilterExpressionAsync(Expression<Func<TEntity, bool>> whereExpression, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainServiceAsync<TId, TEntity>).FullName);
             return await _repository.Where(whereExpression).ToListAsync(token);
         }
 
-        public virtual async Task<IList<TEntity>> GetByOrderExpressionAsync<TKey>(Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IEnumerable<TEntity>> GetByOrderExpressionAsync<TKey>(Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainServiceAsync<TId, TEntity>).FullName);
             return await _repository.OrderBy(orderExpression).ToListAsync(token);
         }
-        public virtual async Task<IList<TEntity>> GetByExpressionAsync<TKey>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IEnumerable<TEntity>> GetByExpressionAsync<TKey>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, TKey>> orderExpression, CancellationToken token = default(CancellationToken))
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainServiceAsync<TId, TEntity>).FullName);
             return await _repository.Where(whereExpression).OrderBy(orderExpression).ToListAsync(token);

@@ -40,37 +40,37 @@ namespace DomainServices.Base.CommandDomainServices
             return InvokeAfterWrappingWithinExceptionHandling(() => _repository.Delete(item, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual bool Insert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public virtual bool Insert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainService<TEntity>).FullName);
             return InvokeAfterWrappingWithinExceptionHandling(() => _repository.Insert(items, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual bool Update(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public virtual bool Update(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainService<TEntity>).FullName);
             return InvokeAfterWrappingWithinExceptionHandling(() => _repository.Update(items, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual bool Delete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public virtual bool Delete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainService<TEntity>).FullName);
             return InvokeAfterWrappingWithinExceptionHandling(() => _repository.Delete(items, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual bool BulkInsert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public virtual bool BulkInsert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainService<TEntity>).FullName);
             return InvokeAfterWrappingWithinExceptionHandling(() => _repository.BulkInsert(items, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual bool BulkUpdate(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public virtual bool BulkUpdate(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainService<TEntity>).FullName);
             return InvokeAfterWrappingWithinExceptionHandling(() => _repository.BulkUpdate(items, operationToExecuteBeforeNextOperation));
         }
 
-        public virtual bool BulkDelete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        public virtual bool BulkDelete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(CommandDomainService<TEntity>).FullName);
             return InvokeAfterWrappingWithinExceptionHandling(() => _repository.BulkDelete(items, operationToExecuteBeforeNextOperation));

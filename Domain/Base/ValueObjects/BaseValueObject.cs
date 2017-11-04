@@ -28,7 +28,7 @@ namespace Domain.Base.ValueObjects
 
         public override int GetHashCode()
         {
-            var hash = 17;
+            int hash = 17;
             this.GetPropertiesToIncludeInEqualityCheck().ToList().ForEach(obj =>
             {
                 hash = hash * 31 + (obj.IsNull() ? 0 : obj.GetHashCode());

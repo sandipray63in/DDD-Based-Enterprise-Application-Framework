@@ -247,6 +247,7 @@
     <Compile Include="Versioning\ApiVersionRouteConstraint .cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Common\Readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">

@@ -16,22 +16,22 @@ namespace FluentRepository.FluentInterfaces
         IFluentCommands Delete<TEntity>(TEntity item, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
-        IFluentCommands Insert<TEntity>(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands Insert<TEntity>(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
-        IFluentCommands Update<TEntity>(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands Update<TEntity>(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
-        IFluentCommands Delete<TEntity>(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands Delete<TEntity>(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
-        IFluentCommands BulkInsert<TEntity>(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands BulkInsert<TEntity>(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
-        IFluentCommands BulkUpdate<TEntity>(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands BulkUpdate<TEntity>(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
-        IFluentCommands BulkDelete<TEntity>(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands BulkDelete<TEntity>(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
         #region Async Versions
@@ -42,17 +42,17 @@ namespace FluentRepository.FluentInterfaces
             where TEntity : class, ICommandAggregateRoot;
         IFluentCommands DeleteAsync<TEntity>(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
-        IFluentCommands InsertAsync<TEntity>(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands InsertAsync<TEntity>(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
-        IFluentCommands UpdateAsync<TEntity>(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands UpdateAsync<TEntity>(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
-        IFluentCommands DeleteAsync<TEntity>(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands DeleteAsync<TEntity>(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
-        IFluentCommands BulkInsertAsync<TEntity>(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands BulkInsertAsync<TEntity>(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
-        IFluentCommands BulkUpdateAsync<TEntity>(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands BulkUpdateAsync<TEntity>(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
-        IFluentCommands BulkDeleteAsync<TEntity>(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        IFluentCommands BulkDeleteAsync<TEntity>(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
             where TEntity : class, ICommandAggregateRoot;
 
         #endregion

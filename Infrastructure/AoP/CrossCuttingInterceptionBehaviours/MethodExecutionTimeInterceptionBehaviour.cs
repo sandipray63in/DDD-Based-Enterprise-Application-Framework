@@ -22,9 +22,9 @@ namespace Infrastructure.AoP.CrossCuttingInterceptionBehaviours
         protected override void ExecuteAfterMethodInvocation(IMethodInvocation input, IMethodReturn methodReturn)
         {
             stopWatch.Stop();
-            var elapsedTime = stopWatch.Elapsed.ToString();
-            var methodInvocationData = input.GetMethodInvocationData();
-            var executionTimeSpanMessage = string.Format(" The method {0} within class {1} finsished execution in time : {2}", methodInvocationData.MethodName, methodInvocationData.ClassName, elapsedTime);
+            string elapsedTime = stopWatch.Elapsed.ToString();
+            MethodInvocationData methodInvocationData = input.GetMethodInvocationData();
+            string executionTimeSpanMessage = string.Format(" The method {0} within class {1} finsished execution in time : {2}", methodInvocationData.MethodName, methodInvocationData.ClassName, elapsedTime);
             logger.LogMessage(executionTimeSpanMessage);
         }
     }

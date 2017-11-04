@@ -82,25 +82,25 @@ namespace Testing.Respository
         private void RegisterCommandRepository<TEntity>(bool isUnitOfWorkRequired = false) where TEntity : BaseEntity<int>, ICommandAggregateRoot
         {
             _container.RegisterType<ICommand<TEntity>, EntityFrameworkCodeFirstCommand<int,TEntity>>();
-            var context = _container.Resolve<EFTestContext>();
-            var command = _container.Resolve<ICommand<TEntity>>(new ParameterOverride("dbContext", context));
-            var respositoryName = isUnitOfWorkRequired ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;
-            var injectionConstructor = !isUnitOfWorkRequired ? new InjectionConstructor(command) : new InjectionConstructor(typeof(IUnitOfWork), command);
+            EFTestContext context = _container.Resolve<EFTestContext>();
+            ICommand<TEntity> command = _container.Resolve<ICommand<TEntity>>(new ParameterOverride("dbContext", context));
+            string respositoryName = isUnitOfWorkRequired ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;
+            InjectionConstructor injectionConstructor = !isUnitOfWorkRequired ? new InjectionConstructor(command) : new InjectionConstructor(typeof(IUnitOfWork), command);
             _container.RegisterType<ICommandRepository<TEntity>, CommandRepository<TEntity>>(respositoryName, injectionConstructor);
         }
 
         private void RegisterQueryableRepository<TEntity>() where TEntity : class, IQueryableAggregateRoot
         {
             _container.RegisterType<IQuery<TEntity>, EntityFrameworkCodeFirstQueryable<TEntity>>();
-            var context = _container.Resolve<EFTestContext>();
-            var query = _container.Resolve<IQuery<TEntity>>(new ParameterOverride("dbContext", context));
+            EFTestContext context = _container.Resolve<EFTestContext>();
+            IQuery<TEntity> query = _container.Resolve<IQuery<TEntity>>(new ParameterOverride("dbContext", context));
             var injectionConstructor = new InjectionConstructor(query);
             _container.RegisterType<IQueryableRepository<TEntity>, QueryableRepository<TEntity>>(injectionConstructor);
         }
 
         private void RegisterUnitOfWorkInstance(bool isExceptionToBeThrownForRollBackTesting = false)
         {
-            var toBeResolvedName = typeof(UnitOfWork.UnitOfWork).Name;
+            string toBeResolvedName = typeof(UnitOfWork.UnitOfWork).Name;
             if (!isExceptionToBeThrownForRollBackTesting)
             {
                 _container.RegisterType<IUnitOfWork, UnitOfWork.UnitOfWork>(toBeResolvedName, new InjectionConstructor(IsolationLevel.ReadCommitted, TransactionScopeOption.RequiresNew));
@@ -125,8 +125,8 @@ namespace Testing.Respository
 
         protected ICommandRepository<TEntity> GetCommandRepositoryInstance<TEntity>(IUnitOfWork unitOfWork = null) where TEntity : ICommandAggregateRoot
         {
-            var respositoryName = unitOfWork.IsNotNull() ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;
-            var repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<TEntity>>(respositoryName) : _container.Resolve<ICommandRepository<TEntity>>(respositoryName, new ParameterOverride("unitOfWork", unitOfWork));
+            string respositoryName = unitOfWork.IsNotNull() ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;
+            ICommandRepository<TEntity> repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<TEntity>>(respositoryName) : _container.Resolve<ICommandRepository<TEntity>>(respositoryName, new ParameterOverride("unitOfWork", unitOfWork));
             return repository;
         }
 
@@ -137,21 +137,21 @@ namespace Testing.Respository
 
         protected ICommandRepository<Department> GetDepartmentCommandServiceRepositoryInstance(IUnitOfWork unitOfWork = null)
         {
-            var name = typeof(Department).Name + SERVICE_SUFFIX;
-            var repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<Department>>(name) : _container.Resolve<ICommandRepository<Department>>(name, new ParameterOverride("unitOfWork", unitOfWork));
+            string name = typeof(Department).Name + SERVICE_SUFFIX;
+            ICommandRepository<Department> repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<Department>>(name) : _container.Resolve<ICommandRepository<Department>>(name, new ParameterOverride("unitOfWork", unitOfWork));
             return repository;
         }
 
         protected ICommandRepository<Employee> GetEmployeeCommandServiceRepositoryInstance(IUnitOfWork unitOfWork = null)
         {
-            var name = typeof(Employee).Name + SERVICE_SUFFIX;
-            var repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<Employee>>(name) : _container.Resolve<ICommandRepository<Employee>>(name, new ParameterOverride("unitOfWork", unitOfWork));
+            string name = typeof(Employee).Name + SERVICE_SUFFIX;
+            ICommandRepository<Employee> repository = unitOfWork.IsNull() ? _container.Resolve<ICommandRepository<Employee>>(name) : _container.Resolve<ICommandRepository<Employee>>(name, new ParameterOverride("unitOfWork", unitOfWork));
             return repository;
         }
 
         protected IUnitOfWork GetUnitOfWorkInstance(bool isExceptionToBeThrownForRollBackTesting = false)
         {
-            var toBeResolvedName = typeof(UnitOfWork.UnitOfWork).Name;
+            string toBeResolvedName = typeof(UnitOfWork.UnitOfWork).Name;
             if (isExceptionToBeThrownForRollBackTesting)
             {
                 toBeResolvedName += WITH_EXCEPTION_TO_BE_THROWN_FOR_ROLLBACK_TEST_SUFFIX;

@@ -33,7 +33,7 @@ namespace Infrastructure.Extensions
             {
                 return false;
             }
-            var baseType = type.BaseType;
+            Type baseType = type.BaseType;
             if (baseType.IsNull())
             {
                 return false;

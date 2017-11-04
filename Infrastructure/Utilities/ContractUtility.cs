@@ -36,7 +36,7 @@ namespace Infrastructure.Utilities
         {
             if (!conditionToBeSatisfied)
             {
-                var exceptionMessage = exceptionMessageFunc();
+                string exceptionMessage = exceptionMessageFunc();
                 throw Activator.CreateInstance(typeof(TException), exceptionMessage) as TException;
             }
         }

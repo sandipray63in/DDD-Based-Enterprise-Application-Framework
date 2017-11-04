@@ -41,8 +41,8 @@ namespace Infrastructure.AoP
             try
             {
                 ExecuteBeforeMethodInvocation(input);
-                var methodReturn = getNext().Invoke(input, getNext);
-                var methodReturnException = methodReturn.Exception;
+                IMethodReturn methodReturn = getNext().Invoke(input, getNext);
+                Exception methodReturnException = methodReturn.Exception;
                 if (methodReturnException.IsNotNull())
                 {
                     logger.LogException(methodReturnException);

@@ -38,32 +38,32 @@ namespace Testing.Integration
             _testServiceClient.Delete(item);
         }
 
-        public void BulkDelete(IList<TEntity> items)
+        public void BulkDelete(IEnumerable<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void BulkInsert(IList<TEntity> items)
+        public void BulkInsert(IEnumerable<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void BulkUpdate(IList<TEntity> items)
+        public void BulkUpdate(IEnumerable<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IList<TEntity> items)
+        public void Delete(IEnumerable<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(IList<TEntity> items)
+        public void Insert(IEnumerable<TEntity> items)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IList<TEntity> items)
+        public void Update(IEnumerable<TEntity> items)
         {
             throw new NotImplementedException();
         }
@@ -83,32 +83,32 @@ namespace Testing.Integration
             throw new NotImplementedException();
         }
 
-        public async Task InsertAsync(IList<TEntity> items, CancellationToken token)
+        public async Task InsertAsync(IEnumerable<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(IList<TEntity> items, CancellationToken token)
+        public async Task UpdateAsync(IEnumerable<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync(IList<TEntity> items, CancellationToken token)
+        public async Task DeleteAsync(IEnumerable<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task BulkInsertAsync(IList<TEntity> items, CancellationToken token)
+        public async Task BulkInsertAsync(IEnumerable<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task BulkUpdateAsync(IList<TEntity> items, CancellationToken token)
+        public async Task BulkUpdateAsync(IEnumerable<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task BulkDeleteAsync(IList<TEntity> items, CancellationToken token)
+        public async Task BulkDeleteAsync(IEnumerable<TEntity> items, CancellationToken token)
         {
             throw new NotImplementedException();
         }

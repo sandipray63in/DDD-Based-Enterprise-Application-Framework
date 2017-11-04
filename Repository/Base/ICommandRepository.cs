@@ -7,8 +7,8 @@ using Domain.Base.Aggregates;
 namespace Repository.Base
 {
     /// <summary>
-    /// Both Iterative List based operations(e.g. "void Insert(IList<TEntity> items)") and bulk operations api have been provided 
-    /// for a reason.The reason being Iterative List based operations might be required for web service calls while Bulk Operations
+    /// Both Enumerable based operations(e.g. "void Insert(IEnumerable<TEntity> items)") and bulk operations api have been provided 
+    /// for a reason.The reason being Enumerable based operations might be required for web service calls while Bulk Operations
     /// gives you api to perform the operations real fast.
     /// 
     /// For Async operations, if Unit of Work(explicit Transactions Management) is used then the 
@@ -24,29 +24,29 @@ namespace Repository.Base
 
         // If here DB is being interacted,then each and every internal item will be iterated and then DB call will be there
         // for each item.So performance might degrade.But if one is interacting with a web service via this api and the Web service
-        // does not provide some list based api then this can be used from the Business Layer or UI Layer to pass a list 
+        // does not provide some Enumerable based api then this can be used from the Business Layer or UI Layer to pass an Enumerable
         // and internally the implementations will take care of iteratively calling the service for each item.
-        void Insert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        void Update(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        void Delete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        void Insert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        void Update(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        void Delete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
         //Bulk operations for DB will be done in one DB hit and so will be performant.This api's main intent is to provide fast 
-        //batch processing.
-        void BulkInsert(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        void BulkUpdate(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
-        void BulkDelete(IList<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        //bulk processing.
+        void BulkInsert(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        void BulkUpdate(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
+        void BulkDelete(IEnumerable<TEntity> items, Action operationToExecuteBeforeNextOperation = null);
 
         #region Async Versions
 
         Task InsertAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         Task UpdateAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
         Task DeleteAsync(TEntity item, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        Task InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        Task UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        Task DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        Task BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        Task BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
-        Task BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        Task InsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        Task UpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        Task DeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        Task BulkInsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        Task BulkUpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
+        Task BulkDeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
 
         #endregion
     }

@@ -7,11 +7,11 @@ namespace DomainServices.Base.ConsumerModelServices
 {
     public interface IQueryableConsumerModelService<TConsumerModel> : IDisposable where TConsumerModel : IQueryableConsumerModel
     {
-        IList<TConsumerModel> GetAll();
+        IEnumerable<TConsumerModel> GetAll();
         TConsumerModel GetByID(int id);
-        IList<TConsumerModel> GetByFilterExpression(Expression<Func<TConsumerModel, bool>> whereExpression);
-        IList<TConsumerModel> GetByOrderExpression<TKey>(Expression<Func<TConsumerModel, TKey>> orderExpression);
-        IList<TConsumerModel> GetByExpression<TKey>(Expression<Func<TConsumerModel, bool>> whereExpression, Expression<Func<TConsumerModel, TKey>> orderExpression);
+        IEnumerable<TConsumerModel> GetByFilterExpression(Expression<Func<TConsumerModel, bool>> whereExpression);
+        IEnumerable<TConsumerModel> GetByOrderExpression<TKey>(Expression<Func<TConsumerModel, TKey>> orderExpression);
+        IEnumerable<TConsumerModel> GetByExpression<TKey>(Expression<Func<TConsumerModel, bool>> whereExpression, Expression<Func<TConsumerModel, TKey>> orderExpression);
 
         ///More methods can be added similarly e.g. Async versions of the above methods.
     }

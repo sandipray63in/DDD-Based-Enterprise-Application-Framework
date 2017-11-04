@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using ElasticsearchCRUD;
+using ElasticsearchCRUD.Model;
+using ElasticsearchCRUD.ContextSearch.SearchModel;
 using ElasticsearchCRUD.Model.SearchModel.Sorting;
 using ElasticsearchCRUD.Model.SearchModel;
 using ElasticsearchCRUD.Model.SearchModel.Queries;
@@ -45,18 +47,18 @@ namespace Repository.Queryable
 
         #endregion
 
-        public IList<TEntity> QueryString(string term)
+        public IEnumerable<TEntity> QueryString(string term)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchQuery<TEntity>).FullName);
-            var results = _elasticsearchContext.Search<TEntity>(BuildQueryStringSearch(term));
-            return results.PayloadResult.Hits.HitsResult.Select(t => t.Source).ToList();
+            ResultDetails<SearchResult<TEntity>> results = _elasticsearchContext.Search<TEntity>(BuildQueryStringSearch(term));
+            return results.PayloadResult.Hits.HitsResult.Select(t => t.Source);
         }
 
         public PagingTableResult<TEntity> GetAllPagedResult(string id, int startIndex, int pageSize, string sorting)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(ElasticSearchQuery<TEntity>).FullName);
             var result = new PagingTableResult<TEntity>();
-            var data = _elasticsearchContext.Search<TEntity>(
+            ResultDetails<SearchResult<TEntity>> data = _elasticsearchContext.Search<TEntity>(
                             BuildSearchForChildDocumentsWithIdAndParentType(
                                 id,
                                 typeof(TEntity).Name,
@@ -64,7 +66,7 @@ namespace Repository.Queryable
                                 pageSize,
                                 sorting)
                         );
-            result.Items = data.PayloadResult.Hits.HitsResult.Select(t => t.Source).ToList();
+            result.Items = data.PayloadResult.Hits.HitsResult.Select(t => t.Source);
             result.TotalCount = data.PayloadResult.Hits.Total;
             return result;
         }
@@ -102,7 +104,7 @@ namespace Repository.Queryable
 
         private Search BuildQueryStringSearch(string term)
         {
-            var names = "";
+            string names = string.Empty;
             if (term != null)
             {
                 names = term.Replace("+", " OR *");
@@ -122,7 +124,7 @@ namespace Repository.Queryable
                 Size = pageSize,
                 Query = new Query(new TermQuery("_id", type + "#" + id))
             };
-            var sorts = sorting.Split(' ');
+            string[] sorts = sorting.Split(' ');
             if (sorts.Length == 2)
             {
                 var order = OrderEnum.asc;

@@ -12,7 +12,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
         where TId : struct
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
     {
-        IList<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null);
+        IEnumerable<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null);
 
         PagingTableResult<TEntity> GetAllPagedResult(string id, int startIndex, int pageSize, string sorting, Action operationToExecuteBeforeNextOperation = null);
 

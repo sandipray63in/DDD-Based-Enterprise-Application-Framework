@@ -12,7 +12,7 @@ namespace FluentRepository.FluentImplementations
     internal abstract class FluentSetUpAndExecution : FluentCommandAndQueryRepository,IFluentSetUpAndExecution
     {
 
-        internal protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, IList<dynamic> repositoriesList, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesList, operationsQueue)
+        internal protected FluentSetUpAndExecution(UnitOfWorkData unitOfWorkData, IEnumerable<dynamic> repositoriesEnumerable, Queue<OperationData> operationsQueue) : base(unitOfWorkData, repositoriesEnumerable, operationsQueue)
         {
         }
 
@@ -24,7 +24,7 @@ namespace FluentRepository.FluentImplementations
                                     "Async operations are not supported by Execute method.Use ExecuteAsync instead.");
             while (_operationsQueue.Count > 0)
             {
-                var operationData = _operationsQueue.Dequeue();
+                OperationData operationData = _operationsQueue.Dequeue();
                 if (operationData.Operation.IsNotNull())
                 {
                     operationData.Operation();
@@ -32,7 +32,7 @@ namespace FluentRepository.FluentImplementations
             }
             if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
             {
-                var unitOfWork = _unitOfWorkData.UnitOfWork;
+                dynamic unitOfWork = _unitOfWorkData.UnitOfWork;
                 unitOfWork.Commit(_unitOfWorkData.ShouldAutomaticallyRollBackOnTransactionException, _unitOfWorkData.ShouldThrowOnException);
                 if (shouldAutomaticallyDisposeAllDisposables)
                 {
@@ -55,7 +55,7 @@ namespace FluentRepository.FluentImplementations
 
             while (_operationsQueue.Count > 0)
             {
-                var operationData = _operationsQueue.Dequeue();
+                OperationData operationData = _operationsQueue.Dequeue();
                 if (operationData.Operation.IsNotNull())
                 {
                     operationData.Operation();
@@ -68,7 +68,7 @@ namespace FluentRepository.FluentImplementations
 
             if (_unitOfWorkData != null && _unitOfWorkData.UnitOfWork != null)
             {
-                var unitOfWork = _unitOfWorkData.UnitOfWork;
+                dynamic unitOfWork = _unitOfWorkData.UnitOfWork;
                 await unitOfWork.CommitAsync(token, _unitOfWorkData.ShouldAutomaticallyRollBackOnTransactionException, _unitOfWorkData.ShouldThrowOnException);
                 if (shouldAutomaticallyDisposeAllDisposables)
                 {

@@ -13,7 +13,7 @@ namespace RestfulWebAPI.Binding.MediaType
 
         public override double TryMatchMediaType(HttpRequestMessage request)
         {
-            var ipAddress = String.Empty;
+            string ipAddress = String.Empty;
             if (request.Properties.ContainsKey("MS_HttpContext"))
             {
                 var httpContext = request.Properties["MS_HttpContext"] as HttpContextBase;

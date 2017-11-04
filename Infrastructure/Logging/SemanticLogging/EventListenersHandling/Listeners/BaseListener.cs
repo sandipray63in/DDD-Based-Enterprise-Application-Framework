@@ -12,8 +12,8 @@ namespace Infrastructure.Logging.SemanticLogging.EventListenersHandling.Listener
         {
             ContractUtility.Requires<ArgumentNullException>(listenerCreationDataAndEventSources.IsNotNull(), "listenerCreationDataAndEventSources instance cannot be null");
 
-            var listenerCreationData = listenerCreationDataAndEventSources.ListenerCreationData;
-            var eventListener = GetListener(listenerCreationData);
+            IListenerCreationData listenerCreationData = listenerCreationDataAndEventSources.ListenerCreationData;
+            EventListener eventListener = GetListener(listenerCreationData);
          
             listenerCreationDataAndEventSources.EventSourcesAlongWithLevel.ToList().ForEach(x =>
                 {

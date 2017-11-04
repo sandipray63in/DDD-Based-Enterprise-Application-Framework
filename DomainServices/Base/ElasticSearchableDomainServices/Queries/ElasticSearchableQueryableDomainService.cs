@@ -20,7 +20,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 
         }
 
-        public override IList<TEntity> IncludeList(Expression<Func<TEntity, object>> subSelector)
+        public override IEnumerable<TEntity> IncludeList(Expression<Func<TEntity, object>> subSelector)
         {
             throw new NotSupportedException();
         }
@@ -30,7 +30,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
             throw new NotSupportedException();
         }
 
-        public virtual IList<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null)
+        public virtual IEnumerable<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null)
         {
             return (_repository as IQueryableElasticSearchRepository<TEntity>).QueryString(term, operationToExecuteBeforeNextOperation);
         }

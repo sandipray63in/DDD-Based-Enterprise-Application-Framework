@@ -48,13 +48,13 @@ namespace RestfulWebAPI.Binding.MediaType
 
         private TEntity Merge(TEntity baseEntity, TEntity newEntity)
         {
-            var entityType = typeof(TEntity);
+            Type entityType = typeof(TEntity);
 
-            foreach (var property in entityType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            foreach (PropertyInfo property in entityType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                var baseValue = property.GetValue(baseEntity, null);
-                var newValue = property.GetValue(newEntity, null);
-                var defaultValue = property.PropertyType.IsValueType ? Activator.CreateInstance(property.PropertyType) : null;
+                Object baseValue = property.GetValue(baseEntity, null);
+                Object newValue = property.GetValue(newEntity, null);
+                Object defaultValue = property.PropertyType.IsValueType ? Activator.CreateInstance(property.PropertyType) : null;
                 if (baseValue.IsNull() || baseValue.Equals(defaultValue))
                     property.SetValue(baseEntity, newValue);
             }

@@ -63,7 +63,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override async Task<bool> InsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public override async Task<bool> InsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             return await InvokeAfterWrappingWithinExceptionHandling(async () =>
                 {
@@ -74,7 +74,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override async Task<bool> UpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public override async Task<bool> UpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             return await InvokeAfterWrappingWithinExceptionHandling(async () =>
                 {
@@ -85,7 +85,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override async Task<bool> DeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public override async Task<bool> DeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             return await InvokeAfterWrappingWithinExceptionHandling(async () =>
                 {
@@ -96,7 +96,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override async Task<bool> BulkInsertAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public override async Task<bool> BulkInsertAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             return await InvokeAfterWrappingWithinExceptionHandling(async () =>
                 {
@@ -107,7 +107,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override async Task<bool> BulkUpdateAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public override async Task<bool> BulkUpdateAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             return await InvokeAfterWrappingWithinExceptionHandling(async () =>
                 {
@@ -118,7 +118,7 @@ namespace DomainServices.Base.ElasticSearchableDomainServices.Commands
             );
         }
 
-        public override async Task<bool> BulkDeleteAsync(IList<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
+        public override async Task<bool> BulkDeleteAsync(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null)
         {
             return await InvokeAfterWrappingWithinExceptionHandling(async () =>
                 {

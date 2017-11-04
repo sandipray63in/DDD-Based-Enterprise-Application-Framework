@@ -1,4 +1,5 @@
-﻿using System.Web.Http.Controllers;
+﻿using System.Net.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.ValueProviders;
 
 namespace RestfulWebAPI.Binding.ValueProviders
@@ -7,7 +8,7 @@ namespace RestfulWebAPI.Binding.ValueProviders
     {
         public override IValueProvider GetValueProvider(HttpActionContext actionContext)
         {
-            var request = actionContext.ControllerContext.Request;
+            HttpRequestMessage request = actionContext.ControllerContext.Request;
             return new HeaderValueProvider(request.Headers);
         }
     }

@@ -26,6 +26,6 @@ namespace FluentRepository.FluentInterfaces
         /// </summary>
         /// <param name="queries"></param>
         /// <returns></returns>
-        IFluentQueries SetUpQueryPersistance(IList<dynamic> queries);
+        IFluentQueries SetUpQueryPersistance(IEnumerable<dynamic> queries);
     }
 }

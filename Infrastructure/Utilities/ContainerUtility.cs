@@ -19,11 +19,11 @@ namespace Infrastructure.Utilities
                 }
                 else
                 {
-                    var injectionParameterTypes = parameterTypeOverrideDataValues.Select(x => new InjectionParameter(x.ParameterType, x.ParameterValue)).ToArray();
+                    InjectionParameter[] injectionParameterTypes = parameterTypeOverrideDataValues.Select(x => new InjectionParameter(x.ParameterType, x.ParameterValue)).ToArray();
                     Container.Instance.RegisterType<TType, TResolvedType>(new InjectionConstructor(injectionParameterTypes));
                 }
             }
-            return (TType)ContainerUtility.Resolve(typeof(TType), parameterTypeOverrideDataValues.Select(x => x as ParameterOverrideData).ToList());
+            return (TType)ContainerUtility.Resolve(typeof(TType), parameterTypeOverrideDataValues.Select(x => x as ParameterOverrideData));
         }
 
         public static TType CheckRegistrationAndGetInstance<TType, TResolvedType>(string name, params ParameterTypeOverrideData[] parameterTypeOverrideDataValues)
@@ -37,31 +37,31 @@ namespace Infrastructure.Utilities
                 }
                 else
                 {
-                    var injectionParameterTypes = parameterTypeOverrideDataValues.Select(x => new InjectionParameter(x.ParameterType, x.ParameterValue)).ToArray();
+                    InjectionParameter[] injectionParameterTypes = parameterTypeOverrideDataValues.Select(x => new InjectionParameter(x.ParameterType, x.ParameterValue)).ToArray();
                     Container.Instance.RegisterType<TType, TResolvedType>(name,new InjectionConstructor(injectionParameterTypes));
                 }
             }
-            return (TType)ContainerUtility.Resolve(typeof(TType),name, parameterTypeOverrideDataValues.Select(x => x as ParameterOverrideData).ToList());
+            return (TType)ContainerUtility.Resolve(typeof(TType),name, parameterTypeOverrideDataValues.Select(x => x as ParameterOverrideData));
         }
 
-        public static object Resolve(Type type,IList<ParameterOverrideData> parameterOverrideDataList = null)
+        public static object Resolve(Type type,IEnumerable<ParameterOverrideData> parameterOverrideDataEnumerable = null)
         {
             ParameterOverride[] parameterOverrides = null;
-            if (parameterOverrideDataList.IsNotNullOrEmpty())
+            if (parameterOverrideDataEnumerable.IsNotNullOrEmpty())
             {
-                parameterOverrides = parameterOverrideDataList.Where(x => x.ParameterValue.IsNotNull()).Select(x => new ParameterOverride(x.ParameterName, x.ParameterValue)).ToArray();
+                parameterOverrides = parameterOverrideDataEnumerable.Where(x => x.ParameterValue.IsNotNull()).Select(x => new ParameterOverride(x.ParameterName, x.ParameterValue)).ToArray();
             }
             return parameterOverrides.IsNotEmpty() ? Container.Instance.Resolve(type)
                 :
                 Container.Instance.Resolve(type, parameterOverrides);
         }
 
-        public static object Resolve(Type type,string name, IList<ParameterOverrideData> parameterOverrideDataList=null)
+        public static object Resolve(Type type,string name, IEnumerable<ParameterOverrideData> parameterOverrideDataEnumerable=null)
         {
             ParameterOverride[] parameterOverrides = null;
-            if (parameterOverrideDataList.IsNotNullOrEmpty())
+            if (parameterOverrideDataEnumerable.IsNotNullOrEmpty())
             {
-                parameterOverrides = parameterOverrideDataList.Where(x => x.ParameterValue.IsNotNull()).Select(x => new ParameterOverride(x.ParameterName, x.ParameterValue)).ToArray();
+                parameterOverrides = parameterOverrideDataEnumerable.Where(x => x.ParameterValue.IsNotNull()).Select(x => new ParameterOverride(x.ParameterName, x.ParameterValue)).ToArray();
             }
             return parameterOverrides.IsNotEmpty() ? Container.Instance.Resolve(type,name)
                 :

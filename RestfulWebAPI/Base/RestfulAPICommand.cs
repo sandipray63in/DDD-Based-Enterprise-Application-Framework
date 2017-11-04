@@ -38,63 +38,63 @@ namespace RestfulWebAPI.Base
         [HttpPost]
         public virtual async Task<IHttpActionResult> Post(TEntity item, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.InsertAsync(item, token);
+            bool isSuccess = await _commandDomainServiceAsync.InsertAsync(item, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpPut]
         public virtual async Task<IHttpActionResult> Put(TEntity item, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.UpdateAsync(item, token);
+            bool isSuccess = await _commandDomainServiceAsync.UpdateAsync(item, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpDelete]
         public virtual async Task<IHttpActionResult> Delete(TEntity item, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.DeleteAsync(item, token);
+            bool isSuccess = await _commandDomainServiceAsync.DeleteAsync(item, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpPost]
-        public virtual async Task<IHttpActionResult> PostList(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IHttpActionResult> PostList(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.InsertAsync(items, token);
+            bool isSuccess = await _commandDomainServiceAsync.InsertAsync(items, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpPut]
-        public virtual async Task<IHttpActionResult> PutList(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IHttpActionResult> PutList(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.UpdateAsync(items, token);
+            bool isSuccess = await _commandDomainServiceAsync.UpdateAsync(items, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpDelete]
-        public virtual async Task<IHttpActionResult> DeleteList(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IHttpActionResult> DeleteList(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.DeleteAsync(items, token);
+            bool isSuccess = await _commandDomainServiceAsync.DeleteAsync(items, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpPost]
-        public virtual async Task<IHttpActionResult> PostBulkList(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IHttpActionResult> PostBulkList(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.BulkInsertAsync(items, token);
+            bool isSuccess = await _commandDomainServiceAsync.BulkInsertAsync(items, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpPut]
-        public virtual async Task<IHttpActionResult> PutBulkList(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IHttpActionResult> PutBulkList(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.BulkUpdateAsync(items, token);
+            bool isSuccess = await _commandDomainServiceAsync.BulkUpdateAsync(items, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
         [HttpDelete]
-        public virtual async Task<IHttpActionResult> DeleteBulkList(IList<TEntity> items, CancellationToken token = default(CancellationToken))
+        public virtual async Task<IHttpActionResult> DeleteBulkList(IEnumerable<TEntity> items, CancellationToken token = default(CancellationToken))
         {
-            var isSuccess = await _commandDomainServiceAsync.DeleteAsync(items, token);
+            bool isSuccess = await _commandDomainServiceAsync.DeleteAsync(items, token);
             return isSuccess ? Ok() : BadRequest() as IHttpActionResult;
         }
 
