@@ -362,6 +362,8 @@
     <Compile Include="Extensions\AoPExtensions.cs" />
     <Compile Include="Extensions\CleanUpExtensions.cs" />
     <Compile Include="Extensions\FuncExtensions.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
+    <Compile Include="Extensions\StructExtensions.cs" />
     <Compile Include="Extensions\UnityContainerExtensions.cs" />
     <Compile Include="Logging\LoggerFactory.cs" />
     <Compile Include="Logging\Loggers\ILogger.cs" />

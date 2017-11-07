@@ -113,6 +113,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchProcessing\BaseBatchSeedSelector.cs" />
+    <Compile Include="BatchProcessing\BatchConfiguration.cs" />
+    <Compile Include="BatchProcessing\BatchExecutor.cs" />
+    <Compile Include="BatchProcessing\IBatchCommandProcesor.cs" />
+    <Compile Include="BatchProcessing\IBatchSeedSelector.cs" />
     <Compile Include="Base\ICommandElasticSearchableRepository.cs" />
     <Compile Include="Base\IQueryableElasticSearchRepository.cs" />
     <Compile Include="Base\IQueryableRepository.cs" />
