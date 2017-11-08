@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Repository.BatchProcessing
 {
-    public interface IBatchSeedSelector : IEnumerator 
+    public interface IBatchSeedSelector : IEnumerator , IDisposable
     {
         void Execute();
     }

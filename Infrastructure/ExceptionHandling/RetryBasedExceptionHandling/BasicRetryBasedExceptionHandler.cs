@@ -1,6 +1,7 @@
 ﻿using System;
-using Infrastructure.Logging.Loggers;
+using System.Threading.Tasks;
 using Infrastructure.Logging;
+using Infrastructure.Logging.Loggers;
 
 namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
 {
@@ -33,6 +34,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
             {
                 try
                 {
+                    isActionInvokedSuceessfullyWithoutAnyException = true;
                     action();
                 }
                 catch (Exception ex)
@@ -63,6 +65,7 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
             {
                 try
                 {
+                    isActionInvokedSuceessfullyWithoutAnyException = true;
                     return action();
                 }
                 catch (Exception ex)
@@ -78,6 +81,16 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
             }
             while (!isActionInvokedSuceessfullyWithoutAnyException && _retryConditionFunc(methodEntryTime));
             return default(TReturn);
+        }
+
+        public override async Task HandleExceptionAfterAllRetryFailureAsync(Action action, Action onExceptionCompensatingHandler = null)
+        {
+            await Task.Run(() => HandleExceptionAfterAllRetryFailure(action,onExceptionCompensatingHandler));
+        }
+
+        public override async Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null)
+        {
+            return await Task.Run<TReturn>(() => HandleExceptionAfterAllRetryFailure<TReturn>(action, onExceptionCompensatingHandler));
         }
 
         private void HandleExceptionCompensation(Action onExceptionCompensatingHandler, Exception ex)

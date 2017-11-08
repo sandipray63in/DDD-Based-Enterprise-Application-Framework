@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
 {
@@ -19,5 +20,21 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
         TReturn HandleExceptionAfterAllRetryFailure<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action onExceptionCompensatingHandler = null);
 
         TReturn HandleExceptionAfterAllRetryFailure<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action onExceptionCompensatingHandler = null);
+
+        Task HandleExceptionAfterAllRetryFailureAsync(Action action, Action onExceptionCompensatingHandler = null);
+
+        Task HandleExceptionAfterAllRetryFailureAsync<TParam>(Action<TParam> action, TParam param, Action onExceptionCompensatingHandler = null);
+
+        Task HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, Action onExceptionCompensatingHandler = null);
+
+        Task HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, Action onExceptionCompensatingHandler = null);
+
+        Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null);
+
+        Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TParam, TReturn>(Func<TParam, TReturn> func, TParam param, Action onExceptionCompensatingHandler = null);
+
+        Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action onExceptionCompensatingHandler = null);
+
+        Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action onExceptionCompensatingHandler = null);
     }
 }

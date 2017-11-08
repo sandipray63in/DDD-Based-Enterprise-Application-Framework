@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
 {
@@ -36,6 +37,40 @@ namespace Infrastructure.ExceptionHandling.RetryBasedExceptionHandling
         public virtual TReturn HandleExceptionAfterAllRetryFailure<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action onExceptionCompensatingHandler = null)
         {
             return HandleExceptionAfterAllRetryFailure(() => func(param1, param2, param3), onExceptionCompensatingHandler);
+        }
+
+        public abstract Task HandleExceptionAfterAllRetryFailureAsync(Action action, Action onExceptionCompensatingHandler = null);
+
+        public virtual async Task HandleExceptionAfterAllRetryFailureAsync<TParam>(Action<TParam> action, TParam param, Action onExceptionCompensatingHandler = null)
+        {
+           await  HandleExceptionAfterAllRetryFailureAsync(() => action(param), onExceptionCompensatingHandler);
+        }
+
+        public virtual async Task HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, Action onExceptionCompensatingHandler = null)
+        {
+           await HandleExceptionAfterAllRetryFailureAsync(() => action(param1, param2), onExceptionCompensatingHandler);
+        }
+
+        public virtual async Task HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, Action onExceptionCompensatingHandler = null)
+        {
+           await HandleExceptionAfterAllRetryFailureAsync(() => action(param1, param2, param3), onExceptionCompensatingHandler);
+        }
+
+        public abstract Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null);
+
+        public virtual async Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TParam, TReturn>(Func<TParam, TReturn> func, TParam param, Action onExceptionCompensatingHandler = null)
+        {
+            return await HandleExceptionAfterAllRetryFailureAsync(() => func(param), onExceptionCompensatingHandler);
+        }
+
+        public virtual async Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action onExceptionCompensatingHandler = null)
+        {
+            return await HandleExceptionAfterAllRetryFailureAsync(() => func(param1, param2), onExceptionCompensatingHandler);
+        }
+
+        public virtual async Task<TReturn> HandleExceptionAfterAllRetryFailureAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action onExceptionCompensatingHandler = null)
+        {
+            return await HandleExceptionAfterAllRetryFailureAsync(() => func(param1, param2, param3), onExceptionCompensatingHandler);
         }
     }
 }

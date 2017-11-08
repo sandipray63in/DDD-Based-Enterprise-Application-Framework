@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace Repository.BatchProcessing
 {
-    public interface IBatchCommandProcesor
+    public interface IBatchCommandProcesor : IDisposable
     {
         bool Execute(IEnumerable[] batchSelectorEnumerables);
     }

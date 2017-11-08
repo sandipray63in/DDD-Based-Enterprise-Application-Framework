@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Domain.Base.Aggregates;
+using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
@@ -11,13 +12,13 @@ using Repository.Base;
 
 namespace Repository.BatchProcessing
 {
-    public abstract class BaseBatchSeedSelector<TEntity,TId> : IBatchSeedSelector 
+    public abstract class BaseBatchSeedSelector<TEntity,TId> : DisposableClass, IBatchSeedSelector
         where TEntity : IQueryableAggregateRoot
         where TId : struct,IComparable<TId>
     {
         private readonly IQueryableRepository<TEntity> _seedQueryableRepository;
         private TId _currentBatchStartPosition;
-        private int _batchSize;
+        private readonly int _batchSize;
         private IEnumerable<TEntity> _currentBatch;
         private readonly TId _maxPropertyalue;
         private readonly ILogger _logger;
@@ -37,6 +38,7 @@ namespace Repository.BatchProcessing
 
         public virtual void Execute()
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
             TId currentBatchEndPosition = _currentBatchStartPosition.Add((TId)Convert.ChangeType(_batchSize,typeof(TId)));
             Expression<Func<TEntity, TId>> entityPropertyBasedOnWhichMinOrMaxValueShouldBeFetchedExpression = x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x);
             _currentBatch = BatchQueryable.Between(entityPropertyBasedOnWhichMinOrMaxValueShouldBeFetchedExpression, _currentBatchStartPosition,currentBatchEndPosition).ToList();
@@ -55,12 +57,14 @@ namespace Repository.BatchProcessing
         {
             get
             {
+                CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
                 return _allBatchSelectorEnumerables;
             }
         }
 
         public bool MoveNext()
         {
+            CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
             if (_currentBatch.IsNullOrEmpty())
             {
                 return false;
@@ -114,6 +118,11 @@ namespace Repository.BatchProcessing
         private TId GetMinPropertyValue()
         {
             return _seedQueryableRepository.Min(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x));
+        }
+
+        protected override void FreeManagedResources()
+        {
+            _seedQueryableRepository.Dispose();
         }
     }
 }
