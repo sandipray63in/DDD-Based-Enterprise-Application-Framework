@@ -16,7 +16,7 @@ namespace Repository.Base
         /// <summary>
         /// Useful for saving data using plain old ADO.NET.
         /// </summary>
-        /// <param name="deleteQuery"></param>
+        /// <param name="script"></param>
         /// <param name="parameters"></param>
         int SaveWithRawSQL(String script, params object[] parameters);
     }
