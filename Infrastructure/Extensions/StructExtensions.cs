@@ -9,31 +9,31 @@ namespace Infrastructure.Extensions
         {
             if (typeof(TStruct) == typeof(int))
             {
-                int structValueInt = ConvertToType<int>(structValue);
-                int otherStructValueInt = ConvertToType<int>(otherStructValue);
+                int structValueInt = structValue.ConvertToType<int>();
+                int otherStructValueInt = otherStructValue.ConvertToType<int>();
                 int finalStructValueInt = structValueInt + otherStructValueInt;
-                return ConvertToType<TStruct>(finalStructValueInt);
+                return finalStructValueInt.ConvertToType<TStruct>();
             }
             else if (typeof(TStruct) == typeof(uint))
             {
-                uint structValueUInt = ConvertToType<uint>(structValue);
-                uint otherStructValueUInt = ConvertToType<uint>(otherStructValue);
+                uint structValueUInt = structValue.ConvertToType<uint>();
+                uint otherStructValueUInt = otherStructValue.ConvertToType<uint>();
                 uint finalStructValueUInt = structValueUInt + otherStructValueUInt;
-                return ConvertToType<TStruct>(finalStructValueUInt);
+                return finalStructValueUInt.ConvertToType<TStruct>();
             }
             else if (typeof(TStruct) == typeof(long))
             {
-                long structValueLong = ConvertToType<long>(structValue);
-                long otherStructValueLong = ConvertToType<long>(otherStructValue);
+                long structValueLong = structValue.ConvertToType<long>();
+                long otherStructValueLong = otherStructValue.ConvertToType<long>();
                 long finalStructValueLong = structValueLong + otherStructValueLong;
-                return ConvertToType<TStruct>(finalStructValueLong);
+                return finalStructValueLong.ConvertToType<TStruct>();
             }
             else if (typeof(TStruct) == typeof(ulong))
             {
-                ulong structValueULong = ConvertToType<ulong>(structValue);
-                ulong otherStructValueULong = ConvertToType<ulong>(otherStructValue);
+                ulong structValueULong = structValue.ConvertToType<ulong>();
+                ulong otherStructValueULong = otherStructValue.ConvertToType<ulong>();
                 ulong finalStructValueULong = structValueULong + otherStructValueULong;
-                return ConvertToType<TStruct>(finalStructValueULong);
+                return finalStructValueULong.ConvertToType<TStruct>();
             }
             else throw new NotSupportedException(string.Format("Type {0} is not supported currently!", typeof(TStruct)));
         }
@@ -43,26 +43,26 @@ namespace Infrastructure.Extensions
         {
             if (typeof(TStruct) == typeof(int))
             {
-                int structValueInt = ConvertToType<int>(structValue);
-                int otherStructValueInt = ConvertToType<int>(otherStructValue);
+                int structValueInt = structValue.ConvertToType<int>();
+                int otherStructValueInt = otherStructValue.ConvertToType<int>();
                 return structValueInt == otherStructValueInt;
             }
             else if (typeof(TStruct) == typeof(uint))
             {
-                uint structValueUInt = ConvertToType<uint>(structValue);
-                uint otherStructValueUInt = ConvertToType<uint>(otherStructValue);
+                uint structValueUInt = structValue.ConvertToType<uint>();
+                uint otherStructValueUInt = otherStructValue.ConvertToType<uint>();
                 return structValueUInt == otherStructValueUInt;
             }
             else if (typeof(TStruct) == typeof(long))
             {
-                long structValueLong = ConvertToType<long>(structValue);
-                long otherStructValueLong = ConvertToType<long>(otherStructValue);
+                long structValueLong = structValue.ConvertToType<long>();
+                long otherStructValueLong = otherStructValue.ConvertToType<long>();
                 return structValueLong == otherStructValueLong;
             }
             else if (typeof(TStruct) == typeof(ulong))
             {
-                ulong structValueULong = ConvertToType<ulong>(structValue);
-                ulong otherStructValueULong = ConvertToType<ulong>(otherStructValue);
+                ulong structValueULong = structValue.ConvertToType<ulong>();
+                ulong otherStructValueULong = otherStructValue.ConvertToType<ulong>();
                 return structValueULong == otherStructValueULong;
             }
             else throw new NotSupportedException(string.Format("Type {0} is not supported currently!", typeof(TStruct)));
@@ -73,26 +73,26 @@ namespace Infrastructure.Extensions
         {
             if (typeof(TStruct) == typeof(int))
             {
-                int structValueInt = ConvertToType<int>(structValue);
-                int otherStructValueInt = ConvertToType<int>(otherStructValue);
+                int structValueInt = structValue.ConvertToType<int>();
+                int otherStructValueInt = otherStructValue.ConvertToType<int>();
                 return structValueInt > otherStructValueInt;
             }
             else if (typeof(TStruct) == typeof(uint))
             {
-                uint structValueUInt = ConvertToType<uint>(structValue);
-                uint otherStructValueUInt = ConvertToType<uint>(otherStructValue);
+                uint structValueUInt = structValue.ConvertToType<uint>();
+                uint otherStructValueUInt = otherStructValue.ConvertToType<uint>();
                 return structValueUInt > otherStructValueUInt;
             }
             else if (typeof(TStruct) == typeof(long))
             {
-                long structValueLong = ConvertToType<long>(structValue);
-                long otherStructValueLong = ConvertToType<long>(otherStructValue);
+                long structValueLong = structValue.ConvertToType<long>();
+                long otherStructValueLong = otherStructValue.ConvertToType<long>();
                 return structValueLong > otherStructValueLong;
             }
             else if (typeof(TStruct) == typeof(ulong))
             {
-                ulong structValueULong = ConvertToType<ulong>(structValue);
-                ulong otherStructValueULong = ConvertToType<ulong>(otherStructValue);
+                ulong structValueULong = structValue.ConvertToType<ulong>();
+                ulong otherStructValueULong = otherStructValue.ConvertToType<ulong>();
                 return structValueULong > otherStructValueULong;
             }
             else throw new NotSupportedException(string.Format("Type {0} is not supported currently!", typeof(TStruct)));
@@ -116,7 +116,8 @@ namespace Infrastructure.Extensions
             return structValue.IsEqualTo(otherStructValue) || structValue.IsLesserThan(otherStructValue);
         }
 
-        private static TStruct ConvertToType<TStruct>(object value) where TStruct : struct
+        public static TStruct ConvertToType<TStruct>(this object value)
+            where TStruct : struct, IComparable<TStruct>
         {
             return (TStruct)Convert.ChangeType(value, typeof(TStruct));
         }

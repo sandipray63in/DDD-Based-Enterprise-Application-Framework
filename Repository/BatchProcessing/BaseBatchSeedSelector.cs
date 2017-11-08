@@ -37,7 +37,7 @@ namespace Repository.BatchProcessing
         public virtual void Execute()
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
-            TId currentBatchEndPosition = _currentBatchStartPosition.Add((TId)Convert.ChangeType(_batchSize,typeof(TId)));
+            TId currentBatchEndPosition = _currentBatchStartPosition.Add(_batchSize.ConvertToType<TId>());
             if(currentBatchEndPosition.IsGreaterThanOrEqualTo(_maxPropertyalue))
             {
                 currentBatchEndPosition = _maxPropertyalue;
@@ -88,7 +88,7 @@ namespace Repository.BatchProcessing
 
         protected virtual TId ValueToIncrementByToGoToNextBatch
         {
-            get { return (TId)Convert.ChangeType(1, typeof(TId)); }
+            get { return 1.ConvertToType<TId>(); }
         }
 
         protected abstract Func<TEntity,TId> EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched { get; }
