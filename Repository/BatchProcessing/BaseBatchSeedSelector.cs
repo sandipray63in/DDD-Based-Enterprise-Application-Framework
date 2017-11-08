@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Domain.Base.Aggregates;
 using Infrastructure;
 using Infrastructure.Extensions;
@@ -22,7 +21,7 @@ namespace Repository.BatchProcessing
         private IEnumerable<TEntity> _currentBatch;
         private readonly TId _maxPropertyalue;
         private readonly ILogger _logger;
-        private IEnumerable[] _allBatchSelectorEnumerables;
+        private IEnumerable[] _allBatchEnumerablesIncludingCurrentSeedBatch;
 
         public BaseBatchSeedSelector(IQueryableRepository<TEntity> seedQueryableRepository, int batchSize,ILogger logger)
         {
@@ -32,7 +31,6 @@ namespace Repository.BatchProcessing
             _seedQueryableRepository = seedQueryableRepository;
             _batchSize = batchSize;
             _logger = logger;
-            _currentBatchStartPosition = GetMinPropertyValue();
             _maxPropertyalue = GetMaxPropertyValue();
         }
 
@@ -40,17 +38,19 @@ namespace Repository.BatchProcessing
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
             TId currentBatchEndPosition = _currentBatchStartPosition.Add((TId)Convert.ChangeType(_batchSize,typeof(TId)));
-            Expression<Func<TEntity, TId>> entityPropertyBasedOnWhichMinOrMaxValueShouldBeFetchedExpression = x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x);
-            _currentBatch = BatchQueryable.Between(entityPropertyBasedOnWhichMinOrMaxValueShouldBeFetchedExpression, _currentBatchStartPosition,currentBatchEndPosition).ToList();
+            if(currentBatchEndPosition.IsGreaterThanOrEqualTo(_maxPropertyalue))
+            {
+                currentBatchEndPosition = _maxPropertyalue;
+            }
+            _currentBatch = BatchQueryable.Between(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x), _currentBatchStartPosition,currentBatchEndPosition).ToList();
 
             if (_currentBatch.IsNotEmpty())
             {
                 TId actualBatchEndPosition = _currentBatch.Max(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x));
-                _logger.LogMessage("Batch data selected is between start position of " + _currentBatchStartPosition + " and end position of " + actualBatchEndPosition);
-                _logger.LogMessage("Number of rows selected between start position of " + _currentBatchStartPosition + " and end position of " + actualBatchEndPosition + " is : " + _currentBatch.Count());
+                _logger.LogMessage("Actual number of records fetched from the seed data source for the start position of " + _currentBatchStartPosition + " and end position of " + currentBatchEndPosition + "(actualBatchEndPosition = " + actualBatchEndPosition + ") is : " + _currentBatch.Count());
             }
             ProcessCurrentBatchFurther(_currentBatch);
-            _allBatchSelectorEnumerables = GetAllBatchesBasedOnCurrentSeedBatch(_currentBatch);
+            _allBatchEnumerablesIncludingCurrentSeedBatch = GetAllBatchesBasedOnCurrentSeedBatch(_currentBatch);
         }
 
         public object Current
@@ -58,7 +58,7 @@ namespace Repository.BatchProcessing
             get
             {
                 CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
-                return _allBatchSelectorEnumerables;
+                return _allBatchEnumerablesIncludingCurrentSeedBatch;
             }
         }
 

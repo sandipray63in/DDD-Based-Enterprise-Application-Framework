@@ -24,8 +24,11 @@ namespace Repository.BatchProcessing
                 if (_batchSeedSelector.Current.IsNotNull())
                 {
                     IEnumerable[] batchSelectorEnumerables = _batchSeedSelector.Current as IEnumerable[];
-                    /// Process the batchSelectorEnumerables
-                    result = _batchCommandProcesor.Execute(batchSelectorEnumerables);
+                    if (batchSelectorEnumerables.Length > 0)
+                    {
+                        /// Process the batchSelectorEnumerables
+                        result = _batchCommandProcesor.Execute(batchSelectorEnumerables);
+                    }
                 }
             }
             while (_batchSeedSelector.MoveNext());
