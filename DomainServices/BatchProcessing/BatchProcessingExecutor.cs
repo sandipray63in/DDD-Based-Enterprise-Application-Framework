@@ -30,6 +30,10 @@ namespace DomainServices.BatchProcessing
                         result = _batchCommandProcesor.Execute(batchSelectorEnumerables);
                     }
                 }
+                if(!result)
+                {
+                    break;
+                }
             }
             while (_batchSeedSelector.MoveNext());
             return result;
