@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Repository.BatchProcessing
+namespace DomainServices.BatchProcessing
 {
     public interface IBatchCommandProcesor : IDisposable
     {

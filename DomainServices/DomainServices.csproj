@@ -90,6 +90,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="Z.ExtensionMethods">
+      <HintPath>..\packages\Z.ExtensionMethods.2.0.10\lib\net40\Z.ExtensionMethods.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CommandDomainServices\CommandDomainService.cs" />
@@ -110,6 +113,11 @@
     <Compile Include="Base\QueryableDomainServices\IQueryableDomainServiceAsync.cs" />
     <Compile Include="Base\QueryableDomainServices\QueryableDomainService.cs" />
     <Compile Include="Base\QueryableDomainServices\QueryableDomainServiceAsync.cs" />
+    <Compile Include="BatchProcessing\BaseBatchSeedSelector.cs" />
+    <Compile Include="BatchProcessing\BatchProcessingExecutor.cs" />
+    <Compile Include="BatchProcessing\IBatchCommandProcesor.cs" />
+    <Compile Include="BatchProcessing\IBatchProcessingExecutor.cs" />
+    <Compile Include="BatchProcessing\IBatchSeedSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
