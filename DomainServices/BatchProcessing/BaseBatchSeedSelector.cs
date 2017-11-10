@@ -19,7 +19,6 @@ namespace DomainServices.BatchProcessing
         private TId _currentBatchStartPosition;
         private readonly int _batchSize;
         private IEnumerable<TEntity> _currentBatch;
-        private readonly TId _maxPropertyalue;
         private readonly ILogger _logger;
         private IEnumerable[] _allBatchEnumerablesIncludingCurrentSeedBatch;
 
@@ -31,17 +30,12 @@ namespace DomainServices.BatchProcessing
             _seedQueryableRepository = seedQueryableRepository;
             _batchSize = batchSize;
             _logger = logger;
-            _maxPropertyalue = GetMaxPropertyValue();
         }
 
         public virtual void Execute()
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
             TId currentBatchEndPosition = _currentBatchStartPosition.Add(_batchSize.ConvertToType<TId>());
-            if(currentBatchEndPosition.IsGreaterThanOrEqualTo(_maxPropertyalue))
-            {
-                currentBatchEndPosition = _maxPropertyalue;
-            }
             _currentBatch = BatchQueryable.Between(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x), _currentBatchStartPosition,currentBatchEndPosition).ToList();
 
             if (_currentBatch.IsNotEmpty())
@@ -100,15 +94,6 @@ namespace DomainServices.BatchProcessing
             IEnumerable[] batchEnumerables = new IEnumerable[1];
             batchEnumerables[0] = currentSeedBatch;
             return batchEnumerables;
-        }
-
-        /// <summary>
-        /// Gets the Max property value from the repository.
-        /// </summary>
-        /// <returns></returns>
-        private TId GetMaxPropertyValue()
-        {
-            return _seedQueryableRepository.Max(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x));
         }
 
         /// <summary>
