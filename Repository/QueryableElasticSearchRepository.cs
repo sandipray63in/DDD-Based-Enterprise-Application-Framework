@@ -4,9 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base;
 using Domain.Base.Aggregates;
-using Infrastructure.ExceptionHandling.RetryBasedExceptionHandling;
 using Infrastructure.UnitOfWork;
-using Infrastructure.Utilities;
 using Repository.Base;
 using Repository.Queryable;
 
@@ -20,11 +18,6 @@ namespace Repository
         public QueryableElasticSearchRepository(IElasticSearchQuery<TEntity> queryable) : base(queryable)
         {
 
-        }
-
-        public QueryableElasticSearchRepository(IElasticSearchQuery<TEntity> queryable, IRetryBasedExceptionHandler retryBasedExceptionHandler)
-            : base(queryable,retryBasedExceptionHandler)
-        {
         }
 
         public QueryableElasticSearchRepository(IUnitOfWork unitOfWork, IElasticSearchQuery<TEntity> queryable) : base(unitOfWork,queryable)

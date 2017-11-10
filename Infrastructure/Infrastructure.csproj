@@ -396,7 +396,6 @@
     <Compile Include="Utilities\ContainerUtility.cs" />
     <Compile Include="Utilities\ContractUtility.cs" />
     <Compile Include="Extensions\MemoizationExtension.cs" />
-    <Compile Include="Utilities\RetryWithNullCheckUtility.cs" />
     <Compile Include="Utilities\SerializationUtility.cs" />
     <Compile Include="Utilities\TransactionUtility.cs" />
     <Compile Include="WCFExtensibility\BehaviourExtensionElement.cs" />
@@ -415,7 +414,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Concurrency\Synchronization\InterThreadCommunication\" />
-    <Folder Include="ExceptionHandling\CircuitBreakerBasedExceptionHandling\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

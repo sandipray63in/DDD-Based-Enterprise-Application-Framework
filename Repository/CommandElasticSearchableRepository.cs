@@ -1,6 +1,5 @@
 ﻿using Domain.Base;
 using Domain.Base.Aggregates;
-using Infrastructure.ExceptionHandling.RetryBasedExceptionHandling;
 using Infrastructure.UnitOfWork;
 using Repository.Base;
 using Repository.Command;
@@ -20,12 +19,6 @@ namespace Repository
             : base(command)
         {
 
-        }
-
-        public CommandElasticSearchableRepository(ICommand<TEntity> command, IRetryBasedExceptionHandler retryBasedExceptionHandler)
-            : base(command,retryBasedExceptionHandler)
-        {
-            
         }
 
         /// <summary>
