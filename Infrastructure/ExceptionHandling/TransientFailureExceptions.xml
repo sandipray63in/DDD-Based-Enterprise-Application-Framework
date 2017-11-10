@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TransientFailure>
+  <!--Comma seperated normal exceptions which will hopefully get fixed within sometime.Need retry mechanism for the same.-->
+  <Normal>
+    
+  </Normal>
+
+  <!--Comma seperated time consuming exceptions which will take sometime long to get fixed.Need circuit breaker mechanism for the same.-->
+  <TimeConsuming>
+    
+  </TimeConsuming>
+</TransientFailure>

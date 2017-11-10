@@ -335,6 +335,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Z.ExtensionMethods, Version=2.0.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.ExtensionMethods.2.0.10\lib\net45\Z.ExtensionMethods.dll</HintPath>
       <Private>True</Private>
@@ -356,9 +357,10 @@
     <Compile Include="AoP\MethodInvocationData.cs" />
     <Compile Include="DI\ParameterOverrideData.cs" />
     <Compile Include="DI\ParameterTypeOverrideData.cs" />
-    <Compile Include="ExceptionHandling\RetryBasedExceptionHandling\BaseRetryBasedExceptionHandler.cs" />
-    <Compile Include="ExceptionHandling\RetryBasedExceptionHandling\IRetryBasedExceptionHandler.cs" />
-    <Compile Include="ExceptionHandling\RetryBasedExceptionHandling\BasicRetryBasedExceptionHandler.cs" />
+    <Compile Include="ExceptionHandling\BaseExceptionHandler.cs" />
+    <Compile Include="ExceptionHandling\IExceptionHandler.cs" />
+    <Compile Include="ExceptionHandling\DefaultExceptionHandler.cs" />
+    <Compile Include="ExceptionHandling\TransientFailureExceptions.cs" />
     <Compile Include="Extensions\AoPExtensions.cs" />
     <Compile Include="Extensions\CleanUpExtensions.cs" />
     <Compile Include="Extensions\FuncExtensions.cs" />
@@ -393,11 +395,13 @@
     <Compile Include="UnitOfWork\OperationData.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Utilities\CleanUpUtility.cs" />
+    <Compile Include="Utilities\CloningUtility.cs" />
     <Compile Include="Utilities\ContainerUtility.cs" />
     <Compile Include="Utilities\ContractUtility.cs" />
     <Compile Include="Extensions\MemoizationExtension.cs" />
     <Compile Include="Utilities\SerializationUtility.cs" />
     <Compile Include="Utilities\TransactionUtility.cs" />
+    <Compile Include="Utilities\XMLUtility.cs" />
     <Compile Include="WCFExtensibility\BehaviourExtensionElement.cs" />
     <Compile Include="WCFExtensibility\UnityIntegration\UnityBehaviourExtensionElement.cs" />
     <Compile Include="WCFExtensibility\UnityIntegration\UnityServiceBehavior.cs" />
@@ -417,6 +421,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExceptionHandling\Readme.txt" />
+    <Content Include="ExceptionHandling\TransientFailureExceptions.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
