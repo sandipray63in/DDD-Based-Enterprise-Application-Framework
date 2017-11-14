@@ -86,7 +86,7 @@ namespace Repository
             {
                 TNextActionType queryReturnValue = _unitOfWork.IsNull() ?
                                                     ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(
-                                                        () => queryableRepositoryOperation(this), null, _exceptionHandler)
+                                                        () => queryableRepositoryOperation(this),_exceptionHandler)
                                                    : queryableRepositoryOperation(this);
                 //TODO - proper exception handling compensating handler needs to be here
                 if (operationToExecuteBeforeNextOperation.IsNotNull())
@@ -109,7 +109,7 @@ namespace Repository
             CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(subSelector.IsNotNull(), "subSelector instance cannot be null");
             //TODO - proper exception handling compensating handler needs to be here
-            return ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => _queryable.Include(subSelector), null, _exceptionHandler);
+            return ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => _queryable.Include(subSelector), _exceptionHandler);
         }
 
         public virtual IEnumerable<TEntity> GetWithRawSQL(string query, params object[] parameters)

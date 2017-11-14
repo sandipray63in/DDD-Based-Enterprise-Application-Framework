@@ -56,7 +56,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     _policyWrapForSyncOperations.Execute(action);
                 }
-                HandleExceptionWithToThrowCondition(ex);
+                HandleExceptionWithThrowCondition(ex,onExceptionCompensatingHandler);
             }
         }
 
@@ -76,12 +76,12 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     _policyWrapForSyncOperations.Execute(action);
                 }
-                HandleExceptionWithToThrowCondition(ex);
+                HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler);
             }
             return default(TReturn);
         }
 
-        public override async Task HandleExceptionAsync(Func<Task> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null)
+        public override async Task HandleExceptionAsync(Func<Task> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             try
             {
@@ -97,11 +97,11 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     await _policyWrapForAsyncOperations.ExecuteAsync(action);
                 }
-                HandleExceptionWithToThrowCondition(ex);
+                HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
         }
 
-        public override async Task<TReturn> HandleExceptionAsync<TReturn>(Func<Task<TReturn>> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null)
+        public override async Task<TReturn> HandleExceptionAsync<TReturn>(Func<Task<TReturn>> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             try
             {
@@ -117,7 +117,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     await _policyWrapForAsyncOperations.ExecuteAsync(action);
                 }
-                HandleExceptionWithToThrowCondition(ex);
+                HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
             return default(TReturn);
         }
@@ -174,11 +174,31 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             );
         }
 
-        private void HandleExceptionWithToThrowCondition(Exception ex)
+        private void HandleExceptionWithThrowCondition(Exception ex, Action onExceptionCompensatingHandler)
         {
             if (ex.IsNotNull())
             {
                 _logger.LogException(ex);
+                if(onExceptionCompensatingHandler.IsNotNull())
+                {
+                    onExceptionCompensatingHandler();
+                }
+                if (_shouldThrowOnException)
+                {
+                    throw new Exception("Check Inner Exception", ex);
+                }
+            }
+        }
+
+        private void HandleExceptionWithThrowCondition(Exception ex, Func<CancellationToken, Task> onExceptionCompensatingHandler,CancellationToken onExceptionCompensatingHandlerCancellationToken)
+        {
+            if (ex.IsNotNull())
+            {
+                _logger.LogException(ex);
+                if (onExceptionCompensatingHandler.IsNotNull())
+                {
+                    onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
+                }
                 if (_shouldThrowOnException)
                 {
                     throw new Exception("Check Inner Exception", ex);

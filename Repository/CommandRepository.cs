@@ -75,7 +75,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsert(item, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsert(item, operationToExecuteBeforeNextOperation),_exceptionHandler);
             }
         }
         public override void Update(TEntity item, Action operationToExecuteBeforeNextOperation = null)
@@ -89,7 +89,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdate(item, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdate(item, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
         public override void Delete(TEntity item, Action operationToExecuteBeforeNextOperation = null)
@@ -103,7 +103,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDelete(item, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDelete(item, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
 
@@ -119,7 +119,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsert(items, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsert(items, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
 
@@ -135,7 +135,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdate(items, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdate(items, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
 
@@ -151,7 +151,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDelete(items, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDelete(items, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
 
@@ -167,7 +167,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkInsert(items, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkInsert(items, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
 
@@ -183,7 +183,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkUpdate(items, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkUpdate(items, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
 
@@ -199,7 +199,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkDelete(items, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkDelete(items, operationToExecuteBeforeNextOperation), _exceptionHandler);
             }
         }
 
@@ -214,7 +214,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsertAsync(item, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsertAsync(item, token, operationToExecuteBeforeNextOperation), _exceptionHandler,null);
             }
         }
 
@@ -229,7 +229,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdateAsync(item, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdateAsync(item, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 
@@ -244,7 +244,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDeleteAsync(item, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDeleteAsync(item, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 
@@ -260,7 +260,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsertAsync(items, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsertAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 
@@ -276,7 +276,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdateAsync(items, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdateAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 
@@ -292,7 +292,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDeleteAsync(items, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDeleteAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 
@@ -308,7 +308,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkInsertAsync(items, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkInsertAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 
@@ -324,7 +324,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 
@@ -340,7 +340,7 @@ namespace Repository
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation), null, _exceptionHandler);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
             }
         }
 

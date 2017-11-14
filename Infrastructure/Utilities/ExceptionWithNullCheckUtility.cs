@@ -7,7 +7,7 @@ namespace Infrastructure.Utilities
 {
     public static class ExceptionWithNullCheckUtility
     {
-        public static void HandleExceptionWithNullCheck(Action actionToExecute, Action onExceptionCompensatingHandler = null, IExceptionHandler exceptionHandler = null)
+        public static void HandleExceptionWithNullCheck(Action actionToExecute,IExceptionHandler exceptionHandler = null, Action onExceptionCompensatingHandler = null)
         {
             if (exceptionHandler.IsNotNull())
             {
@@ -19,7 +19,7 @@ namespace Infrastructure.Utilities
             }
         }
 
-        public static TReturn HandleExceptionWithNullCheck<TReturn>(Func<TReturn> actionToExecute, Action onExceptionCompensatingHandler = null, IExceptionHandler exceptionHandler = null)
+        public static TReturn HandleExceptionWithNullCheck<TReturn>(Func<TReturn> actionToExecute, IExceptionHandler exceptionHandler = null, Action onExceptionCompensatingHandler = null)
         {
             if (exceptionHandler.IsNotNull())
             {
@@ -31,11 +31,11 @@ namespace Infrastructure.Utilities
             }
         }
 
-        public static async Task HandleExceptionWithNullCheck(Func<Task> actionToExecute, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, IExceptionHandler exceptionHandler = null)
+        public static async Task HandleExceptionWithNullCheck(Func<Task> actionToExecute, IExceptionHandler exceptionHandler = null, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             if (exceptionHandler.IsNotNull())
             {
-                await exceptionHandler.HandleExceptionAsync(actionToExecute, onExceptionCompensatingHandler);
+                await exceptionHandler.HandleExceptionAsync(actionToExecute, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
             else
             {
@@ -43,11 +43,11 @@ namespace Infrastructure.Utilities
             }
         }
 
-        public static async Task<TReturn> HandleExceptionWithNullCheck<TReturn>(Func<Task<TReturn>> actionToExecute, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, IExceptionHandler exceptionHandler = null)
+        public static async Task<TReturn> HandleExceptionWithNullCheck<TReturn>(Func<Task<TReturn>> actionToExecute, IExceptionHandler exceptionHandler = null, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             if (exceptionHandler.IsNotNull())
             {
-                return await exceptionHandler.HandleExceptionAsync(actionToExecute, onExceptionCompensatingHandler);
+                return await exceptionHandler.HandleExceptionAsync(actionToExecute, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
             else
             {

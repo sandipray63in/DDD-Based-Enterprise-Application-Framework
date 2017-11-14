@@ -108,7 +108,7 @@ namespace Infrastructure.UnitOfWork
                     //future transactions).
                     Rollback(ex);
                 }
-            }, null, _exceptionHandler);//TODO - proper exception handling compensating handler needs to be here
+            }, _exceptionHandler);//TODO - proper exception handling compensating handler needs to be here
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Infrastructure.UnitOfWork
                     //future transactions).
                     Rollback(ex);
                 }
-            }, null, _exceptionHandler);//TODO - proper exception handling compensating handler needs to be here
+            }, _exceptionHandler,null);//TODO - proper exception handling compensating handler needs to be here
         }
 
         /// <summary>
