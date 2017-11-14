@@ -4,13 +4,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Base;
 using Domain.Base.Aggregates;
+using Infrastructure.ExceptionHandling;
 using Infrastructure.UnitOfWork;
+using Infrastructure.Utilities;
 using Repository.Base;
 using Repository.Queryable;
 
 namespace Repository
 {
-    public class QueryableElasticSearchRepository<TEntity> : QueryableRepository<TEntity>,IQueryableElasticSearchRepository<TEntity> 
+    public class QueryableElasticSearchRepository<TEntity> : QueryableRepository<TEntity>, IQueryableElasticSearchRepository<TEntity>
         where TEntity : IQueryableAggregateRoot, IElasticSearchable
     {
         #region Constructors
@@ -20,7 +22,12 @@ namespace Repository
 
         }
 
-        public QueryableElasticSearchRepository(IUnitOfWork unitOfWork, IElasticSearchQuery<TEntity> queryable) : base(unitOfWork,queryable)
+        public QueryableElasticSearchRepository(IElasticSearchQuery<TEntity> queryable, IExceptionHandler exceptionHandler)
+            : base(queryable, exceptionHandler)
+        {
+        }
+
+        public QueryableElasticSearchRepository(IUnitOfWork unitOfWork, IElasticSearchQuery<TEntity> queryable) : base(unitOfWork, queryable)
         {
 
         }
@@ -29,7 +36,7 @@ namespace Repository
 
         public PagingTableResult<TEntity> GetAllPagedResult(string id, int startIndex, int pageSize, string sorting, Action operationToExecuteBeforeNextOperation = null)
         {
-            PagingTableResult<TEntity> pagingTableResult =  (_queryable as IElasticSearchQuery<TEntity>).GetAllPagedResult(id, startIndex, pageSize, sorting);
+            PagingTableResult<TEntity> pagingTableResult = (_queryable as IElasticSearchQuery<TEntity>).GetAllPagedResult(id, startIndex, pageSize, sorting);
             if (operationToExecuteBeforeNextOperation.IsNotNull())
             {
                 operationToExecuteBeforeNextOperation();

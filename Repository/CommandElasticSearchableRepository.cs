@@ -1,13 +1,14 @@
 ﻿using Domain.Base;
 using Domain.Base.Aggregates;
+using Infrastructure.ExceptionHandling;
 using Infrastructure.UnitOfWork;
 using Repository.Base;
 using Repository.Command;
 
 namespace Repository
 {
-    public class CommandElasticSearchableRepository<TEntity> : CommandRepository<TEntity>, ICommandElasticSearchableRepository<TEntity> 
-        where TEntity : class,ICommandAggregateRoot,IElasticSearchable
+    public class CommandElasticSearchableRepository<TEntity> : CommandRepository<TEntity>, ICommandElasticSearchableRepository<TEntity>
+        where TEntity : class, ICommandAggregateRoot, IElasticSearchable
     {
         /// <summary>
         /// Should be used when unit of work instance is not required 
@@ -21,6 +22,12 @@ namespace Repository
 
         }
 
+        public CommandElasticSearchableRepository(ICommand<TEntity> command, IExceptionHandler exceptionHandler)
+            : base(command, exceptionHandler)
+        {
+
+        }
+
         /// <summary>
         /// The same unit of work instance can be used across different instances of repositories
         /// (if needed)
@@ -28,7 +35,7 @@ namespace Repository
         /// <param name="unitOfWork"></param>
         /// <param name="command"></param>
         public CommandElasticSearchableRepository(IUnitOfWork unitOfWork, ICommand<TEntity> command)
-            : base(unitOfWork,command)
+            : base(unitOfWork, command)
         {
 
         }

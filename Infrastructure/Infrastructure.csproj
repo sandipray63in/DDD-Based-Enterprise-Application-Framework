@@ -324,6 +324,10 @@
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Polly, Version=5.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.5.5.0\lib\net45\Polly.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
@@ -359,8 +363,16 @@
     <Compile Include="DI\ParameterTypeOverrideData.cs" />
     <Compile Include="ExceptionHandling\BaseExceptionHandler.cs" />
     <Compile Include="ExceptionHandling\IExceptionHandler.cs" />
-    <Compile Include="ExceptionHandling\DefaultExceptionHandler.cs" />
-    <Compile Include="ExceptionHandling\TransientFailureExceptions.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\CircuitBreakerPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\FallbackPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\IFallbackActionPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\IPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\RetryNTimesWithExponentialBackOffPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\RetryNTimesWithWaitPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\TimeOutPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\BasicPollyExceptionHandler.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\PollyTransientFailureExceptions.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\RetryNTimesPolicy.cs" />
     <Compile Include="Extensions\AoPExtensions.cs" />
     <Compile Include="Extensions\CleanUpExtensions.cs" />
     <Compile Include="Extensions\FuncExtensions.cs" />
@@ -399,6 +411,8 @@
     <Compile Include="Utilities\ContainerUtility.cs" />
     <Compile Include="Utilities\ContractUtility.cs" />
     <Compile Include="Extensions\MemoizationExtension.cs" />
+    <Compile Include="Utilities\MetaDataUtility.cs" />
+    <Compile Include="Utilities\ExceptionWithNullCheckUtility.cs" />
     <Compile Include="Utilities\SerializationUtility.cs" />
     <Compile Include="Utilities\TransactionUtility.cs" />
     <Compile Include="Utilities\XMLUtility.cs" />
@@ -421,7 +435,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExceptionHandling\Readme.txt" />
-    <Content Include="ExceptionHandling\TransientFailureExceptions.xml">
+    <Content Include="ExceptionHandling\PollyBasedExceptionHandling\PollyTransientFailureExceptions.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

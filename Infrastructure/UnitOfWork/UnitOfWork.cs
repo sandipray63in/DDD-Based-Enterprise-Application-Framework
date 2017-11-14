@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
-using Infrastructure.Logging;
+using Infrastructure.ExceptionHandling;
 using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
 
@@ -12,11 +12,12 @@ namespace Infrastructure.UnitOfWork
 {
     public class UnitOfWork : DisposableClass, IUnitOfWork
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
         private TransactionScope _scope;
         private readonly IsolationLevel _isoLevel;
         private readonly TransactionScopeOption _scopeOption;
         private Queue<OperationData> _operationsQueue;
+        private IExceptionHandler _exceptionHandler;
 
         public UnitOfWork(IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew, ILogger logger = null)
         {
@@ -24,6 +25,13 @@ namespace Infrastructure.UnitOfWork
             _isoLevel = isoLevel;
             _scopeOption = scopeOption;
             _operationsQueue = new Queue<OperationData>();
+            _logger = logger;
+        }
+
+        public UnitOfWork(IExceptionHandler exceptionHandler, IsolationLevel isoLevel = IsolationLevel.ReadCommitted, TransactionScopeOption scopeOption = TransactionScopeOption.RequiresNew, ILogger logger = null) : this(isoLevel, scopeOption, logger)
+        {
+            ContractUtility.Requires<ArgumentNullException>(exceptionHandler.IsNotNull(), "exceptionHandler instance cannot be null");
+            _exceptionHandler = exceptionHandler;
         }
 
         /// <summary>
@@ -69,35 +77,38 @@ namespace Infrastructure.UnitOfWork
             ContractUtility.Requires<NotSupportedException>(_operationsQueue.All(x => x.AsyncOperation.IsNull()),
                                     "Async operations are not supported by Commit method.Use CommitAsync instead.");
 
-            _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption);
-            try
+            ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() =>
             {
-                while (_operationsQueue.Count > 0)
+                _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption);
+                try
                 {
+                    while (_operationsQueue.Count > 0)
+                    {
 #if TEST
                     ThrowExceptionForRollbackCheck();
 #endif
-                    OperationData operationData = _operationsQueue.Dequeue();
-                    if (operationData.Operation.IsNotNull())
-                    {
-                        operationData.Operation();
+                        OperationData operationData = _operationsQueue.Dequeue();
+                        if (operationData.Operation.IsNotNull())
+                        {
+                            operationData.Operation();
+                        }
                     }
+                    CompleteScope(() =>
+                    {
+                        _scope.Complete(); // this just completes the transaction.Not yet committed here.
+                        _scope.Dispose();  // After everthing runs successfully within the transaction 
+                                           // and after completion, this should be called to actually commit the data 
+                                           // within the transaction scope.
+                    }, shouldAutomaticallyRollBackOnTransactionException, shouldThrowOnException);
                 }
-                CompleteScope(() =>
+                catch (Exception ex)
                 {
-                    _scope.Complete(); // this just completes the transaction.Not yet committed here.
-                    _scope.Dispose();  // After everthing runs successfully within the transaction 
-                                       // and after completion, this should be called to actually commit the data 
-                                       // within the transaction scope.
-                }, shouldAutomaticallyRollBackOnTransactionException, shouldThrowOnException);
-            }
-            catch (Exception ex)
-            {
-                //Although ex is not exactly a commit exception but still passing it to reuse Rollback method.Using the Rollback
-                //method to reuse exception handling and dispose the transaction scope object(else it can cause issues for the 
-                //future transactions).
-                Rollback(ex);
-            }
+                    //Although ex is not exactly a commit exception but still passing it to reuse Rollback method.Using the Rollback
+                    //method to reuse exception handling and dispose the transaction scope object(else it can cause issues for the 
+                    //future transactions).
+                    Rollback(ex);
+                }
+            }, null, _exceptionHandler);//TODO - proper exception handling compensating handler needs to be here
         }
 
         /// <summary>
@@ -120,39 +131,42 @@ namespace Infrastructure.UnitOfWork
                 "Please use Commit method(instead of CommitAsync) if there is not " +
                 "a single async operation.");
 
-            _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption, true);
-            try
+            await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async () =>
             {
-                while (_operationsQueue.Count > 0)
+                _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption, true);
+                try
                 {
+                    while (_operationsQueue.Count > 0)
+                    {
 #if TEST
                     ThrowExceptionForRollbackCheck();
 #endif
-                    OperationData operationData = _operationsQueue.Dequeue();
-                    if (operationData.Operation.IsNotNull())
-                    {
-                        operationData.Operation();
+                        OperationData operationData = _operationsQueue.Dequeue();
+                        if (operationData.Operation.IsNotNull())
+                        {
+                            operationData.Operation();
+                        }
+                        else if (operationData.AsyncOperation.IsNotNull())
+                        {
+                            await operationData.AsyncOperation(token);
+                        }
                     }
-                    else if (operationData.AsyncOperation.IsNotNull())
+                    CompleteScope(() =>
                     {
-                        await operationData.AsyncOperation(token);
-                    }
+                        _scope.Complete(); // this just completes the transaction.Not yet committed here.
+                        _scope.Dispose();  // After everthing runs successfully within the transaction 
+                                           // and after completion, this should be called to actually commit the data 
+                                           // within the transaction scope.
+                    }, shouldAutomaticallyRollBackOnTransactionException, shouldThrowOnException);
                 }
-                CompleteScope(() =>
+                catch (Exception ex)
                 {
-                    _scope.Complete(); // this just completes the transaction.Not yet committed here.
-                    _scope.Dispose();  // After everthing runs successfully within the transaction 
-                                       // and after completion, this should be called to actually commit the data 
-                                       // within the transaction scope.
-                }, shouldAutomaticallyRollBackOnTransactionException, shouldThrowOnException);
-            }
-            catch (Exception ex)
-            {
-                //Although ex is not exactly a commit exception but still passing it to reuse Rollback method.Using the Rollback
-                //method to reuse exception handling and dispose the transaction scope object(else it can cause issues for the 
-                //future transactions).
-                Rollback(ex);
-            }
+                    //Although ex is not exactly a commit exception but still passing it to reuse Rollback method.Using the Rollback
+                    //method to reuse exception handling and dispose the transaction scope object(else it can cause issues for the 
+                    //future transactions).
+                    Rollback(ex);
+                }
+            }, null, _exceptionHandler);//TODO - proper exception handling compensating handler needs to be here
         }
 
         /// <summary>
@@ -175,20 +189,20 @@ namespace Infrastructure.UnitOfWork
                     var rollBackException = new Exception("Rollback failed for the current transaction.Please check inner exception.", ex);
                     if (commitException.IsNull())
                     {
-                        logger.LogException(rollBackException);
+                        _logger.LogException(rollBackException);
                         throw rollBackException;
                     }
                     else
                     {
                         var exceptionOccurredWhileCommitting = new Exception("Commit failed for the current transaction.Please check inner exception.", commitException);
                         var commitAndRollbackException = new AggregateException("Both commit and rollback failed for the current transaction.Please check inner exceptions.", exceptionOccurredWhileCommitting, rollBackException);
-                        logger.LogException(commitAndRollbackException);
+                        _logger.LogException(commitAndRollbackException);
                         throw commitAndRollbackException;
                     }
                 }
                 else
                 {
-                    logger.LogException(ex);
+                    _logger.LogException(ex);
                 }
             }
         }
@@ -207,7 +221,7 @@ namespace Infrastructure.UnitOfWork
                 catch (Exception ex)
                 {
                     Rollback();
-                    logger.LogException(ex);
+                    _logger.LogException(ex);
                     if (shouldThrowOnException)
                     {
                         throw new Exception("Commit failed for the current transaction.Please check inner exception", ex);

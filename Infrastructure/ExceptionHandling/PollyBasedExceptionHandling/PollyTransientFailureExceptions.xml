@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PollyTransientFailures>
+  <!--Comma seperated assembly names which contains the exception types-->
+  <AssemblyNames>
+
+  </AssemblyNames>
+  
+  <!--Comma seperated exceptions which might hopefully get fixed within sometime(need retry mechanism for the same) 
+  or exceptions which will take sometime long to get fixed(need circuit breaker mechanism for the same)-->
+  <TransientFailureExceptions>
+    
+  </TransientFailureExceptions>
+
+</PollyTransientFailures>

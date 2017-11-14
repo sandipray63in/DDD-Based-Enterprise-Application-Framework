@@ -5,3 +5,5 @@
 2) http://blog.rogatnev.net/2016/07/patterns-retry-vs-circuit-breaker.html 
 
 3) https://github.com/App-vNext/Polly
+
+4) https://github.com/App-vNext/Polly-Samples

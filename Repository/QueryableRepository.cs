@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Domain.Base.Aggregates;
 using Infrastructure;
+using Infrastructure.ExceptionHandling;
 using Infrastructure.Utilities;
 using Infrastructure.UnitOfWork;
 using Repository.Base;
@@ -13,13 +14,14 @@ using Repository.Queryable;
 namespace Repository
 {
     public class QueryableRepository<TEntity>
-        : DisposableClass, IQueryableRepository<TEntity> 
+        : DisposableClass, IQueryableRepository<TEntity>
         where TEntity : IQueryableAggregateRoot
     {
         #region Private Fields
 
         protected IQuery<TEntity> _queryable;
         private IUnitOfWork _unitOfWork;
+        private readonly IExceptionHandler _exceptionHandler;
 
         #endregion
 
@@ -29,6 +31,13 @@ namespace Repository
         {
             ContractUtility.Requires<ArgumentNullException>(queryable.IsNotNull(), "queryable instance cannot be null");
             _queryable = queryable;
+        }
+
+        public QueryableRepository(IQuery<TEntity> queryable, IExceptionHandler exceptionHandler)
+            : this(queryable)
+        {
+            ContractUtility.Requires<ArgumentNullException>(exceptionHandler.IsNotNull(), "exceptionHandler instance cannot be null");
+            _exceptionHandler = exceptionHandler;
         }
 
         public QueryableRepository(IUnitOfWork unitOfWork, Queryable.IQuery<TEntity> queryable)
@@ -75,7 +84,11 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(queryableRepositoryOperation.IsNotNull(), "queryableRepositoryOperation instance cannot be null");
             Action operation = () =>
             {
-                TNextActionType queryReturnValue = queryableRepositoryOperation(this);
+                TNextActionType queryReturnValue = _unitOfWork.IsNull() ?
+                                                    ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(
+                                                        () => queryableRepositoryOperation(this), null, _exceptionHandler)
+                                                   : queryableRepositoryOperation(this);
+                //TODO - proper exception handling compensating handler needs to be here
                 if (operationToExecuteBeforeNextOperation.IsNotNull())
                 {
                     operationToExecuteBeforeNextOperation(queryReturnValue);
@@ -95,7 +108,8 @@ namespace Repository
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(QueryableRepository<TEntity>).FullName);
             ContractUtility.Requires<ArgumentNullException>(subSelector.IsNotNull(), "subSelector instance cannot be null");
-            return _queryable.Include(subSelector);
+            //TODO - proper exception handling compensating handler needs to be here
+            return ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => _queryable.Include(subSelector), null, _exceptionHandler);
         }
 
         public virtual IEnumerable<TEntity> GetWithRawSQL(string query, params object[] parameters)
