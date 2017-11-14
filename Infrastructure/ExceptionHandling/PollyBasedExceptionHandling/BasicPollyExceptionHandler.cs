@@ -179,7 +179,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             if (ex.IsNotNull())
             {
                 _logger.LogException(ex);
-                if(onExceptionCompensatingHandler.IsNotNull())
+                if (onExceptionCompensatingHandler.IsNotNull() && _fallbackPolicies.IsNullOrEmpty())
                 {
                     onExceptionCompensatingHandler();
                 }
@@ -195,7 +195,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             if (ex.IsNotNull())
             {
                 _logger.LogException(ex);
-                if (onExceptionCompensatingHandler.IsNotNull())
+                if (onExceptionCompensatingHandler.IsNotNull() && _fallbackPolicies.IsNullOrEmpty())
                 {
                     onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
                 }
