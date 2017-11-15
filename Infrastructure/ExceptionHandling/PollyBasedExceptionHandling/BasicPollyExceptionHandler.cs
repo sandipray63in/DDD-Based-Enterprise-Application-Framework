@@ -22,7 +22,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         private readonly ILogger _logger;
         private readonly Func<IEnumerable<IPolicy>,PolicyWrap> _policyWrapForSyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
         private readonly Func<IEnumerable<IPolicy>, PolicyWrap> _policyWrapForAsyncOperationsFunc = x => PolicyWrap.WrapAsync(x.Select(y => y.GetPolicyAsync(_policyBuilder)).ToArray());
-        private IEnumerable<IPolicy> _policies;
+        private readonly IEnumerable<IPolicy> _policies;
         private bool _areFallbackPoliciesAlreadyHandled;
 
         /// <summary>

@@ -2,7 +2,7 @@
 using System.Collections;
 using Infrastructure;
 
-namespace DomainServices.BatchProcessing
+namespace DomainServices.Base.BatchProcessing
 {
     public class BatchProcessingExecutor : DisposableClass, IBatchProcessingExecutor
     {

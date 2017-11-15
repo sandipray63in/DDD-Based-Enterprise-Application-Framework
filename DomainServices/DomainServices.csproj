@@ -113,11 +113,11 @@
     <Compile Include="Base\QueryableDomainServices\IQueryableDomainServiceAsync.cs" />
     <Compile Include="Base\QueryableDomainServices\QueryableDomainService.cs" />
     <Compile Include="Base\QueryableDomainServices\QueryableDomainServiceAsync.cs" />
-    <Compile Include="BatchProcessing\BaseBatchSeedSelector.cs" />
-    <Compile Include="BatchProcessing\BatchProcessingExecutor.cs" />
-    <Compile Include="BatchProcessing\IBatchCommandProcesor.cs" />
-    <Compile Include="BatchProcessing\IBatchProcessingExecutor.cs" />
-    <Compile Include="BatchProcessing\IBatchSeedSelector.cs" />
+    <Compile Include="Base\BatchProcessing\BaseBatchSeedSelector.cs" />
+    <Compile Include="Base\BatchProcessing\BatchProcessingExecutor.cs" />
+    <Compile Include="Base\BatchProcessing\IBatchCommandProcesor.cs" />
+    <Compile Include="Base\BatchProcessing\IBatchProcessingExecutor.cs" />
+    <Compile Include="Base\BatchProcessing\IBatchSeedSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
