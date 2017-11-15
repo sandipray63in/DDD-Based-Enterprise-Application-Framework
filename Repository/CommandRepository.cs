@@ -209,7 +209,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualInsertAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualInsertAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -224,7 +224,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualUpdateAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualUpdateAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -239,7 +239,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualDeleteAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualDeleteAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -255,7 +255,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -271,7 +271,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -287,7 +287,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -303,7 +303,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualBulkInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualBulkInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -319,7 +319,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualBulkUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualBulkUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
@@ -335,7 +335,7 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                await _unitOfWork.AddOperationAsync(async x => await ActualBulkDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                _unitOfWork.AddOperationAsync(async x => await ActualBulkDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {

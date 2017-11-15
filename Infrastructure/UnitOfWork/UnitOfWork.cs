@@ -56,10 +56,10 @@ namespace Infrastructure.UnitOfWork
             _operationsQueue.Enqueue(new OperationData { Operation = operation });
         }
 
-        public async Task AddOperationAsync(Func<CancellationToken, Task> asyncOperation)
+        public void AddOperationAsync(Func<CancellationToken, Task> asyncOperation)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(UnitOfWork).FullName);
-           await Task.Run(()=> _operationsQueue.Enqueue(new OperationData { AsyncOperation = asyncOperation }));
+           _operationsQueue.Enqueue(new OperationData { AsyncOperation = asyncOperation });
         }
 
         /// <summary>
