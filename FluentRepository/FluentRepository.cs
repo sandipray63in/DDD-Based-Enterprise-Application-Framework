@@ -7,24 +7,24 @@ using FluentRepository.FluentImplementations;
 using FluentRepository.FluentInterfaces;
 using Infrastructure.Utilities;
 using Repository.Base;
+using Infrastructure.ExceptionHandling;
 using Infrastructure.UnitOfWork;
 
 namespace FluentRepository
 {
     public static class FluentRepository
     {
-        public static IFluentCommandAndQueryRepository WithDefaultUnitOfWork(bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
+        public static IFluentCommandAndQueryRepository WithDefaultUnitOfWork(bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true, IExceptionHandler exceptionHandler = null)
         {
             var isoLevel = IsolationLevel.ReadCommitted;
             var scopeOption = TransactionScopeOption.RequiresNew;
-            var unitOfWorkData = new UnitOfWorkData { UnitOfWork = new UnitOfWork(isoLevel, scopeOption), ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException };
+            var unitOfWorkData = new UnitOfWorkData { UnitOfWork = new UnitOfWork(exceptionHandler, isoLevel, scopeOption), ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException};
             return new FluentCommandAndQueryRepository(unitOfWorkData);
         }
 
-        public static IFluentCommandAndQueryRepository WithUnitOfWork<TUnitOfWork>(IsolationLevel isoLevel, TransactionScopeOption scopeOption, bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true)
-            where TUnitOfWork : IUnitOfWork
+        public static IFluentCommandAndQueryRepository WithUnitOfWork(IsolationLevel isoLevel, TransactionScopeOption scopeOption, bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true, IExceptionHandler exceptionHandler = null)
         {
-            var unitOfWorkData = new UnitOfWorkData { UnitOfWork = new UnitOfWork(isoLevel, scopeOption), ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException };
+            var unitOfWorkData = new UnitOfWorkData { UnitOfWork = new UnitOfWork(exceptionHandler, isoLevel, scopeOption), ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException };
             return new FluentCommandAndQueryRepository(unitOfWorkData);
         }
 
@@ -32,7 +32,7 @@ namespace FluentRepository
             where TUnitOfWork : class, IUnitOfWork
         {
             ContractUtility.Requires<ArgumentNullException>(unitOfWork.IsNotNull(), "unitOfWork instance cannot be null");
-            var unitOfWorkData = new UnitOfWorkData { UnitOfWork = unitOfWork, ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException };
+            var unitOfWorkData = new UnitOfWorkData { UnitOfWork = unitOfWork, ShouldAutomaticallyRollBackOnTransactionException = shouldAutomaticallyRollBackOnTransactionException, ShouldThrowOnException = shouldThrowOnException};
             return new FluentCommandAndQueryRepository(unitOfWorkData);
         }
 
