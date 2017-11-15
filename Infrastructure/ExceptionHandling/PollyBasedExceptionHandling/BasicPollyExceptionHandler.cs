@@ -20,11 +20,18 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         private static string[] _splittedTransientFailureExceptions;
         private readonly bool _shouldThrowOnException;
         private readonly ILogger _logger;
-        private readonly Func<IPolicy[],PolicyWrap> _policyWrapForSyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
-        private readonly Func<IPolicy[], PolicyWrap> _policyWrapForAsyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
+        private readonly Func<IEnumerable<IPolicy>,PolicyWrap> _policyWrapForSyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
+        private readonly Func<IEnumerable<IPolicy>, PolicyWrap> _policyWrapForAsyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
         private IEnumerable<IPolicy> _policies;
         private bool _areFallbackPoliciesAlreadyExecuted;
 
+        /// <summary>
+        /// Polly based basic exception handler
+        /// </summary>
+        /// <param name="policies">while setting up unity config for policies, ideally the policies should be set in the order viz. 
+        /// fallback, timeout, retry and then circuit breaker</param>
+        /// <param name="logger"></param>
+        /// <param name="shouldThrowOnException"></param>
         public BasicPollyExceptionHandler(IPolicy[] policies, ILogger logger, bool shouldThrowOnException)
         {
             _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
@@ -148,7 +155,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 _areFallbackPoliciesAlreadyExecuted = false;
                 _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
             }
-            return _policyWrapForSyncOperationsFunc(_policies.ToArray());
+            return _policyWrapForSyncOperationsFunc(_policies);
         }
 
         private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(Func<CancellationToken,Task> fallbackAction)
@@ -163,7 +170,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 _areFallbackPoliciesAlreadyExecuted = false;
                 _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
             }
-            return _policyWrapForAsyncOperationsFunc(_policies.ToArray());
+            return _policyWrapForAsyncOperationsFunc(_policies);
         }
 
         private void HandleExceptionWithThrowCondition(Exception ex, Action onExceptionCompensatingHandler)
