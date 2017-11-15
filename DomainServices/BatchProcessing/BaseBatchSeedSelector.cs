@@ -5,6 +5,7 @@ using System.Linq;
 using Domain.Base.Aggregates;
 using Infrastructure;
 using Infrastructure.Extensions;
+using Infrastructure.Logging;
 using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
 using Repository.Base;
@@ -29,7 +30,7 @@ namespace DomainServices.BatchProcessing
             ContractUtility.Requires<ArgumentNullException>(logger.IsNotNull(), "logger cannot be null");
             _seedQueryableRepository = seedQueryableRepository;
             _batchSize = batchSize;
-            _logger = logger;
+            _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
         }
 
         public virtual void Execute()

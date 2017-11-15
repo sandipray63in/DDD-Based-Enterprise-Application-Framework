@@ -1,5 +1,6 @@
 ﻿using System;
 using Polly;
+using Infrastructure.Logging;
 using Infrastructure.Logging.Loggers;
 
 namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
@@ -11,7 +12,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
 
         public RetryNTimesPolicy(ILogger logger, int retryCount)
         {
-            _logger = logger;
+            _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
             _retryCount = retryCount;
         }
 

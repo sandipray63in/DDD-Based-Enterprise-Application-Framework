@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Polly;
+using Infrastructure.Logging;
 using Infrastructure.Logging.Loggers;
 
 namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
@@ -14,7 +15,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
 
         public FallbackPolicy(ILogger logger)
         {
-            _logger = logger;
+            _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
         }
 
         public void SetFallbackAction(Action fallbackAction)

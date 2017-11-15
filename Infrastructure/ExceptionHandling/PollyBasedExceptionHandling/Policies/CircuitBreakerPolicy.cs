@@ -1,5 +1,6 @@
 ﻿using System;
 using Polly;
+using Infrastructure.Logging;
 using Infrastructure.Logging.Loggers;
 
 namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
@@ -12,7 +13,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
 
         public CircuitBreakerPolicy(ILogger logger, int exceptionsAllowedBeforeBreaking, int durationOfBreakInMilliseconds)
         {
-            _logger = logger;
+            _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
             _exceptionsAllowedBeforeBreaking = exceptionsAllowedBeforeBreaking;
             _durationOfBreakInMilliseconds = durationOfBreakInMilliseconds;
         }

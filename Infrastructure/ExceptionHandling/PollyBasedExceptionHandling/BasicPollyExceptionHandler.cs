@@ -18,26 +18,18 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
     {
         private static readonly PolicyBuilder _policyBuilder = BuildPolicyBuilderFromPollyTransientFailureExceptionsXMLFile();
         private static string[] _splittedTransientFailureExceptions;
-        private bool _shouldThrowOnException;
+        private readonly bool _shouldThrowOnException;
         private readonly ILogger _logger;
-        private PolicyWrap _policyWrapForSyncOperations;
-        private PolicyWrap _policyWrapForAsyncOperations;
-        private readonly IEnumerable<IPolicy> _fallbackPolicies;
+        private readonly Func<IPolicy[],PolicyWrap> _policyWrapForSyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
+        private readonly Func<IPolicy[], PolicyWrap> _policyWrapForAsyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
+        private IEnumerable<IPolicy> _policies;
+        private bool _areFallbackPoliciesAlreadyExecuted;
 
         public BasicPollyExceptionHandler(IPolicy[] policies, ILogger logger, bool shouldThrowOnException)
         {
             _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
             _shouldThrowOnException = shouldThrowOnException;
-            if (policies.IsNotNullOrEmpty())
-            {
-                _fallbackPolicies = policies.Where(y => y is IFallbackActionPolicy);
-                IEnumerable<IPolicy> notFallbackPolicies = policies.Where(y => !(y is IFallbackActionPolicy));
-                if (notFallbackPolicies.IsNotNullOrEmpty())
-                {
-                    _policyWrapForSyncOperations = PolicyWrap.Wrap(notFallbackPolicies.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
-                    _policyWrapForAsyncOperations = PolicyWrap.WrapAsync(notFallbackPolicies.Select(y => y.GetPolicyAsync(_policyBuilder)).ToArray());
-                }
-            }
+            _policies = policies;
         }
 
         public override void HandleException(Action action, Action onExceptionCompensatingHandler = null)
@@ -48,13 +40,10 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             }
             catch (Exception ex)
             {
-                if (onExceptionCompensatingHandler.IsNotNull())
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
                 {
-                    SetPolicyWrapWithFallbackPolicies(_policyWrapForSyncOperations, onExceptionCompensatingHandler);
-                }
-                if (_policyWrapForSyncOperations.IsNotNull() && _splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
-                {
-                    _policyWrapForSyncOperations.Execute(action);
+                    PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(onExceptionCompensatingHandler);
+                    policyWrap.Execute(action);
                 }
                 HandleExceptionWithThrowCondition(ex,onExceptionCompensatingHandler);
             }
@@ -62,23 +51,21 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
 
         public override TReturn HandleException<TReturn>(Func<TReturn> action, Action onExceptionCompensatingHandler = null)
         {
+            TReturn returnValue = default(TReturn);
             try
             {
-                return action();
+                returnValue = action();
             }
             catch (Exception ex)
             {
-                if (onExceptionCompensatingHandler.IsNotNull())
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
                 {
-                    SetPolicyWrapWithFallbackPolicies(_policyWrapForSyncOperations, onExceptionCompensatingHandler);
-                }
-                if (_policyWrapForSyncOperations.IsNotNull() && _splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
-                {
-                    _policyWrapForSyncOperations.Execute(action);
+                    PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(onExceptionCompensatingHandler);
+                    returnValue = policyWrap.Execute(action);
                 }
                 HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler);
             }
-            return default(TReturn);
+            return returnValue;
         }
 
         public override async Task HandleExceptionAsync(Func<Task> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
@@ -89,13 +76,10 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             }
             catch (Exception ex)
             {
-                if (onExceptionCompensatingHandler.IsNotNull())
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
                 {
-                    SetPolicyWrapWithFallbackPoliciesForAsync(_policyWrapForAsyncOperations, onExceptionCompensatingHandler);
-                }
-                if (_policyWrapForAsyncOperations.IsNotNull() && _splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
-                {
-                    await _policyWrapForAsyncOperations.ExecuteAsync(action);
+                    PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
+                    await policyWrap.ExecuteAsync(action);
                 }
                 HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
@@ -103,23 +87,21 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
 
         public override async Task<TReturn> HandleExceptionAsync<TReturn>(Func<Task<TReturn>> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
+            Task<TReturn> returnValue = default(Task<TReturn>);
             try
             {
-                return await action();
+                returnValue = await action() as Task<TReturn>;
             }
             catch (Exception ex)
             {
-                if (onExceptionCompensatingHandler.IsNotNull())
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
                 {
-                    SetPolicyWrapWithFallbackPoliciesForAsync(_policyWrapForAsyncOperations, onExceptionCompensatingHandler);
-                }
-                if (_policyWrapForAsyncOperations.IsNotNull() && _splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
-                {
-                    await _policyWrapForAsyncOperations.ExecuteAsync(action);
+                    PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
+                    returnValue = await policyWrap.ExecuteAsync(action) as Task<TReturn>;
                 }
                 HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
-            return default(TReturn);
+            return await returnValue;
         }
 
         private static PolicyBuilder BuildPolicyBuilderFromPollyTransientFailureExceptionsXMLFile()
@@ -154,24 +136,34 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             return policyBuilder;
         }
 
-        private void SetPolicyWrapWithFallbackPolicies(PolicyWrap policyWrap,Action fallbackAction)
+        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(Action fallbackAction)
         {
-            _fallbackPolicies.ForEach(x =>
-                {
-                    (x as IFallbackActionPolicy).SetFallbackAction(fallbackAction);
-                    policyWrap = policyWrap.Wrap(x.GetPolicy(_policyBuilder));
-                }
-            );
+            if (fallbackAction.IsNotNull())
+            {
+                _areFallbackPoliciesAlreadyExecuted = true;
+                _policies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
+            }
+            else
+            {
+                _areFallbackPoliciesAlreadyExecuted = false;
+                _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
+            }
+            return _policyWrapForSyncOperationsFunc(_policies.ToArray());
         }
 
-        private void SetPolicyWrapWithFallbackPoliciesForAsync(PolicyWrap policyWrap, Func<CancellationToken, Task> fallbackAction)
+        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(Func<CancellationToken,Task> fallbackAction)
         {
-            _fallbackPolicies.ForEach(x =>
-                {
-                    (x as IFallbackActionPolicy).SetFallbackAction(fallbackAction);
-                    policyWrap = policyWrap.WrapAsync(x.GetPolicy(_policyBuilder));
-                }
-            );
+            if (fallbackAction.IsNotNull())
+            {
+                _areFallbackPoliciesAlreadyExecuted = true;
+                _policies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
+            }
+            else
+            {
+                _areFallbackPoliciesAlreadyExecuted = false;
+                _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
+            }
+            return _policyWrapForAsyncOperationsFunc(_policies.ToArray());
         }
 
         private void HandleExceptionWithThrowCondition(Exception ex, Action onExceptionCompensatingHandler)
@@ -179,7 +171,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             if (ex.IsNotNull())
             {
                 _logger.LogException(ex);
-                if (onExceptionCompensatingHandler.IsNotNull() && _fallbackPolicies.IsNullOrEmpty())
+                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyExecuted)
                 {
                     onExceptionCompensatingHandler();
                 }
@@ -195,7 +187,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             if (ex.IsNotNull())
             {
                 _logger.LogException(ex);
-                if (onExceptionCompensatingHandler.IsNotNull() && _fallbackPolicies.IsNullOrEmpty())
+                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyExecuted)
                 {
                     onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
                 }

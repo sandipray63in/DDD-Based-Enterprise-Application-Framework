@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Polly;
 using Polly.Timeout;
+using Infrastructure.Logging;
 using Infrastructure.Logging.Loggers;
 
 namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
@@ -13,7 +14,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
 
         public TimeOutPolicy(ILogger logger, int timeOutInSeconds, TimeoutStrategy timeoutStrategy)
         {
-            _logger = logger;
+            _logger = logger ?? LoggerFactory.GetLogger(LoggerType.Default);
             _timeOutInSeconds = timeOutInSeconds;
             _timeoutStrategy = timeoutStrategy;
         }
