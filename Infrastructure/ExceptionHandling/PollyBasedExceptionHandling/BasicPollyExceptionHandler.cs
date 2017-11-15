@@ -47,7 +47,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             }
             catch (Exception ex)
             {
-                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                 {
                     PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(onExceptionCompensatingHandler);
                     policyWrap.Execute(action);
@@ -65,7 +65,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             }
             catch (Exception ex)
             {
-                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                 {
                     PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(onExceptionCompensatingHandler);
                     returnValue = policyWrap.Execute(action);
@@ -83,7 +83,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             }
             catch (Exception ex)
             {
-                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                 {
                     PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
                     await policyWrap.ExecuteAsync(action);
@@ -101,7 +101,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             }
             catch (Exception ex)
             {
-                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name))
+                if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                 {
                     PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
                     returnValue = await policyWrap.ExecuteAsync(action) as Task<TReturn>;
