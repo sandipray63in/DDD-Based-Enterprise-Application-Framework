@@ -145,32 +145,34 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
 
         private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(Action fallbackAction)
         {
+            IEnumerable<IPolicy> clonedPolicies = CloningUtility.Clone(_policies);
             if (fallbackAction.IsNotNull())
             {
                 _areFallbackPoliciesAlreadyHandled = true;
-                _policies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
+                clonedPolicies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
             }
             else
             {
                 _areFallbackPoliciesAlreadyHandled = false;
-                _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
+                clonedPolicies = clonedPolicies.Where(x => !(x is IFallbackActionPolicy));
             }
-            return _policyWrapForSyncOperationsFunc(_policies);
+            return _policyWrapForSyncOperationsFunc(clonedPolicies);
         }
 
         private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(Func<CancellationToken,Task> fallbackAction)
         {
+            IEnumerable<IPolicy> clonedPolicies = CloningUtility.Clone(_policies);
             if (fallbackAction.IsNotNull())
             {
                 _areFallbackPoliciesAlreadyHandled = true;
-                _policies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
+                clonedPolicies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
             }
             else
             {
                 _areFallbackPoliciesAlreadyHandled = false;
-                _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
+                clonedPolicies = clonedPolicies.Where(x => !(x is IFallbackActionPolicy));
             }
-            return _policyWrapForAsyncOperationsFunc(_policies);
+            return _policyWrapForAsyncOperationsFunc(clonedPolicies);
         }
 
         private void HandleExceptionWithThrowCondition(Exception ex, Action onExceptionCompensatingHandler)
