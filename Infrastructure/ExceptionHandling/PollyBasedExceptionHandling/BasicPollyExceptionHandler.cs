@@ -23,7 +23,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         private readonly Func<IEnumerable<IPolicy>,PolicyWrap> _policyWrapForSyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
         private readonly Func<IEnumerable<IPolicy>, PolicyWrap> _policyWrapForAsyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
         private IEnumerable<IPolicy> _policies;
-        private bool _areFallbackPoliciesAlreadyExecuted;
+        private bool _areFallbackPoliciesAlreadyHandled;
 
         /// <summary>
         /// Polly based basic exception handler
@@ -147,12 +147,12 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         {
             if (fallbackAction.IsNotNull())
             {
-                _areFallbackPoliciesAlreadyExecuted = true;
+                _areFallbackPoliciesAlreadyHandled = true;
                 _policies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
             }
             else
             {
-                _areFallbackPoliciesAlreadyExecuted = false;
+                _areFallbackPoliciesAlreadyHandled = false;
                 _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
             }
             return _policyWrapForSyncOperationsFunc(_policies);
@@ -162,12 +162,12 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         {
             if (fallbackAction.IsNotNull())
             {
-                _areFallbackPoliciesAlreadyExecuted = true;
+                _areFallbackPoliciesAlreadyHandled = true;
                 _policies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
             }
             else
             {
-                _areFallbackPoliciesAlreadyExecuted = false;
+                _areFallbackPoliciesAlreadyHandled = false;
                 _policies = _policies.Where(x => !(x is IFallbackActionPolicy));
             }
             return _policyWrapForAsyncOperationsFunc(_policies);
@@ -178,7 +178,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             if (ex.IsNotNull())
             {
                 _logger.LogException(ex);
-                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyExecuted)
+                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
                 {
                     onExceptionCompensatingHandler();
                 }
@@ -194,7 +194,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             if (ex.IsNotNull())
             {
                 _logger.LogException(ex);
-                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyExecuted)
+                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
                 {
                     onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
                 }
