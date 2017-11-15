@@ -209,12 +209,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualInsertAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualInsertAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsertAsync(item, token, operationToExecuteBeforeNextOperation), _exceptionHandler,null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualInsertAsync(item, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -224,12 +224,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualUpdateAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualUpdateAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdateAsync(item, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualUpdateAsync(item, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -239,12 +239,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentNullException>(item.IsNotNull(), "item instance cannot be null");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualDeleteAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualDeleteAsync(item, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDeleteAsync(item, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualDeleteAsync(item, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -255,12 +255,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualInsertAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualInsertAsync(items, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -271,12 +271,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualUpdateAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualUpdateAsync(items, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -287,12 +287,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualDeleteAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualDeleteAsync(items, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -303,12 +303,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualBulkInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualBulkInsertAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkInsertAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualBulkInsertAsync(items, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -319,12 +319,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualBulkUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualBulkUpdateAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkUpdateAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualBulkUpdateAsync(items, x, operationToExecuteBeforeNextOperation), token, _exceptionHandler, null);
             }
         }
 
@@ -335,12 +335,12 @@ namespace Repository
             ContractUtility.Requires<ArgumentOutOfRangeException>(items.IsNotEmpty(), "items count should be greater than 0");
             if (_unitOfWork.IsNotNull())
             {
-                _unitOfWork.AddOperation(x => ActualBulkDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
+                await _unitOfWork.AddOperationAsync(async x => await ActualBulkDeleteAsync(items, token == default(CancellationToken) ? x : token, operationToExecuteBeforeNextOperation));
             }
             else
             {
                 //TODO - proper exception handling compensating handler needs to be here
-                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() => ActualBulkDeleteAsync(items, token, operationToExecuteBeforeNextOperation), _exceptionHandler, null);
+                await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x => await ActualBulkDeleteAsync(items, x, operationToExecuteBeforeNextOperation),token, _exceptionHandler, null);
             }
         }
 

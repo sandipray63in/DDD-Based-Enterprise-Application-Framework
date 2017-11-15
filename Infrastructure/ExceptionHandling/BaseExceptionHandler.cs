@@ -40,38 +40,38 @@ namespace Infrastructure.ExceptionHandling
             return HandleException(() => func(param1, param2, param3), onExceptionCompensatingHandler);
         }
 
-        public abstract Task HandleExceptionAsync(Func<Task> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken));
+        public abstract Task HandleExceptionAsync(Func<CancellationToken, Task> action, CancellationToken actionCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken));
 
-        public virtual async Task HandleExceptionAsync<TParam>(Func<TParam, Task> action, TParam param, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public virtual async Task HandleExceptionAsync<TParam>(Func<TParam, CancellationToken, Task> action, TParam param, CancellationToken actionCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
-            await HandleExceptionAsync(() => action(param), onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+            await HandleExceptionAsync(x => action(param,x), actionCancellationToken, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
         }
 
-        public virtual async Task HandleExceptionAsync<TParam1, TParam2>(Func<TParam1, TParam2, Task> action, TParam1 param1, TParam2 param2, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public virtual async Task HandleExceptionAsync<TParam1, TParam2>(Func<TParam1, TParam2, CancellationToken, Task> action, TParam1 param1, TParam2 param2, CancellationToken actionCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
-            await HandleExceptionAsync(() => action(param1, param2), onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+            await HandleExceptionAsync(x => action(param1,param2, x), actionCancellationToken, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
         }
 
-        public virtual async Task HandleExceptionAsync<TParam1, TParam2, TParam3>(Func<TParam1, TParam2, TParam3,Task> action, TParam1 param1, TParam2 param2, TParam3 param3, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public virtual async Task HandleExceptionAsync<TParam1, TParam2, TParam3>(Func<TParam1, TParam2, TParam3, CancellationToken, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken actionCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
-            await HandleExceptionAsync(() => action(param1, param2, param3), onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+            await HandleExceptionAsync(x => action(param1, param2,param3, x), actionCancellationToken, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
         }
 
-        public abstract Task<TReturn> HandleExceptionAsync<TReturn>(Func<Task<TReturn>> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken));
+        public abstract Task<TReturn> HandleExceptionAsync<TReturn>(Func<CancellationToken, Task<TReturn>> action, CancellationToken funcCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken));
 
-        public virtual async Task<TReturn> HandleExceptionAsync<TParam, TReturn>(Func<TParam, Task<TReturn>> func, TParam param, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public virtual async Task<TReturn> HandleExceptionAsync<TParam, TReturn>(Func<TParam, CancellationToken, Task<TReturn>> func, TParam param, CancellationToken funcCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
-            return await HandleExceptionAsync(() => func(param), onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+            return await HandleExceptionAsync(x => func(param, x), funcCancellationToken, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
         }
 
-        public virtual async Task<TReturn> HandleExceptionAfterAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, Task<TReturn>> func, TParam1 param1, TParam2 param2, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public virtual async Task<TReturn> HandleExceptionAfterAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, CancellationToken, Task<TReturn>> func, TParam1 param1, TParam2 param2, CancellationToken funcCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
-            return await HandleExceptionAsync(() => func(param1, param2), onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+            return await HandleExceptionAsync(x => func(param1,param2, x), funcCancellationToken, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
         }
 
-        public virtual async Task<TReturn> HandleExceptionAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, Task<TReturn>> func, TParam1 param1, TParam2 param2, TParam3 param3, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public virtual async Task<TReturn> HandleExceptionAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3,CancellationToken, Task<TReturn>> func, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken funcCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
-            return await HandleExceptionAsync(() => func(param1, param2, param3), onExceptionCompensatingHandler,onExceptionCompensatingHandlerCancellationToken);
+            return await HandleExceptionAsync(x => func(param1, param2,param3, x), funcCancellationToken, onExceptionCompensatingHandler,onExceptionCompensatingHandlerCancellationToken);
         }
     }
 }

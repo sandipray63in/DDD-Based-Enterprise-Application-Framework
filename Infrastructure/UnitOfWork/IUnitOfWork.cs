@@ -14,7 +14,7 @@ namespace Infrastructure.UnitOfWork
     {
         void AddOperation(Action operation);
 
-        void AddOperation(Func<CancellationToken,Task> asyncOperation);
+        Task AddOperationAsync(Func<CancellationToken,Task> asyncOperation);
 
         void Commit(bool shouldAutomaticallyRollBackOnTransactionException = true, bool shouldThrowOnException = true);
 

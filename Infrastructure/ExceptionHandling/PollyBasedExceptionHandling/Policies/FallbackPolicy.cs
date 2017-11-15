@@ -11,7 +11,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
     {
         private readonly ILogger _logger;
         private Action _fallbackAction;
-        private Func<CancellationToken, Task> fallbackActionAsync;
+        private Func<CancellationToken, Task> _fallbackActionAsync;
 
         public FallbackPolicy(ILogger logger)
         {
@@ -25,7 +25,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
 
         public void SetFallbackAction(Func<CancellationToken, Task> fallbackAction)
         {
-            fallbackActionAsync = fallbackAction;
+            _fallbackActionAsync = fallbackAction;
         }
 
         public Policy GetPolicy(PolicyBuilder policyBuilder)
@@ -35,7 +35,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies
 
         public Policy GetPolicyAsync(PolicyBuilder policyBuilder)
         {
-            return policyBuilder.FallbackAsync(fallbackActionAsync, x => Task.Run(()=>_logger.LogException(x)));
+            return policyBuilder.FallbackAsync(_fallbackActionAsync, x => Task.Run(()=>_logger.LogException(x)));
         }
     }
 }

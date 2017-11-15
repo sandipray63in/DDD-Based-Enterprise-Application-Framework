@@ -21,7 +21,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         private readonly bool _shouldThrowOnException;
         private readonly ILogger _logger;
         private readonly Func<IEnumerable<IPolicy>,PolicyWrap> _policyWrapForSyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
-        private readonly Func<IEnumerable<IPolicy>, PolicyWrap> _policyWrapForAsyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
+        private readonly Func<IEnumerable<IPolicy>, PolicyWrap> _policyWrapForAsyncOperationsFunc = x => PolicyWrap.WrapAsync(x.Select(y => y.GetPolicyAsync(_policyBuilder)).ToArray());
         private IEnumerable<IPolicy> _policies;
         private bool _areFallbackPoliciesAlreadyHandled;
 
@@ -75,36 +75,36 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             return returnValue;
         }
 
-        public override async Task HandleExceptionAsync(Func<Task> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public override async Task HandleExceptionAsync(Func<CancellationToken,Task> action, CancellationToken actionCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             try
             {
-                await action();
+                await action(actionCancellationToken);
             }
             catch (Exception ex)
             {
                 if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                 {
                     PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
-                    await policyWrap.ExecuteAsync(action);
+                    await policyWrap.ExecuteAsync(action,actionCancellationToken);
                 }
                 HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
         }
 
-        public override async Task<TReturn> HandleExceptionAsync<TReturn>(Func<Task<TReturn>> action, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public override async Task<TReturn> HandleExceptionAsync<TReturn>(Func<CancellationToken,Task<TReturn>> func, CancellationToken funcCancellationToken = default(CancellationToken), Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             Task<TReturn> returnValue = default(Task<TReturn>);
             try
             {
-                returnValue = await action() as Task<TReturn>;
+                returnValue = await func(funcCancellationToken) as Task<TReturn>;
             }
             catch (Exception ex)
             {
                 if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                 {
                     PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
-                    returnValue = await policyWrap.ExecuteAsync(action) as Task<TReturn>;
+                    returnValue = await policyWrap.ExecuteAsync(func, funcCancellationToken) as Task<TReturn>;
                 }
                 HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }

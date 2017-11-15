@@ -56,10 +56,10 @@ namespace Infrastructure.UnitOfWork
             _operationsQueue.Enqueue(new OperationData { Operation = operation });
         }
 
-        public void AddOperation(Func<CancellationToken, Task> asyncOperation)
+        public async Task AddOperationAsync(Func<CancellationToken, Task> asyncOperation)
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(UnitOfWork).FullName);
-            _operationsQueue.Enqueue(new OperationData { AsyncOperation = asyncOperation });
+           await Task.Run(()=> _operationsQueue.Enqueue(new OperationData { AsyncOperation = asyncOperation }));
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Infrastructure.UnitOfWork
                 "Please use Commit method(instead of CommitAsync) if there is not " +
                 "a single async operation.");
 
-            await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async () =>
+            await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x =>
             {
                 _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption, true);
                 try
@@ -148,7 +148,7 @@ namespace Infrastructure.UnitOfWork
                         }
                         else if (operationData.AsyncOperation.IsNotNull())
                         {
-                            await operationData.AsyncOperation(token);
+                            await operationData.AsyncOperation(x);
                         }
                     }
                     CompleteScope(() =>
@@ -166,7 +166,7 @@ namespace Infrastructure.UnitOfWork
                     //future transactions).
                     Rollback(ex);
                 }
-            }, _exceptionHandler,null);//TODO - proper exception handling compensating handler needs to be here
+            }, token, _exceptionHandler,null);//TODO - proper exception handling compensating handler needs to be here
         }
 
         /// <summary>

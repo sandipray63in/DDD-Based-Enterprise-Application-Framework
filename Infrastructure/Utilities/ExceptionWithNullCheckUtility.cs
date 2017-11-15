@@ -31,27 +31,27 @@ namespace Infrastructure.Utilities
             }
         }
 
-        public static async Task HandleExceptionWithNullCheck(Func<Task> actionToExecute, IExceptionHandler exceptionHandler = null, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public static async Task HandleExceptionWithNullCheck(Func<CancellationToken,Task> actionToExecute, CancellationToken actionCancellationToken = default(CancellationToken), IExceptionHandler exceptionHandler = null, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             if (exceptionHandler.IsNotNull())
             {
-                await exceptionHandler.HandleExceptionAsync(actionToExecute, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+                await exceptionHandler.HandleExceptionAsync(actionToExecute, actionCancellationToken, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
             else
             {
-                await actionToExecute();
+                await actionToExecute(actionCancellationToken);
             }
         }
 
-        public static async Task<TReturn> HandleExceptionWithNullCheck<TReturn>(Func<Task<TReturn>> actionToExecute, IExceptionHandler exceptionHandler = null, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
+        public static async Task<TReturn> HandleExceptionWithNullCheck<TReturn>(Func<CancellationToken,Task<TReturn>> funcToExecute, CancellationToken funcCancellationToken = default(CancellationToken), IExceptionHandler exceptionHandler = null, Func<CancellationToken, Task> onExceptionCompensatingHandler = null, CancellationToken onExceptionCompensatingHandlerCancellationToken = default(CancellationToken))
         {
             if (exceptionHandler.IsNotNull())
             {
-                return await exceptionHandler.HandleExceptionAsync(actionToExecute, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+                return await exceptionHandler.HandleExceptionAsync(funcToExecute, funcCancellationToken, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
             else
             {
-                return await actionToExecute();
+                return await funcToExecute(funcCancellationToken);
             }
         }
     }
