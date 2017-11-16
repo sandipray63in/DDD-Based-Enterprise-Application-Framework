@@ -17,7 +17,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
     public class BasicPollyExceptionHandler : BaseExceptionHandler
     {
         private static readonly PolicyBuilder _policyBuilder = BuildPolicyBuilderFromPollyTransientFailureExceptionsXMLFile();
-        private static string[] _splittedTransientFailureExceptions;
+        private static IEnumerable<string> _splittedTransientFailureExceptions;
         private readonly bool _shouldThrowOnException;
         private readonly ILogger _logger;
         private readonly Func<IEnumerable<IPolicy>,PolicyWrap> _policyWrapForSyncOperationsFunc = x => PolicyWrap.Wrap(x.Select(y => y.GetPolicy(_policyBuilder)).ToArray());
@@ -115,14 +115,14 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         {
             PolicyBuilder policyBuilder = null;
             XDocument xDoc = XDocument.Load(Path.Combine(typeof(BasicPollyExceptionHandler).Assembly.Location, "ExceptionHandling", "PollyBasedExceptionHandling", "PollyTransientFailureExceptions.xml"));
-            PollyTransientFailureExceptions transientFailureExceptions = XMLUtility.DeSerialize<PollyTransientFailureExceptions>(xDoc.ToString());
-            _splittedTransientFailureExceptions = transientFailureExceptions.CommaSeperatedTransientFailureExceptions.Split(",", StringSplitOptions.RemoveEmptyEntries);
-            string[] splittedAssemblyNames = transientFailureExceptions.CommaSeperatedAssemblyNames.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            PollyTransientFailureExceptions pollyTransientFailureExceptions = XMLUtility.DeSerialize<PollyTransientFailureExceptions>(xDoc.ToString());
+            _splittedTransientFailureExceptions = pollyTransientFailureExceptions.TransientFailureExceptions.SelectMany(x => x.CommaSeperatedTransientFailureExceptions.Split(",",StringSplitOptions.RemoveEmptyEntries)).Distinct();
 
             if (_splittedTransientFailureExceptions.IsNotNullOrEmpty())
             {
                 string firstTransientFailureException = _splittedTransientFailureExceptions.First();
-                Type firstTransientFailureExceptionType = MetaDataUtility.GetTypeFromClassName(splittedAssemblyNames, firstTransientFailureException);
+                string assemblyName = pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(x => x.CommaSeperatedTransientFailureExceptions.Contains(firstTransientFailureException)).AssemblyName;
+                Type firstTransientFailureExceptionType = MetaDataUtility.GetTypeFromClassName(assemblyName, firstTransientFailureException);
                 Type[] transientFailureExceptionTypesArray = new Type[1];
                 transientFailureExceptionTypesArray[0] = firstTransientFailureExceptionType;
                 policyBuilder = MetaDataUtility.InvokeStaticMethod<Policy, PolicyBuilder>("Handle", transientFailureExceptionTypesArray);
@@ -132,7 +132,8 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     transientFailureExceptionsOtherThanTheFirst.ForEach(x =>
                      {
-                         Type transientFailureExceptionTypeForOtherThanTheFirst = MetaDataUtility.GetTypeFromClassName(splittedAssemblyNames, x);
+                         assemblyName = pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(y => y.CommaSeperatedTransientFailureExceptions.Contains(x)).AssemblyName;
+                         Type transientFailureExceptionTypeForOtherThanTheFirst = MetaDataUtility.GetTypeFromClassName(assemblyName, x);
                          Type[] transientFailureExceptionTypesArrayForOtherThanTheFirst = new Type[1];
                          transientFailureExceptionTypesArrayForOtherThanTheFirst[0] = transientFailureExceptionTypeForOtherThanTheFirst;
                          policyBuilder = MetaDataUtility.InvokeInstanceMethod<PolicyBuilder, PolicyBuilder>(policyBuilder, "Or", transientFailureExceptionTypesArrayForOtherThanTheFirst);

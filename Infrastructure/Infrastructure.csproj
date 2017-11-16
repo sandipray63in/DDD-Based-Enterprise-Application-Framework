@@ -373,6 +373,7 @@
     <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\BasicPollyExceptionHandler.cs" />
     <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\PollyTransientFailureExceptions.cs" />
     <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\Policies\RetryNTimesPolicy.cs" />
+    <Compile Include="ExceptionHandling\PollyBasedExceptionHandling\TransientFailureException.cs" />
     <Compile Include="Extensions\AoPExtensions.cs" />
     <Compile Include="Extensions\CleanUpExtensions.cs" />
     <Compile Include="Extensions\FuncExtensions.cs" />

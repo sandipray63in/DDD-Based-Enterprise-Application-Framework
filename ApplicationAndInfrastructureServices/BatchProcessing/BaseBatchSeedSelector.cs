@@ -10,7 +10,7 @@ using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
 using Repository.Base;
 
-namespace DomainServices.Base.BatchProcessing
+namespace ApplicationAndInfrastructureServices.BatchProcessing
 {
     public abstract class BaseBatchSeedSelector<TEntity,TId> : DisposableClass, IBatchSeedSelector
         where TEntity : IQueryableAggregateRoot

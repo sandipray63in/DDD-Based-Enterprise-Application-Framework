@@ -7,10 +7,8 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
     [XmlRoot("PollyTransientFailures")]
     internal class PollyTransientFailureExceptions
     {
-        [XmlElement("AssemblyNames")]
-        internal string CommaSeperatedAssemblyNames { get; set; }
-
-        [XmlElement("TransientFailureExceptions")]
-        internal string CommaSeperatedTransientFailureExceptions { get; set; }
+        [XmlArray("PollyTransientFailures")]
+        [XmlArrayItem("TransientFailureException", typeof(TransientFailureException))]
+        internal TransientFailureException[] TransientFailureExceptions { get; set; }
     }
 }

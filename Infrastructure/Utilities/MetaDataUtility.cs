@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -9,25 +8,17 @@ namespace Infrastructure.Utilities
     public static class MetaDataUtility
     {
         /// <summary>
-        /// Gets the type of the class from the supplied class name and assembly names
+        /// Gets the type of the class from the supplied class name and assembly name
         /// </summary>
-        /// <param name="assemblyNames"></param>
+        /// <param name="assemblyName"></param>
         /// <param name="className"></param>
         /// <returns></returns>
-        public static Type GetTypeFromClassName(IEnumerable<string> assemblyNames, string className)
+        public static Type GetTypeFromClassName(string assemblyName, string className)
         {
-            IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => assemblyNames.Select(y => y.ToUpper().Trim()).Contains(x.GetName().Name.ToUpper().Trim()));
-            ContractUtility.Requires<ArgumentNullException>(assemblies.IsNotNullOrEmpty(), assemblyNames + " not found");
-            Type type = null;
-            foreach(Assembly assembly in assemblies)
-            {
-                type = assembly.GetTypes().SingleOrDefault(x => x.Name.Contains(className, StringComparison.InvariantCultureIgnoreCase));
-                if(type.IsNotNull())
-                {
-                    break;
-                }
-            }
-            ContractUtility.Requires<ArgumentNullException>(type.IsNotNull(), className + " not found within " + assemblyNames);
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name.Equals(assemblyName,StringComparison.InvariantCultureIgnoreCase));
+            ContractUtility.Requires<ArgumentNullException>(assembly.IsNotNull(), assemblyName + " not found");
+            Type type = assembly.GetTypes().SingleOrDefault(x => x.Name.Equals(className, StringComparison.InvariantCultureIgnoreCase));
+            ContractUtility.Requires<ArgumentNullException>(type.IsNotNull(), className + " not found within " + assemblyName);
             return type;
         }
 

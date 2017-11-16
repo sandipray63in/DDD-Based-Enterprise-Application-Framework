@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainServices.Base.BatchProcessing
+namespace ApplicationAndInfrastructureServices.BatchProcessing
 {
     public interface IBatchProcessingExecutor : IDisposable
     {
