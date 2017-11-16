@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.ExceptionHandling
 {
-    public abstract class BaseExceptionHandler : DisposableClass, IExceptionHandler
+    public abstract class BaseExceptionHandler : IExceptionHandler
     {
         public abstract void HandleException(Action action, Action onExceptionCompensatingHandler = null);
 
