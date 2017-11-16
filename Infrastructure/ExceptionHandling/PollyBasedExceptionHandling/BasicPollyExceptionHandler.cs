@@ -183,6 +183,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 _logger.LogException(ex);
                 if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
                 {
+                    _areFallbackPoliciesAlreadyHandled = true;
                     onExceptionCompensatingHandler();
                 }
                 if (_shouldThrowOnException)
@@ -199,6 +200,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 _logger.LogException(ex);
                 if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
                 {
+                    _areFallbackPoliciesAlreadyHandled = true;
                     onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
                 }
                 if (_shouldThrowOnException)
