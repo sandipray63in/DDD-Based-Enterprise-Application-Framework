@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using Infrastructure.ExceptionHandling;
 using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
 
@@ -16,12 +17,19 @@ namespace Infrastructure.AoP
     /// </summary>
     public class ExceptionInterceptionBehaviour : IInterceptionBehavior
     {
-        protected readonly ILogger logger;
+        protected readonly ILogger _logger;
+        protected readonly IExceptionHandler _exceptionHandler;
 
         public ExceptionInterceptionBehaviour(ILogger logger)
         {
             ContractUtility.Requires<ArgumentNullException>(logger.IsNotNull(), "logger instance cannot be null");
-            this.logger = logger;
+            _logger = logger;
+        }
+
+        public ExceptionInterceptionBehaviour(IExceptionHandler exceptionHandler, ILogger logger) : this(logger)
+        {
+            ContractUtility.Requires<ArgumentNullException>(exceptionHandler.IsNotNull(), "exceptionHandler instance cannot be null");
+            _exceptionHandler = exceptionHandler;
         }
 
         public IEnumerable<Type> GetRequiredInterfaces()
@@ -38,27 +46,29 @@ namespace Infrastructure.AoP
         /// <returns></returns>
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
-            try
+            return ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() =>
             {
                 ExecuteBeforeMethodInvocation(input);
                 IMethodReturn methodReturn = getNext().Invoke(input, getNext);
                 Exception methodReturnException = methodReturn.Exception;
                 if (methodReturnException.IsNotNull())
                 {
-                    logger.LogException(methodReturnException);
-                    throw new Exception("Method Return Exception.Please check inner exception", methodReturnException);
+                    if (_exceptionHandler.IsNull())
+                    {
+                        _logger.LogException(methodReturnException);
+                        throw new Exception("Method Return Exception.Please check inner exception", methodReturnException);
+                    }
+                    else
+                    {
+                        throw methodReturnException;
+                    }
                 }
                 else
                 {
                     ExecuteAfterMethodInvocation(input, methodReturn);
                 }
                 return methodReturn;
-            }
-            catch(Exception ex)
-            {
-                logger.LogException(ex);
-                throw;
-            }
+            }, _exceptionHandler);
         }
 
         public bool WillExecute { get; } = true;
@@ -67,7 +77,7 @@ namespace Infrastructure.AoP
 
         protected virtual void ExecuteBeforeMethodInvocation(IMethodInvocation input) { }
         protected virtual void ExecuteAfterMethodInvocation(IMethodInvocation input, IMethodReturn methodReturn) { }
-        
+
         #endregion
     }
 }

@@ -25,7 +25,7 @@ namespace Infrastructure.AoP.CrossCuttingInterceptionBehaviours
             string elapsedTime = stopWatch.Elapsed.ToString();
             MethodInvocationData methodInvocationData = input.GetMethodInvocationData();
             string executionTimeSpanMessage = string.Format(" The method {0} within class {1} finsished execution in time : {2}", methodInvocationData.MethodName, methodInvocationData.ClassName, elapsedTime);
-            logger.LogMessage(executionTimeSpanMessage);
+            _logger.LogMessage(executionTimeSpanMessage);
         }
     }
 }
