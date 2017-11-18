@@ -413,7 +413,7 @@
     <Compile Include="Utilities\ContractUtility.cs" />
     <Compile Include="Extensions\MemoizationExtension.cs" />
     <Compile Include="Utilities\MetaDataUtility.cs" />
-    <Compile Include="Utilities\ExceptionWithNullCheckUtility.cs" />
+    <Compile Include="Utilities\ExceptionHandlingUtility.cs" />
     <Compile Include="Utilities\SerializationUtility.cs" />
     <Compile Include="Utilities\TransactionUtility.cs" />
     <Compile Include="Utilities\XMLUtility.cs" />

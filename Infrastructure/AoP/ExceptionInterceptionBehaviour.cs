@@ -46,7 +46,7 @@ namespace Infrastructure.AoP
         /// <returns></returns>
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
-            return ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() =>
+            return ExceptionHandlingUtility.HandleExceptionWithNullCheck(() =>
             {
                 ExecuteBeforeMethodInvocation(input);
                 IMethodReturn methodReturn = getNext().Invoke(input, getNext);

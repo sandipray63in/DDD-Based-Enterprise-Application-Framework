@@ -2,10 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Infrastructure.ExceptionHandling;
+using Infrastructure.Logging.Loggers;
 
 namespace Infrastructure.Utilities
 {
-    public static class ExceptionWithNullCheckUtility
+    public static class ExceptionHandlingUtility
     {
         public static void HandleExceptionWithNullCheck(Action actionToExecute,IExceptionHandler exceptionHandler = null, Action onExceptionCompensatingHandler = null)
         {
@@ -53,6 +54,40 @@ namespace Infrastructure.Utilities
             {
                 return await funcToExecute(funcCancellationToken);
             }
+        }
+
+        public static void WrapActionWithExceptionHandling(Action action, ILogger logger,bool shouldThrowOnException = true)
+        {
+            try
+            {
+                action();
+            }
+            catch(Exception ex)
+            {
+                logger.LogException(ex);
+                if (shouldThrowOnException)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public static TReturn WrapFuncWithExceptionHandling<TReturn>(Func<TReturn> func, ILogger logger, bool shouldThrowOnException = true)
+        {
+            TReturn returnValue = default(TReturn);
+            try
+            {
+                returnValue =  func();
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ex);
+                if (shouldThrowOnException)
+                {
+                    throw;
+                }
+            }
+            return returnValue;
         }
     }
 }

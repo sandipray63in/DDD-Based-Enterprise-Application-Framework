@@ -77,7 +77,7 @@ namespace Infrastructure.UnitOfWork
             ContractUtility.Requires<NotSupportedException>(_operationsQueue.All(x => x.AsyncOperation.IsNull()),
                                     "Async operations are not supported by Commit method.Use CommitAsync instead.");
 
-            ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(() =>
+            ExceptionHandlingUtility.HandleExceptionWithNullCheck(() =>
             {
                 _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption);
                 try
@@ -131,7 +131,7 @@ namespace Infrastructure.UnitOfWork
                 "Please use Commit method(instead of CommitAsync) if there is not " +
                 "a single async operation.");
 
-            await ExceptionWithNullCheckUtility.HandleExceptionWithNullCheck(async x =>
+            await ExceptionHandlingUtility.HandleExceptionWithNullCheck(async x =>
             {
                 _scope = TransactionUtility.GetTransactionScope(_isoLevel, _scopeOption, true);
                 try
