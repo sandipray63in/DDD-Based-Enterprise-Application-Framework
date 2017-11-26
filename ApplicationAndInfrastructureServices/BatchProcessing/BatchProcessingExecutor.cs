@@ -21,6 +21,7 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
             _batchSeedSelector.Reset();
             do
             {
+                _batchSeedSelector.Execute();
                 if (_batchSeedSelector.Current.IsNotNull())
                 {
                     IEnumerable[] batchSelectorEnumerables = _batchSeedSelector.Current as IEnumerable[];

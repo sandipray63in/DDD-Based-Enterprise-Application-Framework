@@ -22,6 +22,7 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
         private IEnumerable<TEntity> _currentBatch;
         private readonly ILogger _logger;
         private IEnumerable[] _allBatchEnumerablesIncludingCurrentSeedBatch;
+        private TId _maxEntityPropertySeedIdentifier;
 
         public BaseBatchSeedSelector(IQueryableRepository<TEntity> seedQueryableRepository, int batchSize,ILogger logger)
         {
@@ -37,11 +38,11 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
         {
             CheckForObjectAlreadyDisposedOrNot(typeof(BaseBatchSeedSelector<TEntity, TId>).FullName);
             TId currentBatchEndPosition = _currentBatchStartPosition.Add(_batchSize.ConvertToType<TId>());
-            _currentBatch = BatchQueryable.Between(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x), _currentBatchStartPosition,currentBatchEndPosition).ToList();
+            _currentBatch = BatchQueryable.Between(x => EntityPropertyRangeFilterIdentifier(x), _currentBatchStartPosition,currentBatchEndPosition).ToList();
 
             if (_currentBatch.IsNotEmpty())
             {
-                TId actualBatchEndPosition = _currentBatch.Max(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x));
+                TId actualBatchEndPosition = _currentBatch.Max(x => EntityPropertyRangeFilterIdentifier(x));
                 _logger.LogMessage("Actual number of records fetched from the seed data source for the start position of " + _currentBatchStartPosition + " and end position of " + currentBatchEndPosition + "(actualBatchEndPosition = " + actualBatchEndPosition + ") is : " + _currentBatch.Count());
             }
             ProcessCurrentBatchFurther(_currentBatch);
@@ -64,16 +65,18 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
             {
                 return false;
             }
-            _currentBatchStartPosition = _currentBatch.Max(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x));
+            _currentBatchStartPosition = _currentBatch.Max(x => EntityPropertyRangeFilterIdentifier(x));
             _currentBatchStartPosition = _currentBatchStartPosition.Add(ValueToIncrementByToGoToNextBatch);
-            Execute();
-            return _currentBatch.IsNotNullOrEmpty();
+            if(_maxEntityPropertySeedIdentifier.IsEqualTo(default(TId)))
+            {
+                _maxEntityPropertySeedIdentifier = _seedQueryableRepository.Max(x => EntityPropertyRangeFilterIdentifier(x));
+            }
+            return _currentBatchStartPosition.IsLesserThanOrEqualTo(_maxEntityPropertySeedIdentifier);
         }
 
         public void Reset()
         {
-            _currentBatchStartPosition = GetMinPropertyValue();
-            Execute();
+            _currentBatchStartPosition = _seedQueryableRepository.Min(x => EntityPropertyRangeFilterIdentifier(x));
         }
 
         protected virtual IQueryable<TEntity> BatchQueryable
@@ -86,7 +89,10 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
             get { return 1.ConvertToType<TId>(); }
         }
 
-        protected abstract Func<TEntity,TId> EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched { get; }
+        /// <summary>
+        /// The property/column based on which dataset range filtering is to be done
+        /// </summary>
+        protected abstract Func<TEntity,TId> EntityPropertyRangeFilterIdentifier { get; }
 
         protected virtual void ProcessCurrentBatchFurther(IEnumerable currentBatch) { }
 
@@ -95,15 +101,6 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
             IEnumerable[] batchEnumerables = new IEnumerable[1];
             batchEnumerables[0] = currentSeedBatch;
             return batchEnumerables;
-        }
-
-        /// <summary>
-        /// Gets the Min property value from the repository.
-        /// </summary>
-        /// <returns></returns>
-        private TId GetMinPropertyValue()
-        {
-            return _seedQueryableRepository.Min(x => EntityPropertyBasedOnWhichMinOrMaxValueShouldBeFetched(x));
         }
 
         protected override void FreeManagedResources()
