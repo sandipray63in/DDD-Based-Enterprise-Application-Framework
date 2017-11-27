@@ -22,7 +22,7 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
         private IEnumerable<TEntity> _currentBatch;
         private readonly ILogger _logger;
         private IEnumerable[] _allBatchEnumerablesIncludingCurrentSeedBatch;
-        private TId _maxEntityPropertySeedIdentifier;
+        private TId _maxEntityPropertyRangeFilterIdentifier;
 
         public BaseBatchSeedSelector(IQueryableRepository<TEntity> seedQueryableRepository, int batchSize,ILogger logger)
         {
@@ -67,11 +67,11 @@ namespace ApplicationAndInfrastructureServices.BatchProcessing
             }
             _currentBatchStartPosition = _currentBatch.Max(x => EntityPropertyRangeFilterIdentifier(x));
             _currentBatchStartPosition = _currentBatchStartPosition.Add(ValueToIncrementByToGoToNextBatch);
-            if(_maxEntityPropertySeedIdentifier.IsEqualTo(default(TId)))
+            if(_maxEntityPropertyRangeFilterIdentifier.IsEqualTo(default(TId)))
             {
-                _maxEntityPropertySeedIdentifier = _seedQueryableRepository.Max(x => EntityPropertyRangeFilterIdentifier(x));
+                _maxEntityPropertyRangeFilterIdentifier = _seedQueryableRepository.Max(x => EntityPropertyRangeFilterIdentifier(x));
             }
-            return _currentBatchStartPosition.IsLesserThanOrEqualTo(_maxEntityPropertySeedIdentifier);
+            return _currentBatchStartPosition.IsLesserThanOrEqualTo(_maxEntityPropertyRangeFilterIdentifier);
         }
 
         public void Reset()
