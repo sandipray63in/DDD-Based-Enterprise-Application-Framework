@@ -415,7 +415,6 @@
     <Compile Include="Extensions\MemoizationExtension.cs" />
     <Compile Include="Utilities\MetaDataUtility.cs" />
     <Compile Include="Utilities\ExceptionHandlingUtility.cs" />
-    <Compile Include="Utilities\SerializationUtility.cs" />
     <Compile Include="Utilities\TransactionUtility.cs" />
     <Compile Include="Utilities\XMLUtility.cs" />
     <Compile Include="WCFExtensibility\BehaviourExtensionElement.cs" />
