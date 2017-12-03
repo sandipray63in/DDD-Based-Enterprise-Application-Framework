@@ -9,7 +9,7 @@ namespace Infrastructure.Logging.SemanticLogging.CrossCuttingEventSources
 
         private const int exceptionOccurred = 1;
 
-        [Event(exceptionOccurred, Message = @"Exception Occurred:\r\n {0}", Level = EventLevel.Verbose)]
+        [Event(exceptionOccurred, Message = @"Exception Occurred:\r\n {0}", Level = EventLevel.Error)]
         public void LogException(string exception)
         {
             if (IsEnabled()) WriteEvent(exceptionOccurred, exception);

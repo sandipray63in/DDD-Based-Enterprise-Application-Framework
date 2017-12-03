@@ -9,7 +9,7 @@ namespace Infrastructure.Logging.SemanticLogging.CrossCuttingEventSources
 
         private const int messageLogged = 1;
 
-        [Event(messageLogged, Message = @"{0}", Level = EventLevel.Verbose)]
+        [Event(messageLogged, Message = @"{0}", Level = EventLevel.Informational)]
         public void LogMessage(string messsage)
         {
             if (IsEnabled()) WriteEvent(messageLogged, messsage);

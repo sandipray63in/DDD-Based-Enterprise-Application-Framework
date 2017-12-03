@@ -18,6 +18,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
     {
         private static readonly ILogger _staticLoggerInstance = LoggerFactory.GetLogger(LoggerType.Default);
         private static readonly PolicyBuilder _policyBuilder = BuildPolicyBuilderFromPollyTransientFailureExceptionsXMLFile();
+        private static PollyTransientFailureExceptions _pollyTransientFailureExceptions;
         private static IEnumerable<string> _splittedTransientFailureExceptions;
         private readonly bool _shouldThrowOnException;
         private readonly ILogger _logger;
@@ -52,7 +53,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                     {
-                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(onExceptionCompensatingHandler);
+                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex,onExceptionCompensatingHandler);
                         policyWrap.Execute(action);
                     }
                 },_logger);
@@ -73,7 +74,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                     {
-                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(onExceptionCompensatingHandler);
+                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex,onExceptionCompensatingHandler);
                         return policyWrap.Execute(action);
                     }
                     return default(TReturn);
@@ -95,7 +96,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                     {
-                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
+                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex,onExceptionCompensatingHandler);
                         await policyWrap.ExecuteAsync(action, actionCancellationToken);
                     }
                 }, _logger);
@@ -116,7 +117,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                  {
                      if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                      {
-                         PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(onExceptionCompensatingHandler);
+                         PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex,onExceptionCompensatingHandler);
                          return await policyWrap.ExecuteAsync(func, funcCancellationToken) as Task<TReturn>;
                      }
                      return default(Task<TReturn>);
@@ -133,13 +134,13 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             {
                 PolicyBuilder policyBuilder = null;
                 XDocument xDoc = XDocument.Load(Path.Combine(typeof(BasicPollyExceptionHandler).Assembly.Location, "ExceptionHandling", "PollyBasedExceptionHandling", "PollyTransientFailureExceptions.xml"));
-                PollyTransientFailureExceptions pollyTransientFailureExceptions = XMLUtility.DeSerialize<PollyTransientFailureExceptions>(xDoc.ToString());
-                _splittedTransientFailureExceptions = pollyTransientFailureExceptions.TransientFailureExceptions.SelectMany(x => x.CommaSeperatedTransientFailureExceptions.Split(",", StringSplitOptions.RemoveEmptyEntries)).Distinct();
+                _pollyTransientFailureExceptions = XMLUtility.DeSerialize<PollyTransientFailureExceptions>(xDoc.ToString());
+                _splittedTransientFailureExceptions = _pollyTransientFailureExceptions.TransientFailureExceptions.SelectMany(x => x.CommaSeperatedTransientFailureExceptions.Split(",", StringSplitOptions.RemoveEmptyEntries)).Distinct();
 
                 if (_splittedTransientFailureExceptions.IsNotNullOrEmpty())
                 {
                     string firstTransientFailureException = _splittedTransientFailureExceptions.First();
-                    string assemblyName = pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(x => x.CommaSeperatedTransientFailureExceptions.Contains(firstTransientFailureException)).AssemblyName;
+                    string assemblyName = _pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(x => x.CommaSeperatedTransientFailureExceptions.Contains(firstTransientFailureException)).AssemblyName;
                     Type firstTransientFailureExceptionType = MetaDataUtility.GetTypeFromClassName(assemblyName, firstTransientFailureException);
                     Type[] transientFailureExceptionTypesArray = new Type[1];
                     transientFailureExceptionTypesArray[0] = firstTransientFailureExceptionType;
@@ -150,7 +151,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                     {
                         transientFailureExceptionsOtherThanTheFirst.ForEach(x =>
                          {
-                             assemblyName = pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(y => y.CommaSeperatedTransientFailureExceptions.Contains(x)).AssemblyName;
+                             assemblyName = _pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(y => y.CommaSeperatedTransientFailureExceptions.Contains(x)).AssemblyName;
                              Type transientFailureExceptionTypeForOtherThanTheFirst = MetaDataUtility.GetTypeFromClassName(assemblyName, x);
                              Type[] transientFailureExceptionTypesArrayForOtherThanTheFirst = new Type[1];
                              transientFailureExceptionTypesArrayForOtherThanTheFirst[0] = transientFailureExceptionTypeForOtherThanTheFirst;
@@ -163,36 +164,55 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             },_staticLoggerInstance);
         }
 
-        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(Action fallbackAction)
+        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(Exception ex,Action fallbackAction)
         {
-            IEnumerable<IPolicy> clonedPolicies = CloningUtility.Clone(_policies);
+            IEnumerable<IPolicy> policiesForCurrentException = GetPoliciesForException(ex);
             if (fallbackAction.IsNotNull())
             {
                 _areFallbackPoliciesAlreadyHandled = true;
-                clonedPolicies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
+                policiesForCurrentException.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
             }
             else
             {
                 _areFallbackPoliciesAlreadyHandled = false;
-                clonedPolicies = clonedPolicies.Where(x => !(x is IFallbackActionPolicy));
+                policiesForCurrentException = policiesForCurrentException.Where(x => !(x is IFallbackActionPolicy));
             }
-            return _policyWrapForSyncOperationsFunc(clonedPolicies);
+            return _policyWrapForSyncOperationsFunc(policiesForCurrentException);
         }
 
-        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(Func<CancellationToken, Task> fallbackAction)
+        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(Exception ex, Func<CancellationToken, Task> fallbackAction)
         {
-            IEnumerable<IPolicy> clonedPolicies = CloningUtility.Clone(_policies);
+            IEnumerable<IPolicy> policiesForCurrentException = GetPoliciesForException(ex);
             if (fallbackAction.IsNotNull())
             {
                 _areFallbackPoliciesAlreadyHandled = true;
-                clonedPolicies.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
+                policiesForCurrentException.Where(x => x is IFallbackActionPolicy).Select(x => x as IFallbackActionPolicy).ForEach(x => x.SetFallbackAction(fallbackAction));
             }
             else
             {
                 _areFallbackPoliciesAlreadyHandled = false;
-                clonedPolicies = clonedPolicies.Where(x => !(x is IFallbackActionPolicy));
+                policiesForCurrentException = policiesForCurrentException.Where(x => !(x is IFallbackActionPolicy));
             }
-            return _policyWrapForAsyncOperationsFunc(clonedPolicies);
+            return _policyWrapForAsyncOperationsFunc(policiesForCurrentException);
+        }
+
+        private IEnumerable<IPolicy> GetPoliciesForException(Exception ex)
+        {
+            IEnumerable<string> pollyExceptionPoliciesFromXMLFileToBeAppliedForCurrentException = _pollyTransientFailureExceptions.TransientFailureExceptions
+                                                                                                 .SingleOrDefault(x => x.CommaSeperatedTransientFailureExceptions.Contains(ex.GetType().Name))
+                                                                                                 .CommaSeperatedPollyPoliciesNames.Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                                                                                 .Distinct();
+            IEnumerable<IPolicy> clonedPolicies = CloningUtility.Clone(_policies);
+            clonedPolicies = clonedPolicies.Where(x => pollyExceptionPoliciesFromXMLFileToBeAppliedForCurrentException.Contains(x.GetType().Name));
+            IEnumerable<string> pollyExceptionPoliciesPresentInXMLFileForCurrentExceptionButNotInjectedInDependencies =
+                                pollyExceptionPoliciesFromXMLFileToBeAppliedForCurrentException.Except(clonedPolicies.Select(x => x.GetType().Name));
+            if (pollyExceptionPoliciesPresentInXMLFileForCurrentExceptionButNotInjectedInDependencies.IsNotNullOrEmpty())
+            {
+                _logger.LogWarning("The following transient failures are part of the polly exception xml file for the current exception viz. "
+                                    + ex.GetType().Name + " but not injected as part of the dependencies : " + Environment.NewLine
+                                    + pollyExceptionPoliciesPresentInXMLFileForCurrentExceptionButNotInjectedInDependencies.Aggregate((a, b) => a + Environment.NewLine + b));
+            }
+            return clonedPolicies;
         }
 
         private void HandleExceptionWithThrowCondition(Exception ex, Action onExceptionCompensatingHandler)

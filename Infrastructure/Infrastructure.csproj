@@ -383,6 +383,7 @@
     <Compile Include="Logging\LoggerFactory.cs" />
     <Compile Include="Logging\Loggers\ILogger.cs" />
     <Compile Include="Logging\Loggers\SemanticLogger.cs" />
+    <Compile Include="Logging\SemanticLogging\CrossCuttingEventSources\WarningLogEvents.cs" />
     <Compile Include="Observers\ISubscribeUnsubscribe.cs" />
     <Compile Include="Observers\Observable.cs" />
     <Compile Include="Observers\Observer.cs" />

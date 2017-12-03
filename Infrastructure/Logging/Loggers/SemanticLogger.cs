@@ -14,5 +14,10 @@ namespace Infrastructure.Logging.Loggers
         {
             MessageLogEvents.Log.LogMessage(message);
         }
+
+        public void LogWarning(string message)
+        {
+            WarningLogEvents.Log.LogWarning(message);
+        }
     }
 }
