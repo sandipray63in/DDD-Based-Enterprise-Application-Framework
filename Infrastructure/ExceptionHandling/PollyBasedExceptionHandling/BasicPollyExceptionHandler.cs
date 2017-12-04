@@ -53,10 +53,10 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                     {
-                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex,onExceptionCompensatingHandler);
+                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex, onExceptionCompensatingHandler);
                         policyWrap.Execute(action);
                     }
-                },_logger);
+                }, _logger);
                 HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler);
             }
         }
@@ -74,7 +74,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                     {
-                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex,onExceptionCompensatingHandler);
+                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex, onExceptionCompensatingHandler);
                         return policyWrap.Execute(action);
                     }
                     return default(TReturn);
@@ -96,7 +96,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                     {
-                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex,onExceptionCompensatingHandler);
+                        PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex, onExceptionCompensatingHandler);
                         await policyWrap.ExecuteAsync(action, actionCancellationToken);
                     }
                 }, _logger);
@@ -117,12 +117,12 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                  {
                      if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
                      {
-                         PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex,onExceptionCompensatingHandler);
+                         PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex, onExceptionCompensatingHandler);
                          return await policyWrap.ExecuteAsync(func, funcCancellationToken) as Task<TReturn>;
                      }
                      return default(Task<TReturn>);
                  }, _logger);
-                
+
                 HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
             return await returnValue;
@@ -161,10 +161,10 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                     }
                 }
                 return policyBuilder;
-            },_staticLoggerInstance);
+            }, _staticLoggerInstance);
         }
 
-        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(Exception ex,Action fallbackAction)
+        private PolicyWrap GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(Exception ex, Action fallbackAction)
         {
             IEnumerable<IPolicy> policiesForCurrentException = GetPoliciesForException(ex);
             if (fallbackAction.IsNotNull())
@@ -198,8 +198,9 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
 
         private IEnumerable<IPolicy> GetPoliciesForException(Exception ex)
         {
+            string exceptionTypeName = ex.GetType().Name;
             IEnumerable<string> pollyExceptionPoliciesFromXMLFileToBeAppliedForCurrentException = _pollyTransientFailureExceptions.TransientFailureExceptions
-                                                                                                 .SingleOrDefault(x => x.CommaSeperatedTransientFailureExceptions.Contains(ex.GetType().Name))
+                                                                                                 .SingleOrDefault(x => x.CommaSeperatedTransientFailureExceptions.Contains(exceptionTypeName))
                                                                                                  .CommaSeperatedPollyPoliciesNames.Split(",", StringSplitOptions.RemoveEmptyEntries)
                                                                                                  .Distinct();
             IEnumerable<IPolicy> clonedPolicies = CloningUtility.Clone(_policies);
@@ -209,7 +210,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             if (pollyExceptionPoliciesPresentInXMLFileForCurrentExceptionButNotInjectedInDependencies.IsNotNullOrEmpty())
             {
                 _logger.LogWarning("The following transient failures are part of the polly exception xml file for the current exception viz. "
-                                    + ex.GetType().Name + " but not injected as part of the dependencies : " + Environment.NewLine
+                                    + exceptionTypeName + " but not injected as part of the dependencies : " + Environment.NewLine
                                     + pollyExceptionPoliciesPresentInXMLFileForCurrentExceptionButNotInjectedInDependencies.Aggregate((a, b) => a + Environment.NewLine + b));
             }
             return clonedPolicies;
@@ -217,35 +218,30 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
 
         private void HandleExceptionWithThrowCondition(Exception ex, Action onExceptionCompensatingHandler)
         {
-            if (ex.IsNotNull())
+            _logger.LogException(ex);
+            if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
             {
-                _logger.LogException(ex);
-                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
-                {
-                    _areFallbackPoliciesAlreadyHandled = true;
-                    onExceptionCompensatingHandler();
-                }
-                if (_shouldThrowOnException)
-                {
-                    throw new Exception("Check Inner Exception", ex);
-                }
+                _areFallbackPoliciesAlreadyHandled = true;
+                onExceptionCompensatingHandler();
             }
+            if (_shouldThrowOnException)
+            {
+                throw new Exception("Check Inner Exception", ex);
+            }
+
         }
 
         private void HandleExceptionWithThrowCondition(Exception ex, Func<CancellationToken, Task> onExceptionCompensatingHandler, CancellationToken onExceptionCompensatingHandlerCancellationToken)
         {
-            if (ex.IsNotNull())
+            _logger.LogException(ex);
+            if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
             {
-                _logger.LogException(ex);
-                if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
-                {
-                    _areFallbackPoliciesAlreadyHandled = true;
-                    onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
-                }
-                if (_shouldThrowOnException)
-                {
-                    throw new Exception("Check Inner Exception", ex);
-                }
+                _areFallbackPoliciesAlreadyHandled = true;
+                onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
+            }
+            if (_shouldThrowOnException)
+            {
+                throw new Exception("Check Inner Exception", ex);
             }
         }
     }
