@@ -101,7 +101,7 @@ namespace Infrastructure.Extensions
         public static bool IsLesserThan<TStruct>(this TStruct structValue, TStruct otherStructValue)
             where TStruct : struct, IComparable<TStruct>
         {
-            return !structValue.IsGreaterThan(otherStructValue);
+            return !structValue.IsGreaterThan(otherStructValue) && !structValue.IsEqualTo(otherStructValue);
         }
 
         public static bool IsGreaterThanOrEqualTo<TStruct>(this TStruct structValue, TStruct otherStructValue)
