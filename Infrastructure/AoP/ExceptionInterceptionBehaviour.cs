@@ -56,12 +56,8 @@ namespace Infrastructure.AoP
                     if (_exceptionHandler.IsNull())
                     {
                         _logger.LogException(methodReturnException);
-                        throw new Exception("Method Return Exception.Please check inner exception", methodReturnException);
                     }
-                    else
-                    {
-                        throw methodReturnException;
-                    }
+                    throw methodReturnException;
                 }
                 else
                 {
