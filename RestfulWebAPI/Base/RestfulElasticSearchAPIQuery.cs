@@ -9,23 +9,23 @@ using Repository;
 
 namespace RestfulWebAPI.Base
 {
-    public class RestfulElasticSearchAPIQuery<TId,TEntity> : RestfulAPIQuery<TId,TEntity>
-        where TId : struct
+    public class RestfulElasticSearchAPIQuery<TEntity, TId> : RestfulAPIQuery<TEntity, TId>
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
+        where TId : struct
     {
-        public RestfulElasticSearchAPIQuery(IElasticSearchableQueryableDomainServiceAsync<TId, TEntity> queryableDomainServiceAsync) : base(queryableDomainServiceAsync)
+        public RestfulElasticSearchAPIQuery(IElasticSearchableQueryableDomainServiceAsync<TEntity, TId> queryableDomainServiceAsync) : base(queryableDomainServiceAsync)
         {
 
         }
 
         public virtual async Task<IEnumerable<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken))
         {
-            return await (_queryableDomainServiceAsync as IElasticSearchableQueryableDomainServiceAsync<TId, TEntity>).QueryStringAsync(term,token);
+            return await (_queryableDomainServiceAsync as IElasticSearchableQueryableDomainServiceAsync<TEntity, TId>).QueryStringAsync(term,token);
         }
 
         public virtual async Task<PagingTableResult<TEntity>> GetAllPagedResultAsync(string id, int startIndex, int pageSize, string sorting, CancellationToken token = default(CancellationToken))
         {
-          return await (_queryableDomainServiceAsync as IElasticSearchableQueryableDomainServiceAsync<TId, TEntity>).GetAllPagedResultAsync(id,startIndex,pageSize,sorting, token);
+          return await (_queryableDomainServiceAsync as IElasticSearchableQueryableDomainServiceAsync<TEntity, TId>).GetAllPagedResultAsync(id,startIndex,pageSize,sorting, token);
         }
 
         //TODO - Need to include the Fuzzy Search API

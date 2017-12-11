@@ -10,9 +10,9 @@ using Repository;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public interface IElasticSearchableQueryableDomainServiceAsync<TId,TEntity> : IQueryableDomainServiceAsync<TId,TEntity>
-        where TId : struct
+    public interface IElasticSearchableQueryableDomainServiceAsync<TEntity, TId> : IQueryableDomainServiceAsync<TEntity, TId>
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
+        where TId : struct
     {
         Task<IEnumerable<TEntity>> QueryStringAsync(string term, CancellationToken token = default(CancellationToken), Action operationToExecuteBeforeNextOperation = null);
 

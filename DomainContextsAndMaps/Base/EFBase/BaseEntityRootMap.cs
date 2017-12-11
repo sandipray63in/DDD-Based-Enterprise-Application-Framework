@@ -7,9 +7,9 @@ using Infrastructure.Utilities;
 
 namespace DomainContextsAndMaps.Base.EFBase
 {
-    public abstract class BaseEntityRootMap<TId,TEntity> : EntityTypeConfiguration<TEntity>
-        where TId : struct
+    public abstract class BaseEntityRootMap<TEntity, TId> : EntityTypeConfiguration<TEntity>
         where TEntity : BaseEntity<TId>
+        where TId : struct
     {
         protected abstract string IDColumnName { get; }
 

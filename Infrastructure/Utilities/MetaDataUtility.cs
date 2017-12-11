@@ -13,13 +13,34 @@ namespace Infrastructure.Utilities
         /// <param name="assemblyName"></param>
         /// <param name="className"></param>
         /// <returns></returns>
-        public static Type GetTypeFromClassName(string assemblyName, string className)
+        public static Type GetType(string assemblyName, string className)
         {
             Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name.Equals(assemblyName,StringComparison.InvariantCultureIgnoreCase));
             ContractUtility.Requires<ArgumentNullException>(assembly.IsNotNull(), assemblyName + " not found");
             Type type = assembly.GetTypes().SingleOrDefault(x => x.Name.Equals(className, StringComparison.InvariantCultureIgnoreCase));
             ContractUtility.Requires<ArgumentNullException>(type.IsNotNull(), className + " not found within " + assemblyName);
             return type;
+        }
+
+        /// <summary>
+        /// Gets the type of the generic class from the supplied open generic type(e.g typeof(Task<>)), genericArgumentsAssemblyName and genericArgumentsClassNames
+        /// </summary>
+        /// <param name="genericOpenType"></param>
+        /// <param name="genericArgumentsAssemblyName"></param>
+        /// <param name="genericArgumentsClassNames"></param>
+        /// <returns></returns>
+        public static Type GetGenericType(Type genericOpenType,string genericArgumentsAssemblyName, string[] genericArgumentsClassNames,Type[] extraExplicitGenericArgumentTypes = null)
+        {
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name.Equals(genericArgumentsAssemblyName, StringComparison.InvariantCultureIgnoreCase));
+            ContractUtility.Requires<ArgumentNullException>(assembly.IsNotNull(), genericArgumentsAssemblyName + " not found");
+            Type[] genericArgumentTypes = assembly.GetTypes().Where(x => genericArgumentsClassNames.Contains(x.Name)).ToArray();
+            ContractUtility.Requires<ArgumentNullException>(genericArgumentTypes.IsNotNull(), genericArgumentsAssemblyName + " does not contain " + genericArgumentsClassNames.Aggregate((a,b) => a + " or " + b));
+            ContractUtility.Requires<ArgumentOutOfRangeException>(genericArgumentTypes.IsNotEmpty(), genericArgumentsAssemblyName + " does not contain " + genericArgumentsClassNames.Aggregate((a, b) => a + " or " + b));
+            if(extraExplicitGenericArgumentTypes.IsNotNullOrEmpty())
+            {
+                genericArgumentTypes.AddRangeIfNotContains(extraExplicitGenericArgumentTypes);
+            }
+            return genericOpenType.MakeGenericType(genericArgumentTypes);
         }
 
         /// <summary>

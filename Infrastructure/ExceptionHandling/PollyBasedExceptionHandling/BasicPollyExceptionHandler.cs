@@ -141,7 +141,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 {
                     string firstTransientFailureException = _splittedTransientFailureExceptions.First();
                     string assemblyName = _pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(x => x.CommaSeperatedTransientFailureExceptions.Contains(firstTransientFailureException)).AssemblyName;
-                    Type firstTransientFailureExceptionType = MetaDataUtility.GetTypeFromClassName(assemblyName, firstTransientFailureException);
+                    Type firstTransientFailureExceptionType = MetaDataUtility.GetType(assemblyName, firstTransientFailureException);
                     Type[] transientFailureExceptionTypesArray = new Type[1];
                     transientFailureExceptionTypesArray[0] = firstTransientFailureExceptionType;
                     policyBuilder = MetaDataUtility.InvokeStaticMethod<Policy, PolicyBuilder>("Handle", transientFailureExceptionTypesArray);
@@ -152,7 +152,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                         transientFailureExceptionsOtherThanTheFirst.ForEach(x =>
                          {
                              assemblyName = _pollyTransientFailureExceptions.TransientFailureExceptions.SingleOrDefault(y => y.CommaSeperatedTransientFailureExceptions.Contains(x)).AssemblyName;
-                             Type transientFailureExceptionTypeForOtherThanTheFirst = MetaDataUtility.GetTypeFromClassName(assemblyName, x);
+                             Type transientFailureExceptionTypeForOtherThanTheFirst = MetaDataUtility.GetType(assemblyName, x);
                              Type[] transientFailureExceptionTypesArrayForOtherThanTheFirst = new Type[1];
                              transientFailureExceptionTypesArrayForOtherThanTheFirst[0] = transientFailureExceptionTypeForOtherThanTheFirst;
                              policyBuilder = MetaDataUtility.InvokeInstanceMethod<PolicyBuilder, PolicyBuilder>(policyBuilder, "Or", transientFailureExceptionTypesArrayForOtherThanTheFirst);

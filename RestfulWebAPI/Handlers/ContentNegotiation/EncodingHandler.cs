@@ -1,10 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using RestfulWebAPI.Encoding;
-using System.IO;
-using System;
 
 namespace RestfulWebAPI.Handlers.ContentNegotiation
 {
@@ -24,9 +24,9 @@ namespace RestfulWebAPI.Handlers.ContentNegotiation
                     response.Content.Headers.ContentEncoding.Add(schema.ContentEncoding);
                 }
             }
-            catch (NegotiationFailedException)
+            catch (NegotiationFailedException ex)
             {
-                return request.CreateResponse(HttpStatusCode.NotAcceptable);
+                return request.CreateResponse(HttpStatusCode.NotAcceptable, ex.Message);
             }
             return response;
         }

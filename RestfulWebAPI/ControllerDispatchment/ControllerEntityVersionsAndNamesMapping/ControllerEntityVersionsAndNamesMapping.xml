@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Controllers>
+  <!--entityName of the controller is Optional-->
+  <!--version of the controller is Optional-->
+  <!--Methods may be specified or not within a controller-->
+  <controller entityName=""/>
+  <controller entityName="" controllerName="" version=""/>
+</Controllers>

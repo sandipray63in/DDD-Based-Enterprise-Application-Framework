@@ -21,20 +21,17 @@ namespace RestfulWebAPI.Base
     /// and then retrieve it from cache and then use it using some Global Custom Filter. Infact any Filter in general for which we apply some decorative 
     /// attribute should follow this approach.
     /// 
-    /// TODO - To write a custom HTTPControllerSelector and HttpControllerActivator which will invoke RestfulAPI<TEntity> as per TEntity.May need a Lookup based
-    /// approach.
-    /// 
-    /// TODO - Need to come up with a way to send the appropriate response(not only Ok or Badrequest) back to the client
+    /// TODO - Need to come up with implementations to send the appropriate response(not only Ok or Badrequest) back to the client
     /// as per the content that needs to be sent or the exception thrown.May need to change Domain Services accordingly.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class RestfulAPIQuery<TId,TEntity> : BaseDisposableAPIController
-        where TId : struct
+    public class RestfulAPIQuery<TEntity, TId> : BaseDisposableAPIController
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
+        where TId : struct
     {
-        protected readonly IQueryableDomainServiceAsync<TId,TEntity> _queryableDomainServiceAsync;
+        protected readonly IQueryableDomainServiceAsync<TEntity, TId> _queryableDomainServiceAsync;
 
-        public RestfulAPIQuery(IQueryableDomainServiceAsync<TId,TEntity> queryableDomainServiceAsync)
+        public RestfulAPIQuery(IQueryableDomainServiceAsync<TEntity, TId> queryableDomainServiceAsync)
         {
             ContractUtility.Requires<ArgumentNullException>(queryableDomainServiceAsync != null, "queryableDomainServiceAsync instance cannot be null");
             _queryableDomainServiceAsync = queryableDomainServiceAsync;

@@ -9,9 +9,9 @@ using Domain.Base.Entities;
 
 namespace DomainServices.Base.QueryableDomainServices
 {
-    public interface IQueryableDomainServiceAsync<TId, TEntity> : IDisposable
-        where TId : struct
+    public interface IQueryableDomainServiceAsync<TEntity, TId> : IDisposable
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
+        where TId : struct
     {
         Task<IQueryable<TEntity>> GetAsync(CancellationToken token = default(CancellationToken));
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default(CancellationToken));

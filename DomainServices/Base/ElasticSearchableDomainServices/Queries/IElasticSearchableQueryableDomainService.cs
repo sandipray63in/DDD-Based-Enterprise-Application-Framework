@@ -8,9 +8,9 @@ using Repository;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public interface IElasticSearchableQueryableDomainService<TId, TEntity> : IQueryableDomainService<TId, TEntity>
-        where TId : struct
+    public interface IElasticSearchableQueryableDomainService<TEntity, TId> : IQueryableDomainService<TEntity, TId>
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
+        where TId : struct
     {
         IEnumerable<TEntity> QueryString(string term, Action operationToExecuteBeforeNextOperation = null);
 

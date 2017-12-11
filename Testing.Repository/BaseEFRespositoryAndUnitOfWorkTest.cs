@@ -81,7 +81,7 @@ namespace Testing.Respository
 
         private void RegisterCommandRepository<TEntity>(bool isUnitOfWorkRequired = false) where TEntity : BaseEntity<int>, ICommandAggregateRoot
         {
-            _container.RegisterType<ICommand<TEntity>, EntityFrameworkCodeFirstCommand<int,TEntity>>();
+            _container.RegisterType<ICommand<TEntity>, EntityFrameworkCodeFirstCommand<TEntity, int>>();
             EFTestContext context = _container.Resolve<EFTestContext>();
             ICommand<TEntity> command = _container.Resolve<ICommand<TEntity>>(new ParameterOverride("dbContext", context));
             string respositoryName = isUnitOfWorkRequired ? REPOSITORY_WITH_UNIT_OF_WORK : REPOSITORY_WITHOUT_UNIT_OF_WORK;

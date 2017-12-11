@@ -90,6 +90,7 @@
       <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f" />
     <Reference Include="System" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -149,6 +150,8 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -225,8 +228,11 @@
     <Compile Include="Binding\ParameterBinding\AllRequestParameterBinding.cs" />
     <Compile Include="Binding\ValueProviders\HeaderValueProvider.cs" />
     <Compile Include="Binding\ValueProviders\HeaderValueProviderFactory.cs" />
-    <Compile Include="ControllerDispatchment\URIAndHeaderBasedHttpControllerActivator.cs" />
-    <Compile Include="ControllerDispatchment\URIAndHeaderBasedHttpControllerSelector.cs" />
+    <Compile Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\EntitiesXML.cs" />
+    <Compile Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\EntityXML.cs" />
+    <Compile Include="ControllerDispatchment\HttpControllerActivator.cs" />
+    <Compile Include="ControllerDispatchment\ActionDispatchment\HybridActionSelector.cs" />
+    <Compile Include="ControllerDispatchment\VersionHandlingHttpControllerSelector.cs" />
     <Compile Include="Encoding\EncodedContent.cs" />
     <Compile Include="Encoding\EncodingSchema.cs" />
     <Compile Include="Filters\AuthorizeByTimeSlot.cs" />
@@ -242,12 +248,16 @@
     <Compile Include="Binding\MediaFormatters\BaseFixedWidthTextMediaFormatter.cs" />
     <Compile Include="Binding\MediaFormatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="Binding\MediaType\IPBasedMediaTypeMapping.cs" />
+    <Compile Include="Handlers\ExceptionHandling\ExceptionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Versioning\ApiVersionRouteConstraint .cs" />
+    <Compile Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\ControllersXML.cs" />
+    <Compile Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\ControllerXML.cs" />
+    <Compile Include="Utilities\HttpResponseUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\Readme.txt" />
+    <Content Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\EntitiesAndIDTypesMapping.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -261,7 +271,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="XMLAndXSD\ControllerVersionAndName\ControllerVersionsAndNames.xml">
+    <Content Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\ControllerEntityVersionsAndNamesMapping.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
@@ -270,14 +280,17 @@
     <Folder Include="EventDrivenRest\Atom\" />
     <Folder Include="EventDrivenRest\HAL\" />
     <Folder Include="Handlers\Security\" />
-    <Folder Include="Throttling\" />
+    <Folder Include="Handlers\Throttling\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
-    <None Include="XMLAndXSD\ControllerVersionAndName\ControllerVersionsAndNames.xsd">
+    <None Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\ControllerEntityVersionAndNameMapping.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ControllerDispatchment\ControllerEntityVersionsAndNamesMapping\EntitiesAndIDTypesMapping.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainServices\DomainServices.csproj">

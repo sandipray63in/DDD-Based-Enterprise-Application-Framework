@@ -6,9 +6,9 @@ using Domain.Base.Entities.Composites;
 
 namespace DomainContextsAndMaps.Base.EFBase
 {
-    public abstract class BaseEntityWithAuditInfoRootMap<TId, TEntity> : BaseEntityRootMap<TId, TEntity>
+    public abstract class BaseEntityWithAuditInfoRootMap<TEntity, TId> : BaseEntityRootMap<TEntity, TId>
+        where TEntity : BaseEntityComposite<TId, AuditInfo>
         where TId : struct
-        where TEntity : BaseEntityComposite<TId,AuditInfo>
     {
         #region Actual Audit Columns Overridables
 

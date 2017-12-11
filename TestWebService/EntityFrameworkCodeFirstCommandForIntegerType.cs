@@ -5,7 +5,7 @@ using Repository.Command;
 
 namespace TestWebService
 {
-    public class EntityFrameworkCodeFirstCommandForIntegerType<TEntity> : EntityFrameworkCodeFirstCommand<int, TEntity>
+    public class EntityFrameworkCodeFirstCommandForIntegerType<TEntity> : EntityFrameworkCodeFirstCommand<TEntity, int>
         where TEntity : BaseEntity<int>, ICommandAggregateRoot
     {
         public EntityFrameworkCodeFirstCommandForIntegerType(DbContext dbContext) : base(dbContext)

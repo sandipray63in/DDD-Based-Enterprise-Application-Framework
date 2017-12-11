@@ -1,5 +1,13 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Dispatcher;
+using Microsoft.Practices.Unity;
 using Microsoft.Owin.Security.OAuth;
+using RestfulWebAPI.ControllerDispatchment;
+using RestfulWebAPI.ControllerDispatchment.ActionDispatchment;
+using RestfulWebAPI.Handlers.ExceptionHandling;
+using Infrastructure.DI;
+using Infrastructure.Logging.Loggers;
 
 namespace RestfulWebAPI
 {
@@ -16,41 +24,20 @@ namespace RestfulWebAPI
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                name: "DefaultApi",//Set the proper site name here
+                routeTemplate: "api/{controllerVersion}/{entityName}/{id}",//TODO - Need to support Actions at various levels
+                defaults: new { controllerVersion=RouteParameter.Optional, id = RouteParameter.Optional }
             );
 
-            ////
-            //// For the time being commented but add whatever is required.
-            ////
+            //Message handlers are called in the same order that they appear in MessageHandlers collection.
+            //Because they are nested, the response message travels in the other direction.
+            //That is, the last handler is the first to get the response message. 
+            ILogger logger = Container.Instance.Resolve<ILogger>();
+            config.MessageHandlers.Add(new ExceptionHandler(logger));
 
-            //var fwtMediaFormatter = new FixedWidthTextMediaFormatter();
-            //fwtMediaFormatter.MediaTypeMappings.Add(
-            //    new QueryStringMapping("frmt", "fwt",
-            //        new MediaTypeHeaderValue("text/plain")));
-
-            //config.Formatters.Add(fwtMediaFormatter);
-
-            //config.Formatters.Add(new JsonpMediaTypeFormatter());
-            //config.Formatters.JsonFormatter.MediaTypeMappings.Add(new IPBasedMediaTypeMapping());
-
-            //config.MessageHandlers.Add(new EncodingHandler());
-            //config.MessageHandlers.Add(new CultureHandler());
-
-            //var rules = config.ParameterBindingRules;
-            //rules.Insert(0, p =>
-            //{
-            //    if (p.ParameterType == typeof(Employee))
-            //    {
-            //        return new AllRequestParameterBinding(p);
-            //    }
-
-            //    return null;
-            //});
-
-            //config.Services.Add(typeof(System.Web.Http.ValueProviders.ValueProviderFactory),
-            //                                       new HeaderValueProviderFactory());
+            config.Services.Replace(typeof(IHttpControllerSelector), new VersionHandlingHttpControllerSelector(config));
+            config.Services.Replace(typeof(IHttpControllerActivator), new HttpControllerActivator());
+            config.Services.Replace(typeof(IHttpActionSelector), new HybridActionSelector());
         }
     }
 }

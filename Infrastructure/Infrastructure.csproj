@@ -417,6 +417,7 @@
     <Compile Include="Utilities\ExceptionHandlingUtility.cs" />
     <Compile Include="Utilities\TransactionUtility.cs" />
     <Compile Include="Utilities\XMLUtility.cs" />
+    <Compile Include="Utilities\XSDUtility.cs" />
     <Compile Include="WCFExtensibility\BehaviourExtensionElement.cs" />
     <Compile Include="WCFExtensibility\UnityIntegration\UnityBehaviourExtensionElement.cs" />
     <Compile Include="WCFExtensibility\UnityIntegration\UnityServiceBehavior.cs" />

@@ -31,7 +31,7 @@ namespace MongoDBDomainMaps
 
         #region Mongo Collection   
 
-        public IMongoCollection<TEntity> GetMongoCollection<TId,TEntity>()
+        public IMongoCollection<TEntity> GetMongoCollection<TEntity, TId>()
          where TId : struct
          where TEntity : BaseEntityComposite<TId,MongoInfo>
         {

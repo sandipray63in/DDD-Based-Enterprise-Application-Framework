@@ -14,29 +14,29 @@ using Infrastructure.Utilities;
 
 namespace Repository.Queryable
 {
-    public class MongoQuery<TId,TEntity> : DisposableClass, IQuery<TEntity>
+    public class MongoQuery<TEntity, TId> : DisposableClass, IQuery<TEntity>
+        where TEntity : BaseEntityComposite<TId, MongoInfo>, IQueryableAggregateRoot
         where TId : struct
-         where TEntity : BaseEntityComposite<TId, MongoInfo>, IQueryableAggregateRoot
     {
         private IMongoQueryable<TEntity> _queryableMongoCollection;
 
         public MongoQuery(MongoContext mongoContext)
         {
             ContractUtility.Requires<ArgumentNullException>(mongoContext != null, "mongoContext instance cannot be null");
-            _queryableMongoCollection = mongoContext.GetMongoCollection<TId,TEntity>().AsQueryable();
+            _queryableMongoCollection = mongoContext.GetMongoCollection<TEntity, TId>().AsQueryable();
         }
 
         /// Mongo being schemaless, doesn't require the methods below like Include and GetWithRawSql
 
         public IQueryable<TEntity> Include(Expression<Func<TEntity, object>> subSelector)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(MongoQuery<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(MongoQuery<TEntity, TId>).FullName);
             throw new NotSupportedException();
         }
 
         public IEnumerable<TEntity> GetWithRawSQL(string getQuery, params object[] parameters)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(MongoQuery<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(MongoQuery<TEntity, TId>).FullName);
             throw new NotSupportedException();
         }
 

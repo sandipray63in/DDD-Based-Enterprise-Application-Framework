@@ -10,9 +10,9 @@ using Repository.Base;
 
 namespace DomainServices.Base.QueryableDomainServices
 {
-    public class QueryableDomainService<TId,TEntity> : DisposableClass, IQueryableDomainService<TId,TEntity>
-        where TId : struct
+    public class QueryableDomainService<TEntity, TId> : DisposableClass, IQueryableDomainService<TEntity, TId>
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
+        where TId : struct
     {
         protected readonly IQueryableRepository<TEntity> _repository;
 
@@ -24,49 +24,49 @@ namespace DomainServices.Base.QueryableDomainServices
 
         public virtual IQueryable<TEntity> Get()
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository;
         }
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository.Select(x => x);
         }
 
         public virtual TEntity GetByID(TId id)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository.FirstOrDefault(x => x.Id.Equals(id));
         }
 
         public virtual IEnumerable<TEntity> GetByFilterExpression(Expression<Func<TEntity, bool>> whereExpression)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository.Where(whereExpression);
         }
 
         public virtual IEnumerable<TEntity> GetByOrderExpression<TKey>(Expression<Func<TEntity, TKey>> orderExpression)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository.OrderBy(orderExpression);
         }
 
         public virtual IEnumerable<TEntity> GetByExpression<TKey>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, TKey>> orderExpression)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository.Where(whereExpression).OrderBy(orderExpression);
         }
 
         public virtual IEnumerable<TEntity> IncludeList(Expression<Func<TEntity, object>> subSelector)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository.Include(subSelector);
         }
 
         public virtual IQueryable<TEntity> Include(Expression<Func<TEntity, object>> subSelector)
         {
-            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TId, TEntity>).FullName);
+            CheckForObjectAlreadyDisposedOrNot(typeof(QueryableDomainService<TEntity, TId>).FullName);
             return _repository.Include(subSelector);
         }
 

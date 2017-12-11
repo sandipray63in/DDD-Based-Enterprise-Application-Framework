@@ -3,7 +3,7 @@ using TestEFDomainAndContext.TestDomains;
 
 namespace TestEFDomainAndContext.TestEFDomainMaps
 {
-    public class EmployeeMap : BaseEntityWithAuditInfoRootMap<int, Employee>
+    public class EmployeeMap : BaseEntityWithAuditInfoRootMap<Employee, int>
     {
         #region Actual Columns Constants
 

@@ -4,9 +4,9 @@ using Domain.Base.Entities.Composites;
 
 namespace DomainContextsAndMaps.Base.EFBase
 {
-    public abstract class BaseEntityAsSoftDeleteableRootMap<TId,TEntity> : BaseEntityRootMap<TId,TEntity>
-        where TId : struct
+    public abstract class BaseEntityAsSoftDeleteableRootMap<TEntity, TId> : BaseEntityRootMap<TEntity, TId>
         where TEntity : BaseEntityComposite<TId, SoftDeleteableInfo>
+        where TId : struct
     {
         protected virtual string IsDeletedColumnName { get; } = "col_is_deleted";
         protected virtual string DeletedOnColumnName { get; } = "col_deleted_on";

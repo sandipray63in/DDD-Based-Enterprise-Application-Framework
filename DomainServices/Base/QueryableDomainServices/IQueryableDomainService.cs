@@ -7,9 +7,9 @@ using Domain.Base.Entities;
 
 namespace DomainServices.Base.QueryableDomainServices
 {
-    public interface IQueryableDomainService<TId, TEntity> : IDisposable
-        where TId : struct
+    public interface IQueryableDomainService<TEntity, TId> : IDisposable
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot
+        where TId : struct
     {
         IQueryable<TEntity> Get();
         IEnumerable<TEntity> GetAll();

@@ -11,9 +11,9 @@ using Repository.Base;
 
 namespace DomainServices.Base.ElasticSearchableDomainServices.Queries
 {
-    public class ElasticSearchableQueryableDomainService<TId, TEntity> : QueryableDomainService<TId, TEntity>, IElasticSearchableQueryableDomainService<TId, TEntity>
-        where TId : struct
+    public class ElasticSearchableQueryableDomainService<TEntity, TId> : QueryableDomainService<TEntity, TId>, IElasticSearchableQueryableDomainService<TEntity, TId>
         where TEntity : BaseEntity<TId>, IQueryableAggregateRoot, IElasticSearchable
+        where TId : struct
     {
         public ElasticSearchableQueryableDomainService(IQueryableElasticSearchRepository<TEntity> repository) : base(repository)
         {
