@@ -30,17 +30,17 @@ namespace RestfulWebAPI.Handlers.ExceptionHandling
             {
                 _logger.LogException(ex);
                 errResponse = request.CreateErrorResponse(ex.Response.StatusCode, ex.Message);
-                return await GetErrorResponse(errResponse);
+                return await GetErrorResponseTask(errResponse);
             }
             catch(Exception ex)
             {
                 _logger.LogException(ex);
                 errResponse = request.CreateErrorResponse(HttpStatusCode.InternalServerError, GENERIC_EXCEPTION_MESSAGE);
-                return await GetErrorResponse(errResponse);
+                return await GetErrorResponseTask(errResponse);
             }
         }
 
-        private async Task<HttpResponseMessage> GetErrorResponse(HttpResponseMessage errResponse)
+        private async Task<HttpResponseMessage> GetErrorResponseTask(HttpResponseMessage errResponse)
         {
             // Note: TaskCompletionSource creates a task that does not contain a delegate.
             var tsc = new TaskCompletionSource<HttpResponseMessage>();
