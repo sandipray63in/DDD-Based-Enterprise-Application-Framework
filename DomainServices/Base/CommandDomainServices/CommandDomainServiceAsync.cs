@@ -6,6 +6,7 @@ using Domain.Base.Aggregates;
 using Infrastructure;
 using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
+using Infrastructure.Extensions;
 using Repository.Base;
 
 namespace DomainServices.Base.CommandDomainServices
@@ -87,7 +88,7 @@ namespace DomainServices.Base.CommandDomainServices
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                await logger.LogExceptionAsync(ex);
                 return false;
             }
         }

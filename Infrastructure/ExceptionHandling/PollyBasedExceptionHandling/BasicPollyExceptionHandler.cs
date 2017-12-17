@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Polly;
 using Polly.Wrap;
 using Infrastructure.ExceptionHandling.PollyBasedExceptionHandling.Policies;
+using Infrastructure.Extensions;
 using Infrastructure.Logging;
 using Infrastructure.Logging.Loggers;
 using Infrastructure.Utilities;
@@ -100,7 +101,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                         await policyWrap.ExecuteAsync(action, actionCancellationToken);
                     }
                 }, _logger);
-                HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+               await HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
         }
 
@@ -123,7 +124,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                      return default(Task<TReturn>);
                  }, _logger);
 
-                HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
+                await HandleExceptionWithThrowCondition(ex, onExceptionCompensatingHandler, onExceptionCompensatingHandlerCancellationToken);
             }
             return await returnValue;
         }
@@ -231,13 +232,13 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
 
         }
 
-        private void HandleExceptionWithThrowCondition(Exception ex, Func<CancellationToken, Task> onExceptionCompensatingHandler, CancellationToken onExceptionCompensatingHandlerCancellationToken)
+        private async Task HandleExceptionWithThrowCondition(Exception ex, Func<CancellationToken, Task> onExceptionCompensatingHandler, CancellationToken onExceptionCompensatingHandlerCancellationToken)
         {
-            _logger.LogException(ex);
+            await _logger.LogExceptionAsync(ex);
             if (onExceptionCompensatingHandler.IsNotNull() && !_areFallbackPoliciesAlreadyHandled)
             {
                 _areFallbackPoliciesAlreadyHandled = true;
-                onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
+               await onExceptionCompensatingHandler(onExceptionCompensatingHandlerCancellationToken);
             }
             if (_shouldThrowOnException)
             {

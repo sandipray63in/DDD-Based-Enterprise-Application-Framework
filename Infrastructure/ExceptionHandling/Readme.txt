@@ -13,11 +13,10 @@
 
 TODO - 
 Following stuffs are still pending w.r.t Polly -
-1) Exploring HandleInner, ORInner, HandleResult and OrResult and incorporating all these into this project(if needed)
-2) Exploring BulkHead Isolation policy and incorporating this into this project(if needed)
-3) Exploring Circuitbreaker.Isolate() and CircuitBreaker.Reset() capabilities and incorporating all these into this project(if needed)
-4) Exploring AdvancedCircuitBreaker policy and incorporating all these into this project(if needed)
-6) Exploring wrapping a policy to a different call site(e.g. Avatar, Reputation) and incorporating all these into this project(if needed)
-7) Exploring Policy<TResult> and ExecuteAndCapture and incorporating all these into this project(if needed)
-8) Exploring Policy Keys and Context data and incorporating all these into this project(if needed)
-9) Exploring continueOnCapturedContext in ExecuteAsync to run on a captured synchronization context and incorporating this into this project(if needed)
+1) Handling exceptions under conditions
+2) Exploring HandleInner, ORInner, HandleResult and OrResult and incorporating all these into this project(if needed)
+3) Exploring BulkHead Isolation policy and incorporating this into this project(if needed)
+4) Exploring wrapping a policy to a different call site(e.g. Avatar, Reputation) and incorporating all these into this project(if needed)
+5) Exploring Policy<TResult> and ExecuteAndCapture and incorporating all these into this project(if needed)
+6) Exploring Policy Keys and Context data and incorporating all these into this project(if needed)
+7) Exploring continueOnCapturedContext in ExecuteAsync to run on a captured synchronization context and incorporating this into this project(if needed)

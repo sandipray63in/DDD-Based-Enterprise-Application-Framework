@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Infrastructure.Logging;
 using Infrastructure.Logging.Loggers;
+using Infrastructure.Extensions;
 
 namespace RestfulWebAPI.Handlers.ExceptionHandling
 {
@@ -28,13 +29,13 @@ namespace RestfulWebAPI.Handlers.ExceptionHandling
             }
             catch(HttpResponseException ex)
             {
-                _logger.LogException(ex);
+                await _logger.LogExceptionAsync(ex);
                 errResponse = request.CreateErrorResponse(ex.Response.StatusCode, ex.Message);
                 return await GetErrorResponseTask(errResponse);
             }
             catch(Exception ex)
             {
-                _logger.LogException(ex);
+                await _logger.LogExceptionAsync(ex);
                 errResponse = request.CreateErrorResponse(HttpStatusCode.InternalServerError, GENERIC_EXCEPTION_MESSAGE);
                 return await GetErrorResponseTask(errResponse);
             }
