@@ -3,11 +3,11 @@
   <!--Comma seperated exceptions e.g. exceptions which might hopefully get fixed within sometime(need retry mechanism for the same) 
   or exceptions which will take sometime long to get fixed(need circuit breaker mechanism for the same)-->
   <!--policies - Comma seperated Polly policies(e.g. CircuitBreakerPolicy,RetryNTimesPolicy) to be applied for the exception -->
-  <TransientFailureException assemblyName="" policies="">
+  <TransientFailureException assemblyName="" partialOrFullExceptionNames="">
     
   </TransientFailureException>
   
-  <TransientFailureException assemblyName="" policies=""> 
+  <TransientFailureException assemblyName="" partialOrFullExceptionNames=""> 
     
   </TransientFailureException>
 

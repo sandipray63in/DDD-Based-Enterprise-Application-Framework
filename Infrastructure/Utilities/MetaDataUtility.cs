@@ -54,9 +54,8 @@ namespace Infrastructure.Utilities
         /// <returns></returns>
         public static TMethodReturnType InvokeStaticMethod<TType,TMethodReturnType>(string methodName, Type[] methodGenericArgumentTypes = null, params object[] methodAruments)
         {
-            ParameterExpression parameterExpression = Expression.Parameter(typeof(object[]));
             MethodCallExpression methodCallExpression = Expression.Call(typeof(TType), methodName, methodGenericArgumentTypes, methodAruments.Select(x => Expression.Constant(x)).ToArray()) ;
-            return Expression.Lambda<TMethodReturnType>(methodCallExpression, parameterExpression).Compile();
+            return Expression.Lambda<Func<TMethodReturnType>>(methodCallExpression).Compile()();
         }
 
         /// <summary>
@@ -70,9 +69,8 @@ namespace Infrastructure.Utilities
         /// <returns></returns>
         public static TMethodReturnType InvokeInstanceMethod<TType, TMethodReturnType>(TType instance,string methodName, Type[] methodGenericArgumentTypes = null, params object[] methodAruments)
         {
-            ParameterExpression parameterExpression = Expression.Parameter(typeof(object[]));
             MethodCallExpression methodCallExpression = Expression.Call(Expression.Constant(instance), methodName, methodGenericArgumentTypes, methodAruments.Select(x => Expression.Constant(x)).ToArray());
-            return Expression.Lambda<TMethodReturnType>(methodCallExpression, parameterExpression).Compile();
+            return Expression.Lambda<Func<TMethodReturnType>>(methodCallExpression).Compile()();
         }
     }
 }

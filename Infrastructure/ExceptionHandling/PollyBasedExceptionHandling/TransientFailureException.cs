@@ -9,10 +9,10 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
         [XmlAttribute(AttributeName = "assemblyName")]
         internal string AssemblyName { get; set; }
 
-        [XmlAttribute(AttributeName = "policies")]
-        internal string CommaSeperatedPollyPoliciesNames { get; set; }
+        [XmlAttribute(AttributeName = "partialOrFullExceptionNames")]
+        internal string CommaSeperatedTransientFailureExceptions { get; set; }
 
         [XmlText]
-        internal string CommaSeperatedTransientFailureExceptions { get; set; }
+        internal string CommaSeperatedPollyPoliciesNames { get; set; }
     }
 }
