@@ -252,9 +252,9 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             var flattenedExceptions = ex.FromHierarchy(x => x.InnerException);
             flattenedExceptions.ToList().Add(ex);
             flattenedExceptions = flattenedExceptions.Distinct();
-            return _splittedTransientFailureExceptions.IsNotNullOrEmpty() 
-                   && flattenedExceptions.Any(x => _splittedTransientFailureExceptions.Contains(x.GetType().Name.Trim().ToLower()))
-                   && _policies.IsNotNullOrEmpty();
+            return _policies.IsNotNullOrEmpty() 
+                   && _splittedTransientFailureExceptions.IsNotNullOrEmpty() 
+                   && flattenedExceptions.Any(x => _splittedTransientFailureExceptions.Any(y => x.GetType().Name.Trim().ToLower().Contains(y)));
         }
     }
 }
