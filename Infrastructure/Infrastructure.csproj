@@ -379,6 +379,7 @@
     <Compile Include="Extensions\CleanUpExtensions.cs" />
     <Compile Include="Extensions\FuncExtensions.cs" />
     <Compile Include="Extensions\AsyncLoggerExtensions.cs" />
+    <Compile Include="Extensions\HierarchyExtensions.cs" />
     <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Extensions\StructExtensions.cs" />
     <Compile Include="Extensions\UnityContainerExtensions.cs" />

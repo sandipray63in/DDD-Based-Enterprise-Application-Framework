@@ -52,7 +52,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             {
                 ExceptionHandlingUtility.WrapActionWithExceptionHandling(() =>
                 {
-                    if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
+                    if (CheckIfExceptionsNeedsToBePollyHandled(ex))
                     {
                         PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex, onExceptionCompensatingHandler);
                         policyWrap.Execute(action);
@@ -73,7 +73,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             {
                 returnValue = ExceptionHandlingUtility.WrapFuncWithExceptionHandling(() =>
                 {
-                    if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
+                    if (CheckIfExceptionsNeedsToBePollyHandled(ex))
                     {
                         PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPolicies(ex, onExceptionCompensatingHandler);
                         return policyWrap.Execute(action);
@@ -95,7 +95,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             {
                 ExceptionHandlingUtility.WrapActionWithExceptionHandling(async () =>
                 {
-                    if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
+                    if (CheckIfExceptionsNeedsToBePollyHandled(ex))
                     {
                         PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex, onExceptionCompensatingHandler);
                         await policyWrap.ExecuteAsync(action, actionCancellationToken);
@@ -116,7 +116,7 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             {
                 returnValue = await ExceptionHandlingUtility.WrapFuncWithExceptionHandling(async () =>
                  {
-                     if (_splittedTransientFailureExceptions.IsNotNullOrEmpty() && _splittedTransientFailureExceptions.Contains(ex.GetType().Name) && _policies.IsNotNullOrEmpty())
+                     if (CheckIfExceptionsNeedsToBePollyHandled(ex))
                      {
                          PolicyWrap policyWrap = GetPolicyWrapWithProperFallbackActionSetForFallbackPoliciesAsync(ex, onExceptionCompensatingHandler);
                          return await policyWrap.ExecuteAsync(func, funcCancellationToken) as Task<TReturn>;
@@ -136,7 +136,8 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
                 PolicyBuilder policyBuilder = null;
                 XDocument xDoc = XDocument.Load(Path.Combine(typeof(BasicPollyExceptionHandler).Assembly.Location, "ExceptionHandling", "PollyBasedExceptionHandling", "PollyTransientFailureExceptions.xml"));
                 _pollyTransientFailureExceptions = XMLUtility.DeSerialize<PollyTransientFailureExceptions>(xDoc.ToString());
-                _splittedTransientFailureExceptions = _pollyTransientFailureExceptions.TransientFailureExceptions.SelectMany(x => x.CommaSeperatedTransientFailureExceptions.Split(",", StringSplitOptions.RemoveEmptyEntries)).Distinct();
+                _splittedTransientFailureExceptions = _pollyTransientFailureExceptions.TransientFailureExceptions.SelectMany(x => x.CommaSeperatedTransientFailureExceptions.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                                                      .Distinct().Select(x => x.Trim().ToLower());
 
                 if (_splittedTransientFailureExceptions.IsNotNullOrEmpty())
                 {
@@ -244,6 +245,16 @@ namespace Infrastructure.ExceptionHandling.PollyBasedExceptionHandling
             {
                 throw new Exception("Check Inner Exception", ex);
             }
+        }
+
+        private bool CheckIfExceptionsNeedsToBePollyHandled(Exception ex)
+        {
+            var flattenedExceptions = ex.FromHierarchy(x => x.InnerException);
+            flattenedExceptions.ToList().Add(ex);
+            flattenedExceptions = flattenedExceptions.Distinct();
+            return _splittedTransientFailureExceptions.IsNotNullOrEmpty() 
+                   && flattenedExceptions.Any(x => _splittedTransientFailureExceptions.Contains(x.GetType().Name.Trim().ToLower()))
+                   && _policies.IsNotNullOrEmpty();
         }
     }
 }
