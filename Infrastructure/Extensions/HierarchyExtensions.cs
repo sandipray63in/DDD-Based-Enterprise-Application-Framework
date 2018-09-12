@@ -22,7 +22,7 @@ namespace Infrastructure.Extensions
             Func<TSource, TSource> nextItem)
             where TSource : class
         {
-            return FromHierarchy(source, nextItem, s => s != null);
+            return FromHierarchy(source, nextItem, s => s.IsNotNull());
         }
     }
 }
