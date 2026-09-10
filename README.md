@@ -25,5 +25,5 @@ Once completed, this DDD framework can be considered (as a whole or in parts) as
 
 N.B. -> 
 *In recent past, not been able to give much time for the development of this project for various reasons and don't think will be able to contribute to this project anymore (not at least in near future). My Apologies! If someone can fork this project and continue working on the pending tasks or may be along with that, add his/her own ideas and implement the same that would be really great. Thanking that someone (if any), in advance.      
-*Most of the ideas in this project are based on ideas/knowledge gained during a client project(called Equinox) I worked for, under guidance of [Nick/Dave](https://www.linkedin.com/in/david-nick-pazzaglia)(the then Client Architect of the project).
+*Most of the ideas in this project are based on ideas/knowledge gained during a client project(called Equinox) I worked for, under guidance of [Nick/Dave](https://www.linkedin.com/in/nickpazzaglia)(the then Client Architect of the project).
 
